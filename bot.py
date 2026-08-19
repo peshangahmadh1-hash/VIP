@@ -3,7 +3,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
 # Tokenی بۆتەکەت لە BotFather لێرە دابنێ
-TOKEN = "YOUR_BOT_TOKEN_HERE"
+TOKEN = "8809708035:AAFILDL5uWJV3Tv9z77IXNxLNSh3D5A4rao"
 
 # بنکەی زانیاری سادە بۆ هێشتنەوەی داتای یاریزانان
 players = {}
