@@ -1,341 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>CyberNova</title>
+<title>CyberNova</title>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      color: white;
-      min-height: 100vh;
-      padding-bottom: 95px;
-      background:
-        radial-gradient(circle at 10% 10%, #4422aa 0%, transparent 30%),
-        radial-gradient(circle at 90% 15%, #007c91 0%, transparent 28%),
-        radial-gradient(circle at 50% 100%, #8b176e 0%, transparent 35%),
-        #070711;
-    }
+html,body{
+  width:100%;
+  min-height:100%;
+}
 
-    .app {
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-      padding: 18px 14px;
-    }
+body{
+  font-family:Arial,sans-serif;
+  color:white;
+  min-height:100vh;
+  padding-bottom:100px;
+  background:
+    radial-gradient(circle at 10% 10%,#4422aa 0%,transparent 30%),
+    radial-gradient(circle at 90% 15%,#007c91 0%,transparent 28%),
+    radial-gradient(circle at 50% 100%,#8b176e 0%,transparent 35%),
+    #070711;
+}
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
+button{
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:manipulation;
+  pointer-events:auto;
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      background: linear-gradient(90deg,#00f5ff,#7b5cff,#ff35c8);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+.app{
+  width:100%;
+  max-width:600px;
+  margin:auto;
+  padding:18px 14px;
+}
 
-    .user {
-      padding: 8px 12px;
-      border-radius: 15px;
-      background: rgba(255,255,255,.08);
-      font-size: 12px;
-    }
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
 
-    .balance-card {
-      padding: 25px 20px;
-      border-radius: 25px;
-      margin-bottom: 16px;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(0,238,255,.18),
-          rgba(126,78,255,.2),
-          rgba(255,42,202,.17)
-        );
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 18px 50px rgba(0,0,0,.35);
-    }
+.logo{
+  font-size:25px;
+  font-weight:900;
+  background:linear-gradient(90deg,#00f5ff,#7b5cff,#ff35c8);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
 
-    .balance-label {
-      color: #aaa;
-      font-size: 12px;
-    }
+.user{
+  padding:8px 12px;
+  border-radius:15px;
+  background:rgba(255,255,255,.08);
+  font-size:12px;
+}
 
-    .balance {
-      font-size: 42px;
-      font-weight: 900;
-      margin: 6px 0;
-      background: linear-gradient(90deg,#00f5ff,#a66cff,#ff4dd8);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+.balance-card{
+  padding:25px 20px;
+  border-radius:25px;
+  margin-bottom:16px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,238,255,.18),
+      rgba(126,78,255,.2),
+      rgba(255,42,202,.17)
+    );
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
+}
 
-    .target {
-      color: #999;
-      font-size: 12px;
-    }
+.balance-label{
+  color:#aaa;
+  font-size:12px;
+}
 
-    .progress {
-      height: 8px;
-      margin-top: 13px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: rgba(255,255,255,.08);
-    }
+.balance{
+  font-size:42px;
+  font-weight:900;
+  margin:6px 0;
+  background:linear-gradient(90deg,#00f5ff,#a66cff,#ff4dd8);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
 
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      border-radius: 20px;
-      background: linear-gradient(90deg,#00f5ff,#7c5cff,#ff35c8);
-      transition: .4s;
-    }
+.target{
+  color:#999;
+  font-size:12px;
+}
 
-    .card {
-      margin-bottom: 15px;
-      padding: 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.055);
-      border: 1px solid rgba(255,255,255,.09);
-      backdrop-filter: blur(16px);
-    }
+.progress{
+  height:8px;
+  margin-top:13px;
+  border-radius:20px;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+}
 
-    .card h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
+.progress-bar{
+  height:100%;
+  width:0%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#00f5ff,#7c5cff,#ff35c8);
+  transition:.4s;
+}
 
-    .muted {
-      color: #aaa;
-      font-size: 13px;
-      line-height: 1.55;
-    }
+.card{
+  margin-bottom:15px;
+  padding:18px;
+  border-radius:22px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.09);
+  backdrop-filter:blur(16px);
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
+.card h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
 
-    .stat {
-      padding: 14px 8px;
-      text-align: center;
-      border-radius: 16px;
-      background: rgba(255,255,255,.06);
-    }
+.muted{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.55;
+}
 
-    .stat strong {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 5px;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:14px;
+}
 
-    .stat span {
-      color: #888;
-      font-size: 10px;
-    }
+.stat{
+  padding:14px 8px;
+  text-align:center;
+  border-radius:16px;
+  background:rgba(255,255,255,.06);
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 12px;
-      border: 0;
-      border-radius: 16px;
-      color: white;
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      background: linear-gradient(90deg,#0077ff,#763cff,#e02bff);
-      box-shadow: 0 8px 25px rgba(92,54,255,.25);
-    }
+.stat strong{
+  display:block;
+  font-size:20px;
+  margin-bottom:5px;
+}
 
-    button:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-    }
+.stat span{
+  color:#888;
+  font-size:10px;
+}
 
-    .green {
-      background: linear-gradient(90deg,#00b894,#00cec9);
-    }
+.action-btn{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border:0;
+  border-radius:16px;
+  color:white;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(90deg,#0077ff,#763cff,#e02bff);
+  box-shadow:0 8px 25px rgba(92,54,255,.25);
+}
 
-    .pink {
-      background: linear-gradient(90deg,#ff357f,#ff00cc);
-    }
+.action-btn:active{
+  transform:scale(.98);
+}
 
-    .orange {
-      background: linear-gradient(90deg,#ff7300,#ffb000);
-    }
+.action-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
 
-    .big-ad {
-      text-align: center;
-      padding: 30px 18px;
-    }
+.green{
+  background:linear-gradient(90deg,#00b894,#00cec9);
+}
 
-    .ad-icon {
-      font-size: 58px;
-      margin-bottom: 8px;
-    }
-      .ad-reward {
-      font-size: 28px;
-      font-weight: 900;
-      margin: 10px 0;
-      color: #00efff;
-    }
+.pink{
+  background:linear-gradient(90deg,#ff357f,#ff00cc);
+}
 
-    .counter {
-      margin-top: 9px;
-      color: #999;
-      font-size: 12px;
-    }
+.orange{
+  background:linear-gradient(90deg,#ff7300,#ffb000);
+}
 
-    .status {
-      display: none;
-      margin-top: 12px;
-      padding: 11px;
-      border-radius: 13px;
-      background: rgba(255,255,255,.07);
-      color: #ddd;
-      font-size: 12px;
-      line-height: 1.45;
-    }
+.big-ad{
+  text-align:center;
+  padding:30px 18px;
+}
 
-    .channel {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 12px;
-      margin-top: 12px;
-      border-radius: 17px;
-      background: rgba(0,234,255,.07);
-    }
+.ad-icon{
+  font-size:58px;
+  margin-bottom:8px;
+}
 
-    .channel-icon {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      font-size: 22px;
-      background: linear-gradient(135deg,#00c6ff,#0072ff);
-    }
+.ad-reward{
+  font-size:28px;
+  font-weight:900;
+  margin:10px 0;
+  color:#00efff;
+}
 
-    .channel-info {
-      flex: 1;
-      text-align: left;
-    }
+.counter{
+  margin-top:9px;
+  color:#999;
+  font-size:12px;
+}
 
-    .channel-info strong {
-      display: block;
-      font-size: 13px;
-    }
+.status{
+  display:none;
+  margin-top:12px;
+  padding:11px;
+  border-radius:13px;
+  background:rgba(255,255,255,.07);
+  color:#ddd;
+  font-size:12px;
+  line-height:1.45;
+}
 
-    .channel-info span {
-      color: #888;
-      font-size: 10px;
-    }
+.channel{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:12px;
+  margin-top:12px;
+  border-radius:17px;
+  background:rgba(0,234,255,.07);
+}
+  .channel-icon{
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  font-size:22px;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+}
 
-    .small-btn {
-      width: auto;
-      margin: 0;
-      padding: 9px 12px;
-      font-size: 11px;
-    }
+.channel-info{
+  flex:1;
+  text-align:left;
+}
 
-    .ref-box {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 13px;
-      background: #05050b;
-      border: 1px solid rgba(255,255,255,.08);
-      color: #91f2ff;
-      font-size: 11px;
-      word-break: break-all;
-    }
+.channel-info strong{
+  display:block;
+  font-size:13px;
+}
 
-    .warning {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 14px;
-      color: #ffd36b;
-      background: rgba(255,184,0,.07);
-      border: 1px solid rgba(255,184,0,.2);
-      font-size: 11px;
-      line-height: 1.5;
-    }
+.channel-info span{
+  color:#888;
+  font-size:10px;
+}
 
-    .rules {
-      margin-top: 10px;
-      padding-left: 18px;
-      color: #aaa;
-      font-size: 12px;
-      line-height: 1.9;
-    }
+.small-btn{
+  width:auto;
+  margin:0;
+  padding:9px 12px;
+  font-size:11px;
+}
 
-    .tab {
-      display: none;
-    }
+.ref-box{
+  margin-top:12px;
+  padding:12px;
+  border-radius:13px;
+  background:#05050b;
+  border:1px solid rgba(255,255,255,.08);
+  color:#91f2ff;
+  font-size:11px;
+  word-break:break-all;
+}
 
-    .tab.active {
-      display: block;
-    }
+.warning{
+  margin-top:12px;
+  padding:12px;
+  border-radius:14px;
+  color:#ffd36b;
+  background:rgba(255,184,0,.07);
+  border:1px solid rgba(255,184,0,.2);
+  font-size:11px;
+  line-height:1.5;
+}
 
-    .nav {
-      position: fixed;
-      z-index: 100;
-      left: 50%;
-      bottom: 9px;
-      transform: translateX(-50%);
-      width: calc(100% - 20px);
-      max-width: 580px;
-      padding: 8px;
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 4px;
-      border-radius: 22px;
-      background: rgba(13,13,28,.94);
-      border: 1px solid rgba(255,255,255,.1);
-      backdrop-filter: blur(20px);
-    }
+.rules{
+  margin-top:10px;
+  padding-left:18px;
+  color:#aaa;
+  font-size:12px;
+  line-height:1.9;
+}
 
-    .nav button {
-      margin: 0;
-      padding: 9px 2px;
-      color: #777;
-      font-size: 10px;
-      background: transparent;
-      box-shadow: none;
-    }
+.tab{
+  display:none;
+}
 
-    .nav button.active {
-      color: #00eaff;
-      background: rgba(0,234,255,.08);
-    }
+.tab.active{
+  display:block;
+}
 
-    .footer {
-      text-align: center;
-      margin: 25px 0;
-      color: #555;
-      font-size: 10px;
-    }
-  </style>
+.nav{
+  position:fixed;
+  z-index:99999;
+  left:50%;
+  bottom:9px;
+  transform:translateX(-50%);
+  width:calc(100% - 20px);
+  max-width:580px;
+  padding:8px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:4px;
+  border-radius:22px;
+  background:rgba(13,13,28,.97);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(20px);
+  pointer-events:auto;
+}
+
+.nav button{
+  width:100%;
+  margin:0;
+  padding:10px 2px;
+  border:0;
+  border-radius:14px;
+  color:#777;
+  font-size:10px;
+  font-weight:900;
+  background:transparent;
+  box-shadow:none;
+  cursor:pointer;
+  pointer-events:auto;
+}
+
+.nav button.active{
+  color:#00eaff;
+  background:rgba(0,234,255,.10);
+}
+
+.footer{
+  text-align:center;
+  margin:25px 0;
+  color:#555;
+  font-size:10px;
+}
+</style>
 </head>
 
 <body>
@@ -399,6 +423,8 @@
     </div>
 
   </section>
+
+
   <!-- ADS -->
   <section id="ads" class="tab">
 
@@ -415,7 +441,7 @@
         your reward.
       </p>
 
-      <button id="watchBtn" onclick="watchAd()">
+      <button id="watchBtn" class="action-btn">
         🎬 WATCH AD
       </button>
 
@@ -444,7 +470,6 @@
 
   <!-- DAILY -->
   <section id="daily" class="tab">
-
     <div class="card big-ad">
 
       <div class="ad-icon">🎁</div>
@@ -457,10 +482,7 @@
         Claim your daily reward once every 24 hours.
       </p>
 
-      <button
-        id="dailyBtn"
-        class="green"
-        onclick="claimDaily()">
+      <button id="dailyBtn" class="action-btn green">
         🎁 CLAIM DAILY
       </button>
 
@@ -487,9 +509,7 @@
           <span>Official Telegram Channel</span>
         </div>
 
-        <button
-          class="small-btn"
-          onclick="openChannel()">
+        <button id="channelBtn" class="action-btn small-btn">
           JOIN
         </button>
 
@@ -499,17 +519,6 @@
         Real Telegram membership verification requires
         a secure bot/backend. This frontend does not fake verification.
       </div>
-
-    </div>
-
-    <div class="card">
-
-      <h3>💡 More Tasks</h3>
-
-      <p class="muted">
-        More tasks can be connected when your backend
-        and task system are ready.
-      </p>
 
     </div>
 
@@ -531,13 +540,11 @@
         Loading...
       </div>
 
-      <button
-        class="pink"
-        onclick="copyReferral()">
+      <button id="copyBtn" class="action-btn pink">
         📋 COPY REFERRAL LINK
       </button>
 
-      <button onclick="shareReferral()">
+      <button id="shareBtn" class="action-btn">
         🚀 SHARE INVITE
       </button>
 
@@ -562,10 +569,7 @@
       </div>
 
       <div class="progress">
-        <div
-          class="progress-bar"
-          id="inviteProgress">
-        </div>
+        <div class="progress-bar" id="inviteProgress"></div>
       </div>
 
     </div>
@@ -607,22 +611,18 @@
         </div>
 
       </div>
+
       <div class="warning">
         Withdrawal requires $3.00 balance,
         1000 completed advertisements and 50 verified invites.
         A 40% fee is deducted from the requested amount.
       </div>
 
-      <button
-        class="orange"
-        onclick="requestWithdraw()">
+      <button id="withdrawBtn" class="action-btn orange">
         💰 REQUEST WITHDRAWAL
       </button>
 
-      <div
-        id="withdrawStatus"
-        class="status">
-      </div>
+      <div id="withdrawStatus" class="status"></div>
 
     </div>
 
@@ -636,32 +636,26 @@
 </div>
 
 
-<!-- BOTTOM NAV -->
+<!-- NAVIGATION -->
 <div class="nav">
 
-  <button
-    class="active"
-    onclick="showTab('home',this)">
+  <button class="active" data-tab="home">
     🏠<br>Home
   </button>
 
-  <button
-    onclick="showTab('ads',this)">
+  <button data-tab="ads">
     🎬<br>Ads
   </button>
 
-  <button
-    onclick="showTab('daily',this)">
+  <button data-tab="daily">
     🎁<br>Daily
   </button>
 
-  <button
-    onclick="showTab('invite',this)">
+  <button data-tab="invite">
     👥<br>Invite
   </button>
 
-  <button
-    onclick="showTab('withdraw',this)">
+  <button data-tab="withdraw">
     💸<br>Withdraw
   </button>
 
@@ -669,164 +663,99 @@
 
 
 <script>
+"use strict";
 
-  /* =================================
-     CYBERNOVA SETTINGS
-  ================================= */
+/* ================================
+   CYBERNOVA SETTINGS
+================================ */
 
-  const ADSGRAM_BLOCK_ID = "46454";
+const ADSGRAM_BLOCK_ID = "46454";
 
-  const AD_REWARD = 0.001;
-  const DAILY_REWARD = 0.002;
-  const INVITE_REWARD = 0.003;
+const AD_REWARD = 0.001;
+const DAILY_REWARD = 0.002;
 
-  const ADS_PER_DAY_LIMIT = 20;
+const ADS_PER_DAY_LIMIT = 20;
 
-  const MIN_WITHDRAW = 3.00;
-  const REQUIRED_ADS = 1000;
-  const REQUIRED_INVITES = 50;
+const MIN_WITHDRAW = 3.00;
+const REQUIRED_ADS = 1000;
+const REQUIRED_INVITES = 50;
 
-  const WITHDRAW_FEE = 0.40;
+const WITHDRAW_FEE = 0.40;
 
-  const CHANNEL_URL =
-    "https://t.me/CyberNova_Official";
+const CHANNEL_URL =
+  "https://t.me/CyberNova_Official";
 
 
-  /* =================================
-     TELEGRAM
-  ================================= */
+/* ================================
+   TELEGRAM
+================================ */
 
-  const tg =
-    window.Telegram?.WebApp;
-
+const tg = window.Telegram?.WebApp || null;
   if (tg) {
+  try {
     tg.ready();
     tg.expand();
+  } catch (e) {
+    console.log("Telegram WebApp:", e);
   }
+}
 
-  const telegramUser =
-    tg?.initDataUnsafe?.user || null;
-
-
-  /* =================================
-     DATA
-  ================================= */
-
-  let balance =
-    Number(
-      localStorage.getItem(
-        "cybernova_balance"
-      ) || 0
-    );
-
-  let totalAds =
-    Number(
-      localStorage.getItem(
-        "cybernova_total_ads"
-      ) || 0
-    );
-
-  let inviteCount =
-    Number(
-      localStorage.getItem(
-        "cybernova_invites"
-      ) || 0
-    );
-
-  let dailyClaim =
-    Number(
-      localStorage.getItem(
-        "cybernova_daily"
-      ) || 0
-    );
-
-  let adDate =
-    localStorage.getItem(
-      "cybernova_ad_date"
-    ) || "";
-
-  let todayAds =
-    Number(
-      localStorage.getItem(
-        "cybernova_today_ads"
-      ) || 0
-    );
+const telegramUser =
+  tg?.initDataUnsafe?.user || null;
 
 
-  /* =================================
-     DATE
-  ================================= */
+/* ================================
+   DATA
+================================ */
 
-  function getToday() {
+let balance = Number(
+  localStorage.getItem("cybernova_balance") || 0
+);
 
-    const d = new Date();
+let totalAds = Number(
+  localStorage.getItem("cybernova_total_ads") || 0
+);
 
-    const y =
-      d.getFullYear();
+let inviteCount = Number(
+  localStorage.getItem("cybernova_invites") || 0
+);
 
-    const m =
-      String(
-        d.getMonth() + 1
-      ).padStart(2,"0");
+let dailyClaim = Number(
+  localStorage.getItem("cybernova_daily") || 0
+);
 
-    const day =
-      String(
-        d.getDate()
-      ).padStart(2,"0");
+let adDate =
+  localStorage.getItem("cybernova_ad_date") || "";
 
-    return ${y}-${m}-${day};
-  }
-
-
-  function checkAdDay() {
-
-    const today =
-      getToday();
-
-    if (adDate !== today) {
-
-      adDate = today;
-
-      todayAds = 0;
-
-      localStorage.setItem(
-        "cybernova_ad_date",
-        adDate
-      );
-
-      localStorage.setItem(
-        "cybernova_today_ads",
-        "0"
-      );
-    }
-  }
+let todayAds = Number(
+  localStorage.getItem("cybernova_today_ads") || 0
+);
 
 
-  /* =================================
-     SAVE
-  ================================= */
+/* ================================
+   DATE
+================================ */
 
-  function saveData() {
+function getToday() {
 
-    localStorage.setItem(
-      "cybernova_balance",
-      balance.toFixed(6)
-    );
+  const d = new Date();
 
-    localStorage.setItem(
-      "cybernova_total_ads",
-      totalAds
-    );
+  return [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, "0"),
+    String(d.getDate()).padStart(2, "0")
+  ].join("-");
+}
 
-    localStorage.setItem(
-      "cybernova_invites",
-      inviteCount
-    );
 
-    localStorage.setItem(
-      "cybernova_daily",
-      dailyClaim
-    );
+function checkAdDay() {
+
+  const today = getToday();
+
+  if (adDate !== today) {
+
+    adDate = today;
+    todayAds = 0;
 
     localStorage.setItem(
       "cybernova_ad_date",
@@ -835,97 +764,204 @@
 
     localStorage.setItem(
       "cybernova_today_ads",
-      todayAds
+      "0"
     );
   }
+}
 
 
-  /* =================================
-     UI
-  ================================= */
+/* ================================
+   SAVE
+================================ */
 
-  function updateUI() {
+function saveData() {
 
-    checkAdDay();
+  localStorage.setItem(
+    "cybernova_balance",
+    balance.toFixed(6)
+  );
 
-    document.getElementById(
-      "balance"
-    ).textContent =
+  localStorage.setItem(
+    "cybernova_total_ads",
+    String(totalAds)
+  );
+
+  localStorage.setItem(
+    "cybernova_invites",
+    String(inviteCount)
+  );
+
+  localStorage.setItem(
+    "cybernova_daily",
+    String(dailyClaim)
+  );
+
+  localStorage.setItem(
+    "cybernova_ad_date",
+    adDate
+  );
+
+  localStorage.setItem(
+    "cybernova_today_ads",
+    String(todayAds)
+  );
+}
+
+
+/* ================================
+   STATUS
+================================ */
+
+function showStatus(id, message) {
+
+  const box = document.getElementById(id);
+
+  if (!box) return;
+
+  box.style.display = "block";
+  box.textContent = message;
+}
+
+
+/* ================================
+   DAILY BUTTON
+================================ */
+
+function updateDailyButton() {
+
+  const button =
+    document.getElementById("dailyBtn");
+
+  if (!button) return;
+
+  const now = Date.now();
+
+  if (
+    dailyClaim &&
+    now - dailyClaim <
+    24 * 60 * 60 * 1000
+  ) {
+
+    button.disabled = true;
+
+    button.textContent =
+      "⏳ DAILY ALREADY CLAIMED";
+
+  } else {
+
+    button.disabled = false;
+
+    button.textContent =
+      "🎁 CLAIM DAILY";
+  }
+}
+
+
+/* ================================
+   UI
+================================ */
+
+function updateUI() {
+
+  checkAdDay();
+
+  const balanceEl =
+    document.getElementById("balance");
+
+  const withdrawBalanceEl =
+    document.getElementById("withdrawBalance");
+
+  const totalAdsEl =
+    document.getElementById("totalAds");
+
+  const todayAdsEl =
+    document.getElementById("todayAds");
+
+  const adCounterEl =
+    document.getElementById("adCounter");
+
+  const invitesEl =
+    document.getElementById("invites");
+
+  const inviteCountEl =
+    document.getElementById("inviteCount");
+
+  const withdrawAdsEl =
+    document.getElementById("withdrawAds");
+
+  const withdrawInvitesEl =
+    document.getElementById("withdrawInvites");
+
+
+  if (balanceEl)
+    balanceEl.textContent =
       "$" + balance.toFixed(3);
 
-    document.getElementById(
-      "withdrawBalance"
-    ).textContent =
+  if (withdrawBalanceEl)
+    withdrawBalanceEl.textContent =
       "$" + balance.toFixed(3);
 
-    document.getElementById(
-      "totalAds"
-    ).textContent =
+  if (totalAdsEl)
+    totalAdsEl.textContent =
       totalAds;
-      document.getElementById(
-      "todayAds"
-    ).textContent =
+
+  if (todayAdsEl)
+    todayAdsEl.textContent =
       ${todayAds}/${ADS_PER_DAY_LIMIT};
 
-    document.getElementById(
-      "adCounter"
-    ).textContent =
+  if (adCounterEl)
+    adCounterEl.textContent =
       ${todayAds}/${ADS_PER_DAY_LIMIT};
 
-    document.getElementById(
-      "invites"
-    ).textContent =
+  if (invitesEl)
+    invitesEl.textContent =
       inviteCount;
 
-    document.getElementById(
-      "inviteCount"
-    ).textContent =
+  if (inviteCountEl)
+    inviteCountEl.textContent =
       inviteCount;
 
-    document.getElementById(
-      "withdrawAds"
-    ).textContent =
+  if (withdrawAdsEl)
+    withdrawAdsEl.textContent =
       ${totalAds}/${REQUIRED_ADS};
 
-    document.getElementById(
-      "withdrawInvites"
-    ).textContent =
+  if (withdrawInvitesEl)
+    withdrawInvitesEl.textContent =
       ${inviteCount}/${REQUIRED_INVITES};
+  const balanceProgress =
+    Math.min(
+      (balance / MIN_WITHDRAW) * 100,
+      100
+    );
 
+  const balanceProgressEl =
+    document.getElementById("balanceProgress");
 
-    const balanceProgress =
-      Math.min(
-        (balance / MIN_WITHDRAW) * 100,
-        100
-      );
-
-    document.getElementById(
-      "balanceProgress"
-    ).style.width =
+  if (balanceProgressEl)
+    balanceProgressEl.style.width =
       balanceProgress + "%";
 
 
-    const inviteProgress =
-      Math.min(
-        (inviteCount / REQUIRED_INVITES) * 100,
-        100
-      );
+  const inviteProgress =
+    Math.min(
+      (inviteCount / REQUIRED_INVITES) * 100,
+      100
+    );
 
-    document.getElementById(
-      "inviteProgress"
-    ).style.width =
+  const inviteProgressEl =
+    document.getElementById("inviteProgress");
+
+  if (inviteProgressEl)
+    inviteProgressEl.style.width =
       inviteProgress + "%";
 
 
-    const watchBtn =
-      document.getElementById(
-        "watchBtn"
-      );
+  const watchBtn =
+    document.getElementById("watchBtn");
 
-    if (
-      todayAds >=
-      ADS_PER_DAY_LIMIT
-    ) {
+  if (watchBtn) {
+
+    if (todayAds >= ADS_PER_DAY_LIMIT) {
 
       watchBtn.disabled = true;
 
@@ -939,297 +975,264 @@
       watchBtn.textContent =
         "🎬 WATCH AD";
     }
-
-
-    updateDailyButton();
-
-    saveData();
   }
 
 
-  /* =================================
-     NAVIGATION
-  ================================= */
-
-  function showTab(
-    id,
-    button
-  ) {
-
-    document
-      .querySelectorAll(".tab")
-      .forEach(tab =>
-        tab.classList.remove(
-          "active"
-        )
-      );
-
-    document
-      .getElementById(id)
-      .classList.add("active");
+  updateDailyButton();
+  saveData();
+}
 
 
-    document
-      .querySelectorAll(".nav button")
-      .forEach(btn =>
-        btn.classList.remove(
-          "active"
-        )
-      );
+/* ================================
+   NAVIGATION
+================================ */
 
+function showTab(id, button) {
+
+  const tabs =
+    document.querySelectorAll(".tab");
+
+  tabs.forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+
+  const target =
+    document.getElementById(id);
+
+  if (!target) return;
+
+  target.classList.add("active");
+
+
+  const navButtons =
+    document.querySelectorAll(".nav button");
+
+  navButtons.forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+
+  if (button) {
     button.classList.add("active");
   }
+}
 
 
-  /* =================================
-     STATUS
-  ================================= */
+/* ================================
+   NAV BUTTON EVENTS
+================================ */
 
-  function showStatus(
-    id,
-    message
-  ) {
+document
+  .querySelectorAll(".nav button")
+  .forEach(button => {
 
-    const box =
-      document.getElementById(id);
+    button.addEventListener("click", function(e) {
 
-    box.style.display =
-      "block";
+      e.preventDefault();
+      e.stopPropagation();
 
-    box.textContent =
-      message;
-  }
+      const tab =
+        this.getAttribute("data-tab");
 
+      showTab(tab, this);
+    });
 
-  /* =================================
-     ADSGRAM
-  ================================= */
-
-  let adController = null;
-  let adLoading = false;
+  });
 
 
-  function initAdsGram() {
+/* ================================
+   ADSGRAM
+================================ */
 
-    try {
+let adController = null;
+let adLoading = false;
 
-      if (
-        typeof window.Adsgram ===
-        "undefined"
-      ) {
+function initAdsGram() {
 
-        showStatus(
-          "adStatus",
-          "❌ AdsGram SDK could not be loaded."
-        );
+  try {
 
-        return false;
-      }
+    if (
+      typeof window.Adsgram ===
+      "undefined"
+    ) {
 
-
-      adController =
-        window.Adsgram.init({
-          blockId:
-            ADSGRAM_BLOCK_ID
-        });
-
-
-      return true;
-
-    } catch (error) {
-
-      showStatus(
-        "adStatus",
-        "❌ AdsGram initialization failed."
+      console.log(
+        "AdsGram SDK not available yet."
       );
 
       return false;
     }
+
+
+    adController =
+      window.Adsgram.init({
+        blockId: ADSGRAM_BLOCK_ID
+      });
+
+
+    console.log(
+      "AdsGram initialized."
+    );
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "AdsGram init error:",
+      error
+    );
+
+    return false;
+  }
+}
+
+
+/* ================================
+   WATCH AD
+================================ */
+
+async function watchAd() {
+
+  checkAdDay();
+
+  if (todayAds >= ADS_PER_DAY_LIMIT) {
+
+    showStatus(
+      "adStatus",
+      "⚠️ You reached today's 20-ad limit."
+    );
+
+    updateUI();
+
+    return;
   }
 
 
-  /* =================================
-     WATCH AD
-  ================================= */
-
-  async function watchAd() {
-
-    checkAdDay();
+  if (adLoading) return;
 
 
-    if (
-      todayAds >=
-      ADS_PER_DAY_LIMIT
-    ) {
+  if (!adController) {
+
+    if (!initAdsGram()) {
 
       showStatus(
         "adStatus",
-        "⚠️ You reached today's 20-ad limit."
+        "❌ AdsGram is not ready. Please try again."
       );
 
       return;
     }
+  }
 
 
-    if (adLoading) {
-      return;
-    }
+  adLoading = true;
 
+  const button =
+    document.getElementById("watchBtn");
 
-    if (!adController) {
-
-      if (!initAdsGram()) {
-        return;
-      }
-    }
-
-
-    adLoading = true;
-
-
-    const button =
-      document.getElementById(
-        "watchBtn"
-      );
+  if (button) {
 
     button.disabled = true;
 
     button.textContent =
       "⏳ LOADING AD...";
+  }
+
+
+  showStatus(
+    "adStatus",
+    "🎬 Please watch the advertisement completely."
+  );
+
+
+  try {
+
+    await adController.show();
+
+
+    balance += AD_REWARD;
+    totalAds += 1;
+    todayAds += 1;
 
 
     showStatus(
       "adStatus",
-      "🎬 Please watch the advertisement completely."
-    );
-
-
-    try {
-
-      /*
-        Reward is granted only after
-        AdsGram show() resolves successfully.
-      */
-
-      await adController.show();
-
-
-      balance +=
-        AD_REWARD;
-
-      totalAds += 1;
-
-      todayAds += 1;
-
-
-      showStatus(
-        "adStatus",
-        "✅ Completed! +$0.001 added to your balance."
-      );
-
-
-      updateUI();
-
-    } catch (error) {
-        showStatus(
-        "adStatus",
-        "❌ Advertisement was not completed. No reward was added."
-      );
-
-    } finally {
-
-      adLoading = false;
-
-      updateUI();
-    }
-  }
-
-
-  /* =================================
-     DAILY
-  ================================= */
-
-  function updateDailyButton() {
-
-    const button =
-      document.getElementById(
-        "dailyBtn"
-      );
-
-    const now =
-      Date.now();
-
-
-    if (
-      dailyClaim &&
-      now - dailyClaim <
-      24 * 60 * 60 * 1000
-    ) {
-
-      button.disabled = true;
-
-      button.textContent =
-        "⏳ DAILY ALREADY CLAIMED";
-
-    } else {
-
-      button.disabled = false;
-
-      button.textContent =
-        "🎁 CLAIM DAILY";
-    }
-  }
-
-
-  function claimDaily() {
-
-    const now =
-      Date.now();
-
-
-    if (
-      dailyClaim &&
-      now - dailyClaim <
-      24 * 60 * 60 * 1000
-    ) {
-
-      showStatus(
-        "dailyStatus",
-        "⚠️ You already claimed today's reward."
-      );
-
-      return;
-    }
-
-
-    balance +=
-      DAILY_REWARD;
-
-    dailyClaim =
-      now;
-
-
-    showStatus(
-      "dailyStatus",
-      "🎉 Daily reward claimed! +$0.002"
+      "✅ Completed! +$0.001 added to your balance."
     );
 
 
     updateUI();
+
+  } catch (error) {
+
+    console.error(
+      "AdsGram show error:",
+      error
+    );
+
+    showStatus(
+      "adStatus",
+      "❌ Advertisement was not completed. No reward was added."
+    );
+
+  } finally {
+
+    adLoading = false;
+
+    updateUI();
+  }
+}
+
+
+/* ================================
+   DAILY
+================================ */
+
+function claimDaily() {
+
+  const now = Date.now();
+
+  if (
+    dailyClaim &&
+    now - dailyClaim <
+    24 * 60 * 60 * 1000
+  ) {
+
+    showStatus(
+      "dailyStatus",
+      "⚠️ You already claimed your daily reward."
+    );
+
+    return;
   }
 
 
-  /* =================================
-     CHANNEL
-  ================================= */
+  balance += DAILY_REWARD;
 
-  function openChannel() {
+  dailyClaim = now;
+  showStatus(
+    "dailyStatus",
+    "🎉 Daily reward claimed! +$0.002"
+  );
 
-    if (tg) {
 
-      tg.openTelegramLink(
-        CHANNEL_URL
-      );
+  updateUI();
+}
+
+
+/* ================================
+   CHANNEL
+================================ */
+
+function openChannel() {
+
+  try {
+
+    if (tg && typeof tg.openTelegramLink === "function") {
+
+      tg.openTelegramLink(CHANNEL_URL);
 
     } else {
 
@@ -1238,83 +1241,165 @@
         "_blank"
       );
     }
+
+  } catch (error) {
+
+    console.error(error);
+
+    window.location.href =
+      CHANNEL_URL;
+  }
+}
+
+
+/* ================================
+   USER
+================================ */
+
+function getUserId() {
+
+  if (telegramUser?.id) {
+    return telegramUser.id;
+  }
+
+  return "guest";
+}
+
+
+function getReferralLink() {
+
+  return (
+    "https://t.me/CyberNova_Bot?start=" +
+    getUserId()
+  );
+}
+
+
+function updateUserName() {
+
+  const element =
+    document.getElementById("username");
+
+  if (!element) return;
+
+
+  if (!telegramUser) {
+
+    element.textContent =
+      "Guest";
+
+    return;
   }
 
 
-  /* =================================
-     REFERRAL
-  ================================= */
+  if (telegramUser.username) {
 
-  function getUserId() {
+    element.textContent =
+      "@" + telegramUser.username;
+
+  } else {
+
+    element.textContent =
+      telegramUser.first_name ||
+      "User";
+  }
+}
+
+
+function updateReferralUI() {
+
+  const element =
+    document.getElementById("refLink");
+
+  if (!element) return;
+
+  element.textContent =
+    getReferralLink();
+}
+
+
+/* ================================
+   COPY REFERRAL
+================================ */
+
+async function copyReferral() {
+
+  const link =
+    getReferralLink();
+
+  try {
 
     if (
-      telegramUser?.id
+      navigator.clipboard &&
+      window.isSecureContext
     ) {
 
-      return telegramUser.id;
-    }
+      await navigator.clipboard.writeText(link);
 
-    return "guest";
-  }
-
-
-  function getReferralLink() {
-
-    return (
-      "https://t.me/CyberNova_Bot?start=" +
-      getUserId()
-    );
-  }
-
-
-  function copyReferral() {
-
-    const link =
-      getReferralLink();
-
-
-    if (
-      navigator.clipboard
-    ) {
-
-      navigator.clipboard
-        .writeText(link)
-        .then(() => {
-
-          alert(
-            "✅ Referral link copied!"
-          );
-
-        })
-        .catch(() => {
-
-          alert(link);
-        });
+      alert(
+        "✅ Referral link copied!"
+      );
 
     } else {
 
-      alert(link);
+      const textarea =
+        document.createElement("textarea");
+
+      textarea.value = link;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.left =
+        "-9999px";
+
+      document.body.appendChild(
+        textarea
+      );
+
+      textarea.select();
+
+      document.execCommand("copy");
+
+      textarea.remove();
+
+      alert(
+        "✅ Referral link copied!"
+      );
     }
+
+  } catch (error) {
+
+    alert(link);
   }
+}
 
 
-  function shareReferral() {
+/* ================================
+   SHARE REFERRAL
+================================ */
 
-    const link =
-      getReferralLink();
+function shareReferral() {
 
-    const text =
-      "🚀 Join CyberNova and start earning!";
+  const link =
+    getReferralLink();
+
+  const text =
+    "🚀 Join CyberNova and start earning!";
+
+  const shareUrl =
+    "https://t.me/share/url?url=" +
+    encodeURIComponent(link) +
+    "&text=" +
+    encodeURIComponent(text);
 
 
-    const shareUrl =
-      "https://t.me/share/url?url=" +
-      encodeURIComponent(link) +
-      "&text=" +
-      encodeURIComponent(text);
+  try {
 
-
-    if (tg) {
+    if (
+      tg &&
+      typeof tg.openTelegramLink === "function"
+    ) {
 
       tg.openTelegramLink(
         shareUrl
@@ -1327,135 +1412,221 @@
         "_blank"
       );
     }
+
+  } catch (error) {
+
+    window.location.href =
+      shareUrl;
   }
+}
 
 
-  /* =================================
-     WITHDRAW
-  ================================= */
+/* ================================
+   WITHDRAW
+================================ */
 
-  function requestWithdraw() {
+function requestWithdraw() {
 
-    if (
-      balance <
-      MIN_WITHDRAW
-    ) {
-
-      showStatus(
-        "withdrawStatus",
-        "❌ Minimum balance is $3.00."
-      );
-
-      return;
-    }
-
-
-    if (
-      totalAds <
-      REQUIRED_ADS
-    ) {
-
-      showStatus(
-        "withdrawStatus",
-        ❌ You need 1000 completed ads. Current: ${totalAds}.
-      );
-
-      return;
-    }
-
-
-    if (
-      inviteCount <
-      REQUIRED_INVITES
-    ) {
-
-      showStatus(
-        "withdrawStatus",
-        ❌ You need 50 verified invites. Current: ${inviteCount}.
-      );
-
-      return;
-    }
-
-
-    const fee =
-      balance *
-      WITHDRAW_FEE;
-
-    const receive =
-      balance -
-      fee;
-
+  if (balance < MIN_WITHDRAW) {
 
     showStatus(
       "withdrawStatus",
-      ✅ Eligible! Balance: $${balance.toFixed(3)} | Fee: $${fee.toFixed(3)} | You receive: $${receive.toFixed(3)}
+      "❌ Minimum balance is $3.00."
+    );
+
+    return;
+  }
+
+
+  if (totalAds < REQUIRED_ADS) {
+
+    showStatus(
+      "withdrawStatus",
+      ❌ You need 1000 completed ads. Current: ${totalAds}.
+    );
+
+    return;
+  }
+
+
+  if (inviteCount < REQUIRED_INVITES) {
+
+    showStatus(
+      "withdrawStatus",
+      ❌ You need 50 verified invites. Current: ${inviteCount}.
+    );
+
+    return;
+  }
+
+
+  const fee =
+    balance * WITHDRAW_FEE;
+
+  const receive =
+    balance - fee;
+
+
+  showStatus(
+    "withdrawStatus",
+    ✅ Eligible! Balance: $${balance.toFixed(3)} | Fee: $${fee.toFixed(3)} | You receive: $${receive.toFixed(3)}
+  );
+}
+
+
+/* ================================
+   BUTTON EVENTS
+================================ */
+
+const watchBtn =
+  document.getElementById("watchBtn");
+
+if (watchBtn) {
+
+  watchBtn.addEventListener(
+    "click",
+    function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      watchAd();
+    }
+  );
+}
+
+
+const dailyBtn =
+  document.getElementById("dailyBtn");
+
+if (dailyBtn) {
+
+  dailyBtn.addEventListener(
+    "click",
+    function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      claimDaily();
+    }
+  );
+}
+
+
+const channelBtn =
+  document.getElementById("channelBtn");
+
+if (channelBtn) {
+
+  channelBtn.addEventListener(
+    "click",
+    function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      openChannel();
+    }
+  );
+}
+
+
+const copyBtn =
+  document.getElementById("copyBtn");
+
+if (copyBtn) {
+
+  copyBtn.addEventListener(
+    "click",
+    function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      copyReferral();
+    }
+  );
+}
+
+
+const shareBtn =
+  document.getElementById("shareBtn");
+
+if (shareBtn) {
+
+  shareBtn.addEventListener(
+    "click",
+    function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      shareReferral();
+    }
+  );
+}
+
+
+const withdrawBtn =
+  document.getElementById("withdrawBtn");
+
+if (withdrawBtn) {
+
+  withdrawBtn.addEventListener(
+    "click",
+    function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      requestWithdraw();
+    }
+  );
+}
+
+
+/* ================================
+   START
+================================ */
+
+checkAdDay();
+
+updateUserName();
+
+updateReferralUI();
+
+updateUI();
+
+
+/*
+  AdsGram is loaded separately.
+  We try after a short delay so that
+  SDK loading cannot break the app.
+*/
+
+setTimeout(() => {
+  initAdsGram();
+}, 1000);
+
+
+/* ================================
+   ERROR DEBUG
+================================ */
+
+window.addEventListener(
+  "error",
+  function(event) {
+
+    console.error(
+      "CyberNova error:",
+      event.error || event.message
     );
   }
+);
 
-
-  /* =================================
-     USER
-  ================================= */
-
-  function updateUserName() {
-
-    const element =
-      document.getElementById(
-        "username"
-      );
-
-
-    if (!telegramUser) {
-
-      element.textContent =
-        "Guest";
-
-      return;
-    }
-
-
-    if (
-      telegramUser.username
-    ) {
-
-      element.textContent =
-        "@" +
-        telegramUser.username;
-
-    } else {
-
-      element.textContent =
-        telegramUser.first_name ||
-        "User";
-    }
-  }
-    /* =================================
-     REFERRAL UI
-  ================================= */
-
-  function updateReferralUI() {
-
-    document.getElementById(
-      "refLink"
-    ).textContent =
-      getReferralLink();
-  }
-
-
-  /* =================================
-     START
-  ================================= */
-
-  checkAdDay();
-
-  updateUserName();
-
-  updateReferralUI();
-
-  updateUI();
-
-  initAdsGram();
+console.log(
+  "🚀 CyberNova Mini App loaded successfully."
+);
 
 </script>
 
