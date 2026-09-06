@@ -7,357 +7,402 @@
 <title>CyberNova</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  -webkit-tap-highlight-color:transparent;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html,body{
-  width:100%;
-  min-height:100%;
+html,
+body {
+    width: 100%;
+    min-height: 100%;
 }
 
-body{
-  font-family:Arial,sans-serif;
-  color:white;
-  min-height:100vh;
-  padding-bottom:100px;
-  background:
-    radial-gradient(circle at 10% 10%,#4422aa 0%,transparent 30%),
-    radial-gradient(circle at 90% 15%,#007c91 0%,transparent 28%),
-    radial-gradient(circle at 50% 100%,#8b176e 0%,transparent 35%),
-    #070711;
+body {
+    background:
+        radial-gradient(circle at 10% 10%, #4422aa 0%, transparent 30%),
+        radial-gradient(circle at 90% 15%, #007c91 0%, transparent 28%),
+        radial-gradient(circle at 50% 100%, #8b176e 0%, transparent 35%),
+        #070711;
+
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 100px;
 }
 
-button{
-  -webkit-appearance:none;
-  appearance:none;
-  touch-action:manipulation;
-  pointer-events:auto;
+button {
+    border: 0;
+    outline: none;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.app{
-  width:100%;
-  max-width:600px;
-  margin:auto;
-  padding:18px 14px;
+.app {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 18px 14px;
 }
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
 }
 
-.logo{
-  font-size:25px;
-  font-weight:900;
-  background:linear-gradient(90deg,#00f5ff,#7b5cff,#ff35c8);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #00f5ff, #7b5cff, #ff35c8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.user{
-  padding:8px 12px;
-  border-radius:15px;
-  background:rgba(255,255,255,.08);
-  font-size:12px;
+.user {
+    padding: 8px 12px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.08);
+    font-size: 12px;
 }
 
-.balance-card{
-  padding:25px 20px;
-  border-radius:25px;
-  margin-bottom:16px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(0,238,255,.18),
-      rgba(126,78,255,.2),
-      rgba(255,42,202,.17)
-    );
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 18px 50px rgba(0,0,0,.35);
+/* BALANCE */
+
+.balance-card {
+    padding: 25px 20px;
+    border-radius: 25px;
+    margin-bottom: 16px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,238,255,.18),
+            rgba(126,78,255,.20),
+            rgba(255,42,202,.17)
+        );
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 18px 50px rgba(0,0,0,.35);
 }
 
-.balance-label{
-  color:#aaa;
-  font-size:12px;
+.balance-label {
+    color: #aaa;
+    font-size: 12px;
 }
 
-.balance{
-  font-size:42px;
-  font-weight:900;
-  margin:6px 0;
-  background:linear-gradient(90deg,#00f5ff,#a66cff,#ff4dd8);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+.balance {
+    font-size: 42px;
+    font-weight: 900;
+    margin: 6px 0;
+    background: linear-gradient(90deg,#00f5ff,#a66cff,#ff4dd8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.target{
-  color:#999;
-  font-size:12px;
+.target {
+    color: #999;
+    font-size: 12px;
 }
 
-.progress{
-  height:8px;
-  margin-top:13px;
-  border-radius:20px;
-  overflow:hidden;
-  background:rgba(255,255,255,.08);
+/* PROGRESS */
+
+.progress {
+    height: 8px;
+    margin-top: 13px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255,255,255,.08);
 }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  border-radius:20px;
-  background:linear-gradient(90deg,#00f5ff,#7c5cff,#ff35c8);
-  transition:.4s;
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg,#00f5ff,#7c5cff,#ff35c8);
+    transition: .4s;
 }
 
-.card{
-  margin-bottom:15px;
-  padding:18px;
-  border-radius:22px;
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.09);
-  backdrop-filter:blur(16px);
+/* CARDS */
+
+.card {
+    margin-bottom: 15px;
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.055);
+    border: 1px solid rgba(255,255,255,.09);
+    backdrop-filter: blur(16px);
 }
 
-.card h3{
-  font-size:18px;
-  margin-bottom:8px;
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
 }
 
-.muted{
-  color:#aaa;
-  font-size:13px;
-  line-height:1.55;
+.muted {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.55;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:14px;
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+    margin-top: 14px;
 }
 
-.stat{
-  padding:14px 8px;
-  text-align:center;
-  border-radius:16px;
-  background:rgba(255,255,255,.06);
+.stat {
+    padding: 14px 8px;
+    text-align: center;
+    border-radius: 16px;
+    background: rgba(255,255,255,.06);
 }
 
-.stat strong{
-  display:block;
-  font-size:20px;
-  margin-bottom:5px;
+.stat strong {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 5px;
 }
 
-.stat span{
-  color:#888;
-  font-size:10px;
+.stat span {
+    color: #888;
+    font-size: 10px;
 }
 
-.action-btn{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  border:0;
-  border-radius:16px;
-  color:white;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-  background:linear-gradient(90deg,#0077ff,#763cff,#e02bff);
-  box-shadow:0 8px 25px rgba(92,54,255,.25);
+/* BUTTONS */
+
+.action-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border-radius: 16px;
+    color: white;
+    font-size: 14px;
+    font-weight: 900;
+    background: linear-gradient(90deg,#0077ff,#763cff,#e02bff);
+    box-shadow: 0 8px 25px rgba(92,54,255,.25);
 }
 
-.action-btn:active{
-  transform:scale(.98);
+.action-btn:active {
+    transform: scale(.98);
 }
 
-.action-btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
+.action-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
 }
 
-.green{
-  background:linear-gradient(90deg,#00b894,#00cec9);
+.green {
+    background: linear-gradient(90deg,#00b894,#00cec9);
 }
 
-.pink{
-  background:linear-gradient(90deg,#ff357f,#ff00cc);
+.pink {
+    background: linear-gradient(90deg,#ff357f,#ff00cc);
 }
 
-.orange{
-  background:linear-gradient(90deg,#ff7300,#ffb000);
+.orange {
+    background: linear-gradient(90deg,#ff7300,#ffb000);
 }
 
-.big-ad{
-  text-align:center;
-  padding:30px 18px;
+/* ADS */
+
+.big-ad {
+    text-align: center;
+    padding: 30px 18px;
+}
+  .ad-icon {
+    font-size: 58px;
+    margin-bottom: 8px;
 }
 
-.ad-icon{
-  font-size:58px;
-  margin-bottom:8px;
+.ad-reward {
+    font-size: 28px;
+    font-weight: 900;
+    margin: 10px 0;
+    color: #00efff;
 }
 
-.ad-reward{
-  font-size:28px;
-  font-weight:900;
-  margin:10px 0;
-  color:#00efff;
+.counter {
+    margin-top: 9px;
+    color: #999;
+    font-size: 12px;
 }
 
-.counter{
-  margin-top:9px;
-  color:#999;
-  font-size:12px;
+.status {
+    display: none;
+    margin-top: 12px;
+    padding: 11px;
+    border-radius: 13px;
+    background: rgba(255,255,255,.07);
+    color: #ddd;
+    font-size: 12px;
+    line-height: 1.45;
 }
 
-.status{
-  display:none;
-  margin-top:12px;
-  padding:11px;
-  border-radius:13px;
-  background:rgba(255,255,255,.07);
-  color:#ddd;
-  font-size:12px;
-  line-height:1.45;
+/* CHANNEL */
+
+.channel {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 17px;
+    background: rgba(0,234,255,.07);
 }
 
-.channel{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:12px;
-  margin-top:12px;
-  border-radius:17px;
-  background:rgba(0,234,255,.07);
-}
-  .channel-icon{
-  width:44px;
-  height:44px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  font-size:22px;
-  background:linear-gradient(135deg,#00c6ff,#0072ff);
+.channel-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    font-size: 22px;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
 }
 
-.channel-info{
-  flex:1;
-  text-align:left;
+.channel-info {
+    flex: 1;
+    text-align: left;
 }
 
-.channel-info strong{
-  display:block;
-  font-size:13px;
+.channel-info strong {
+    display: block;
+    font-size: 13px;
 }
 
-.channel-info span{
-  color:#888;
-  font-size:10px;
+.channel-info span {
+    color: #888;
+    font-size: 10px;
 }
 
-.small-btn{
-  width:auto;
-  margin:0;
-  padding:9px 12px;
-  font-size:11px;
+.small-btn {
+    width: auto;
+    margin: 0;
+    padding: 9px 12px;
+    font-size: 11px;
 }
 
-.ref-box{
-  margin-top:12px;
-  padding:12px;
-  border-radius:13px;
-  background:#05050b;
-  border:1px solid rgba(255,255,255,.08);
-  color:#91f2ff;
-  font-size:11px;
-  word-break:break-all;
+/* REFERRAL */
+
+.ref-box {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 13px;
+    background: #05050b;
+    border: 1px solid rgba(255,255,255,.08);
+    color: #91f2ff;
+    font-size: 11px;
+    word-break: break-all;
 }
 
-.warning{
-  margin-top:12px;
-  padding:12px;
-  border-radius:14px;
-  color:#ffd36b;
-  background:rgba(255,184,0,.07);
-  border:1px solid rgba(255,184,0,.2);
-  font-size:11px;
-  line-height:1.5;
+/* WARNING */
+
+.warning {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 14px;
+    color: #ffd36b;
+    background: rgba(255,184,0,.07);
+    border: 1px solid rgba(255,184,0,.2);
+    font-size: 11px;
+    line-height: 1.5;
 }
 
-.rules{
-  margin-top:10px;
-  padding-left:18px;
-  color:#aaa;
-  font-size:12px;
-  line-height:1.9;
+.rules {
+    margin-top: 10px;
+    padding-left: 18px;
+    color: #aaa;
+    font-size: 12px;
+    line-height: 1.9;
 }
 
-.tab{
-  display:none;
+/* TABS */
+
+.tab {
+    display: none;
 }
 
-.tab.active{
-  display:block;
+.tab.active {
+    display: block;
 }
 
-.nav{
-  position:fixed;
-  z-index:99999;
-  left:50%;
-  bottom:9px;
-  transform:translateX(-50%);
-  width:calc(100% - 20px);
-  max-width:580px;
-  padding:8px;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:4px;
-  border-radius:22px;
-  background:rgba(13,13,28,.97);
-  border:1px solid rgba(255,255,255,.1);
-  backdrop-filter:blur(20px);
-  pointer-events:auto;
+/* NAVIGATION */
+
+.nav {
+    position: fixed;
+    z-index: 999999;
+    left: 50%;
+    bottom: 9px;
+    transform: translateX(-50%);
+
+    width: calc(100% - 20px);
+    max-width: 580px;
+
+    padding: 8px;
+
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 4px;
+
+    border-radius: 22px;
+
+    background: rgba(13,13,28,.98);
+    border: 1px solid rgba(255,255,255,.12);
+
+    backdrop-filter: blur(20px);
+
+    pointer-events: auto;
 }
 
-.nav button{
-  width:100%;
-  margin:0;
-  padding:10px 2px;
-  border:0;
-  border-radius:14px;
-  color:#777;
-  font-size:10px;
-  font-weight:900;
-  background:transparent;
-  box-shadow:none;
-  cursor:pointer;
-  pointer-events:auto;
+.nav button {
+    display: block;
+    width: 100%;
+    min-height: 50px;
+
+    padding: 8px 2px;
+
+    border-radius: 14px;
+
+    color: #777;
+    background: transparent;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    pointer-events: auto;
 }
 
-.nav button.active{
-  color:#00eaff;
-  background:rgba(0,234,255,.10);
+.nav button.active {
+    color: #00eaff;
+    background: rgba(0,234,255,.12);
 }
 
-.footer{
-  text-align:center;
-  margin:25px 0;
-  color:#555;
-  font-size:10px;
+.nav button:active {
+    transform: scale(.95);
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    margin: 25px 0;
+    color: #555;
+    font-size: 10px;
 }
 </style>
 </head>
@@ -366,1266 +411,1318 @@ button{
 
 <div class="app">
 
-  <div class="header">
-    <div class="logo">⚡ CyberNova</div>
-    <div class="user" id="username">Guest</div>
-  </div>
-
-  <!-- HOME -->
-  <section id="home" class="tab active">
-
-    <div class="balance-card">
-      <div class="balance-label">YOUR BALANCE</div>
-      <div class="balance" id="balance">$0.000</div>
-      <div class="target">Minimum withdrawal: $3.00</div>
-
-      <div class="progress">
-        <div class="progress-bar" id="balanceProgress"></div>
-      </div>
+    <div class="header">
+        <div class="logo">⚡ CyberNova</div>
+        <div class="user" id="username">Guest</div>
     </div>
 
-    <div class="card">
-      <h3>📊 Statistics</h3>
+    <!-- HOME -->
 
-      <div class="stats">
+    <section id="home" class="tab active">
 
-        <div class="stat">
-          <strong id="totalAds">0</strong>
-          <span>Total Ads</span>
+        <div class="balance-card">
+
+            <div class="balance-label">
+                YOUR BALANCE
+            </div>
+
+            <div class="balance" id="balance">
+                $0.000
+            </div>
+
+            <div class="target">
+                Minimum withdrawal: $3.00
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" id="balanceProgress"></div>
+            </div>
+
         </div>
 
-        <div class="stat">
-          <strong id="todayAds">0/20</strong>
-          <span>Ads Today</span>
+        <div class="card">
+
+            <h3>📊 Statistics</h3>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong id="totalAds">0</strong>
+                    <span>Total Ads</span>
+                </div>
+
+                <div class="stat">
+                    <strong id="todayAds">0/20</strong>
+                    <span>Ads Today</span>
+                </div>
+
+                <div class="stat">
+                    <strong id="invites">0</strong>
+                    <span>Invites</span>
+                </div>
+
+                <div class="stat">
+                    <strong>$0.001</strong>
+                    <span>Per Ad</span>
+                </div>
+                </div>
+
         </div>
 
-        <div class="stat">
-          <strong id="invites">0</strong>
-          <span>Invites</span>
+        <div class="card">
+
+            <h3>🚀 CyberNova</h3>
+
+            <p class="muted">
+                Welcome to CyberNova. Complete available
+                activities and use the app normally.
+            </p>
+
         </div>
 
-        <div class="stat">
-          <strong>$0.001</strong>
-          <span>Per Ad</span>
+    </section>
+
+
+    <!-- ADS -->
+
+    <section id="ads" class="tab">
+
+        <div class="card big-ad">
+
+            <div class="ad-icon">
+                🎬
+            </div>
+
+            <h2>
+                Watch & Earn
+            </h2>
+
+            <div class="ad-reward">
+                $0.001
+            </div>
+
+            <p class="muted">
+                Watch the advertisement completely
+                and receive your reward.
+            </p>
+
+            <button
+                id="watchBtn"
+                class="action-btn"
+                type="button"
+                onclick="watchAd()">
+
+                🎬 WATCH AD
+
+            </button>
+
+            <div class="counter">
+                Today:
+                <b id="adCounter">0/20</b>
+            </div>
+
+            <div
+                id="adStatus"
+                class="status">
+            </div>
+
         </div>
 
-      </div>
+        <div class="card">
+
+            <h3>
+                📌 Advertisement Rules
+            </h3>
+
+            <ul class="rules">
+                <li>Maximum 20 ads per day.</li>
+                <li>Each completed ad = $0.001.</li>
+                <li>Reward after successful completion.</li>
+                <li>Ads are optional.</li>
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- DAILY -->
+
+    <section id="daily" class="tab">
+
+        <div class="card big-ad">
+
+            <div class="ad-icon">
+                🎁
+            </div>
+
+            <h2>
+                Daily Reward
+            </h2>
+
+            <div class="ad-reward">
+                $0.002
+            </div>
+
+            <p class="muted">
+                Claim your daily reward once every
+                24 hours.
+            </p>
+
+            <button
+                id="dailyBtn"
+                class="action-btn green"
+                type="button"
+                onclick="claimDaily()">
+
+                🎁 CLAIM DAILY
+
+            </button>
+
+            <div
+                id="dailyStatus"
+                class="status">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INVITE -->
+
+    <section id="invite" class="tab">
+
+        <div class="card">
+
+            <h3>
+                👥 Invite Friends
+            </h3>
+
+            <p class="muted">
+                Earn <b>$0.003</b> for every verified referral.
+            </p>
+
+            <div
+                class="ref-box"
+                id="refLink">
+
+                Loading...
+
+            </div>
+
+            <button
+                id="copyBtn"
+                class="action-btn pink"
+                type="button"
+                onclick="copyReferral()">
+
+                📋 COPY REFERRAL LINK
+
+            </button>
+
+            <button
+                id="shareBtn"
+                class="action-btn"
+                type="button"
+                onclick="shareReferral()">
+
+                🚀 SHARE INVITE
+
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                📈 Referral Progress
+            </h3>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong id="inviteCount">0</strong>
+                    <span>Your Invites</span>
+                </div>
+
+                <div class="stat">
+                    <strong>50</strong>
+                    <span>Required</span>
+                </div>
+
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-bar"
+                    id="inviteProgress">
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WITHDRAW -->
+
+    <section id="withdraw" class="tab">
+
+        <div class="card">
+
+            <h3>
+                💸 Withdraw
+            </h3>
+            <p class="muted">
+                Minimum withdrawal:
+                <b>$3.00</b>
+            </p>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong id="withdrawBalance">
+                        $0.000
+                    </strong>
+                    <span>Balance</span>
+                </div>
+
+                <div class="stat">
+                    <strong>40%</strong>
+                    <span>Fee</span>
+                </div>
+
+                <div class="stat">
+                    <strong id="withdrawAds">
+                        0/1000
+                    </strong>
+                    <span>Ads</span>
+                </div>
+
+                <div class="stat">
+                    <strong id="withdrawInvites">
+                        0/50
+                    </strong>
+                    <span>Invites</span>
+                </div>
+
+            </div>
+
+            <div class="warning">
+                Withdrawal requires $3.00 balance,
+                1000 completed advertisements and
+                50 verified invites.
+            </div>
+
+            <button
+                id="withdrawBtn"
+                class="action-btn orange"
+                type="button"
+                onclick="requestWithdraw()">
+
+                💰 REQUEST WITHDRAWAL
+
+            </button>
+
+            <div
+                id="withdrawStatus"
+                class="status">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        CyberNova © 2026
     </div>
-
-    <div class="card">
-      <h3>🚀 CyberNova</h3>
-
-      <p class="muted">
-        Welcome to CyberNova. Complete available activities
-        and use the app normally. Advertisements are optional
-        and rewards are granted only after successful completion.
-      </p>
-    </div>
-
-  </section>
-
-
-  <!-- ADS -->
-  <section id="ads" class="tab">
-
-    <div class="card big-ad">
-
-      <div class="ad-icon">🎬</div>
-
-      <h2>Watch & Earn</h2>
-
-      <div class="ad-reward">$0.001</div>
-
-      <p class="muted">
-        Watch the advertisement completely and receive
-        your reward.
-      </p>
-
-      <button id="watchBtn" class="action-btn">
-        🎬 WATCH AD
-      </button>
-
-      <div class="counter">
-        Today:
-        <b id="adCounter">0/20</b>
-      </div>
-
-      <div id="adStatus" class="status"></div>
-
-    </div>
-
-    <div class="card">
-      <h3>📌 Advertisement Rules</h3>
-
-      <ul class="rules">
-        <li>Maximum 20 ads per day.</li>
-        <li>Each completed ad = $0.001.</li>
-        <li>Reward is added after successful completion.</li>
-        <li>Watching ads is not required for basic app usage.</li>
-      </ul>
-    </div>
-
-  </section>
-
-
-  <!-- DAILY -->
-  <section id="daily" class="tab">
-    <div class="card big-ad">
-
-      <div class="ad-icon">🎁</div>
-
-      <h2>Daily Reward</h2>
-
-      <div class="ad-reward">$0.002</div>
-
-      <p class="muted">
-        Claim your daily reward once every 24 hours.
-      </p>
-
-      <button id="dailyBtn" class="action-btn green">
-        🎁 CLAIM DAILY
-      </button>
-
-      <div id="dailyStatus" class="status"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- TASKS -->
-  <section id="tasks" class="tab">
-
-    <div class="card">
-
-      <h3>📢 Official Channel</h3>
-
-      <div class="channel">
-
-        <div class="channel-icon">✈️</div>
-
-        <div class="channel-info">
-          <strong>CyberNova_Official</strong>
-          <span>Official Telegram Channel</span>
-        </div>
-
-        <button id="channelBtn" class="action-btn small-btn">
-          JOIN
-        </button>
-
-      </div>
-
-      <div class="warning">
-        Real Telegram membership verification requires
-        a secure bot/backend. This frontend does not fake verification.
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- INVITE -->
-  <section id="invite" class="tab">
-
-    <div class="card">
-
-      <h3>👥 Invite Friends</h3>
-
-      <p class="muted">
-        Earn <b>$0.003</b> for every verified referral.
-      </p>
-
-      <div class="ref-box" id="refLink">
-        Loading...
-      </div>
-
-      <button id="copyBtn" class="action-btn pink">
-        📋 COPY REFERRAL LINK
-      </button>
-
-      <button id="shareBtn" class="action-btn">
-        🚀 SHARE INVITE
-      </button>
-
-    </div>
-
-    <div class="card">
-
-      <h3>📈 Referral Progress</h3>
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong id="inviteCount">0</strong>
-          <span>Your Invites</span>
-        </div>
-
-        <div class="stat">
-          <strong>50</strong>
-          <span>Required</span>
-        </div>
-
-      </div>
-
-      <div class="progress">
-        <div class="progress-bar" id="inviteProgress"></div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- WITHDRAW -->
-  <section id="withdraw" class="tab">
-
-    <div class="card">
-
-      <h3>💸 Withdraw</h3>
-
-      <p class="muted">
-        Minimum withdrawal: <b>$3.00</b>
-      </p>
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong id="withdrawBalance">$0.000</strong>
-          <span>Balance</span>
-        </div>
-
-        <div class="stat">
-          <strong>40%</strong>
-          <span>Fee</span>
-        </div>
-
-        <div class="stat">
-          <strong id="withdrawAds">0/1000</strong>
-          <span>Ads</span>
-        </div>
-
-        <div class="stat">
-          <strong id="withdrawInvites">0/50</strong>
-          <span>Invites</span>
-        </div>
-
-      </div>
-
-      <div class="warning">
-        Withdrawal requires $3.00 balance,
-        1000 completed advertisements and 50 verified invites.
-        A 40% fee is deducted from the requested amount.
-      </div>
-
-      <button id="withdrawBtn" class="action-btn orange">
-        💰 REQUEST WITHDRAWAL
-      </button>
-
-      <div id="withdrawStatus" class="status"></div>
-
-    </div>
-
-  </section>
-
-
-  <div class="footer">
-    CyberNova © 2026
-  </div>
 
 </div>
 
 
-<!-- NAVIGATION -->
+<!-- BOTTOM NAVIGATION -->
+
 <div class="nav">
 
-  <button class="active" data-tab="home">
-    🏠<br>Home
-  </button>
+    <button
+        type="button"
+        class="active"
+        onclick="showTab('home', this)">
 
-  <button data-tab="ads">
-    🎬<br>Ads
-  </button>
+        🏠<br>
+        Home
 
-  <button data-tab="daily">
-    🎁<br>Daily
-  </button>
+    </button>
 
-  <button data-tab="invite">
-    👥<br>Invite
-  </button>
+    <button
+        type="button"
+        onclick="showTab('ads', this)">
 
-  <button data-tab="withdraw">
-    💸<br>Withdraw
-  </button>
+        🎬<br>
+        Ads
+
+    </button>
+
+    <button
+        type="button"
+        onclick="showTab('daily', this)">
+
+        🎁<br>
+        Daily
+
+    </button>
+
+    <button
+        type="button"
+        onclick="showTab('invite', this)">
+
+        👥<br>
+        Invite
+
+    </button>
+
+    <button
+        type="button"
+        onclick="showTab('withdraw', this)">
+
+        💸<br>
+        Withdraw
+
+    </button>
 
 </div>
 
 
 <script>
-"use strict";
 
-/* ================================
-   CYBERNOVA SETTINGS
-================================ */
+/* =========================
+   SETTINGS
+========================= */
 
-const ADSGRAM_BLOCK_ID = "46454";
+var ADSGRAM_BLOCK_ID = "46454";
 
-const AD_REWARD = 0.001;
-const DAILY_REWARD = 0.002;
+var AD_REWARD = 0.001;
+var DAILY_REWARD = 0.002;
 
-const ADS_PER_DAY_LIMIT = 20;
+var ADS_PER_DAY_LIMIT = 20;
 
-const MIN_WITHDRAW = 3.00;
-const REQUIRED_ADS = 1000;
-const REQUIRED_INVITES = 50;
+var MIN_WITHDRAW = 3.00;
+var REQUIRED_ADS = 1000;
+var REQUIRED_INVITES = 50;
 
-const WITHDRAW_FEE = 0.40;
+var WITHDRAW_FEE = 0.40;
 
-const CHANNEL_URL =
-  "https://t.me/CyberNova_Official";
+var CHANNEL_URL =
+    "https://t.me/CyberNova_Official";
 
 
-/* ================================
+/* =========================
    TELEGRAM
-================================ */
+========================= */
 
-const tg = window.Telegram?.WebApp || null;
-  if (tg) {
-  try {
-    tg.ready();
-    tg.expand();
-  } catch (e) {
-    console.log("Telegram WebApp:", e);
-  }
+var tg = null;
+var telegramUser = null;
+
+try {
+
+    if (
+        window.Telegram &&
+        window.Telegram.WebApp
+    ) {
+
+        tg = window.Telegram.WebApp;
+
+        tg.ready();
+        tg.expand();
+
+        if (
+            tg.initDataUnsafe &&
+            tg.initDataUnsafe.user
+        ) {
+
+            telegramUser =
+                tg.initDataUnsafe.user;
+        }
+    }
+
+} catch (e) {
+
+    console.log("Telegram error:", e);
+
 }
 
-const telegramUser =
-  tg?.initDataUnsafe?.user || null;
 
-
-/* ================================
+/* =========================
    DATA
-================================ */
+========================= */
 
-let balance = Number(
-  localStorage.getItem("cybernova_balance") || 0
+var balance = Number(
+    localStorage.getItem("cybernova_balance") || "0"
 );
 
-let totalAds = Number(
-  localStorage.getItem("cybernova_total_ads") || 0
+var totalAds = Number(
+    localStorage.getItem("cybernova_total_ads") || "0"
 );
 
-let inviteCount = Number(
-  localStorage.getItem("cybernova_invites") || 0
+var inviteCount = Number(
+    localStorage.getItem("cybernova_invites") || "0"
 );
 
-let dailyClaim = Number(
-  localStorage.getItem("cybernova_daily") || 0
+var dailyClaim = Number(
+    localStorage.getItem("cybernova_daily") || "0"
 );
 
-let adDate =
-  localStorage.getItem("cybernova_ad_date") || "";
+var adDate =
+    localStorage.getItem("cybernova_ad_date") || "";
 
-let todayAds = Number(
-  localStorage.getItem("cybernova_today_ads") || 0
+var todayAds = Number(
+    localStorage.getItem("cybernova_today_ads") || "0"
 );
 
 
-/* ================================
+/* =========================
    DATE
-================================ */
+========================= */
 
 function getToday() {
 
-  const d = new Date();
+    var d = new Date();
 
-  return [
-    d.getFullYear(),
-    String(d.getMonth() + 1).padStart(2, "0"),
-    String(d.getDate()).padStart(2, "0")
-  ].join("-");
+    var month =
+        String(d.getMonth() + 1);
+
+    if (month.length === 1) {
+        month = "0" + month;
+    }
+
+    var day =
+        String(d.getDate());
+
+    if (day.length === 1) {
+        day = "0" + day;
+    }
+  return (
+        d.getFullYear() +
+        "-" +
+        month +
+        "-" +
+        day
+    );
 }
 
 
 function checkAdDay() {
 
-  const today = getToday();
+    var today = getToday();
 
-  if (adDate !== today) {
+    if (adDate !== today) {
 
-    adDate = today;
-    todayAds = 0;
+        adDate = today;
+        todayAds = 0;
 
-    localStorage.setItem(
-      "cybernova_ad_date",
-      adDate
-    );
+        localStorage.setItem(
+            "cybernova_ad_date",
+            adDate
+        );
 
-    localStorage.setItem(
-      "cybernova_today_ads",
-      "0"
-    );
-  }
+        localStorage.setItem(
+            "cybernova_today_ads",
+            "0"
+        );
+    }
 }
 
 
-/* ================================
+/* =========================
    SAVE
-================================ */
+========================= */
 
 function saveData() {
 
-  localStorage.setItem(
-    "cybernova_balance",
-    balance.toFixed(6)
-  );
+    localStorage.setItem(
+        "cybernova_balance",
+        balance.toFixed(6)
+    );
 
-  localStorage.setItem(
-    "cybernova_total_ads",
-    String(totalAds)
-  );
+    localStorage.setItem(
+        "cybernova_total_ads",
+        String(totalAds)
+    );
 
-  localStorage.setItem(
-    "cybernova_invites",
-    String(inviteCount)
-  );
+    localStorage.setItem(
+        "cybernova_invites",
+        String(inviteCount)
+    );
 
-  localStorage.setItem(
-    "cybernova_daily",
-    String(dailyClaim)
-  );
+    localStorage.setItem(
+        "cybernova_daily",
+        String(dailyClaim)
+    );
 
-  localStorage.setItem(
-    "cybernova_ad_date",
-    adDate
-  );
+    localStorage.setItem(
+        "cybernova_ad_date",
+        adDate
+    );
 
-  localStorage.setItem(
-    "cybernova_today_ads",
-    String(todayAds)
-  );
+    localStorage.setItem(
+        "cybernova_today_ads",
+        String(todayAds)
+    );
 }
 
 
-/* ================================
+/* =========================
    STATUS
-================================ */
+========================= */
 
-function showStatus(id, message) {
+function showStatus(id, text) {
 
-  const box = document.getElementById(id);
+    var element =
+        document.getElementById(id);
 
-  if (!box) return;
-
-  box.style.display = "block";
-  box.textContent = message;
-}
-
-
-/* ================================
-   DAILY BUTTON
-================================ */
-
-function updateDailyButton() {
-
-  const button =
-    document.getElementById("dailyBtn");
-
-  if (!button) return;
-
-  const now = Date.now();
-
-  if (
-    dailyClaim &&
-    now - dailyClaim <
-    24 * 60 * 60 * 1000
-  ) {
-
-    button.disabled = true;
-
-    button.textContent =
-      "⏳ DAILY ALREADY CLAIMED";
-
-  } else {
-
-    button.disabled = false;
-
-    button.textContent =
-      "🎁 CLAIM DAILY";
-  }
-}
-
-
-/* ================================
-   UI
-================================ */
-
-function updateUI() {
-
-  checkAdDay();
-
-  const balanceEl =
-    document.getElementById("balance");
-
-  const withdrawBalanceEl =
-    document.getElementById("withdrawBalance");
-
-  const totalAdsEl =
-    document.getElementById("totalAds");
-
-  const todayAdsEl =
-    document.getElementById("todayAds");
-
-  const adCounterEl =
-    document.getElementById("adCounter");
-
-  const invitesEl =
-    document.getElementById("invites");
-
-  const inviteCountEl =
-    document.getElementById("inviteCount");
-
-  const withdrawAdsEl =
-    document.getElementById("withdrawAds");
-
-  const withdrawInvitesEl =
-    document.getElementById("withdrawInvites");
-
-
-  if (balanceEl)
-    balanceEl.textContent =
-      "$" + balance.toFixed(3);
-
-  if (withdrawBalanceEl)
-    withdrawBalanceEl.textContent =
-      "$" + balance.toFixed(3);
-
-  if (totalAdsEl)
-    totalAdsEl.textContent =
-      totalAds;
-
-  if (todayAdsEl)
-    todayAdsEl.textContent =
-      ${todayAds}/${ADS_PER_DAY_LIMIT};
-
-  if (adCounterEl)
-    adCounterEl.textContent =
-      ${todayAds}/${ADS_PER_DAY_LIMIT};
-
-  if (invitesEl)
-    invitesEl.textContent =
-      inviteCount;
-
-  if (inviteCountEl)
-    inviteCountEl.textContent =
-      inviteCount;
-
-  if (withdrawAdsEl)
-    withdrawAdsEl.textContent =
-      ${totalAds}/${REQUIRED_ADS};
-
-  if (withdrawInvitesEl)
-    withdrawInvitesEl.textContent =
-      ${inviteCount}/${REQUIRED_INVITES};
-  const balanceProgress =
-    Math.min(
-      (balance / MIN_WITHDRAW) * 100,
-      100
-    );
-
-  const balanceProgressEl =
-    document.getElementById("balanceProgress");
-
-  if (balanceProgressEl)
-    balanceProgressEl.style.width =
-      balanceProgress + "%";
-
-
-  const inviteProgress =
-    Math.min(
-      (inviteCount / REQUIRED_INVITES) * 100,
-      100
-    );
-
-  const inviteProgressEl =
-    document.getElementById("inviteProgress");
-
-  if (inviteProgressEl)
-    inviteProgressEl.style.width =
-      inviteProgress + "%";
-
-
-  const watchBtn =
-    document.getElementById("watchBtn");
-
-  if (watchBtn) {
-
-    if (todayAds >= ADS_PER_DAY_LIMIT) {
-
-      watchBtn.disabled = true;
-
-      watchBtn.textContent =
-        "✅ DAILY LIMIT REACHED";
-
-    } else {
-
-      watchBtn.disabled = false;
-
-      watchBtn.textContent =
-        "🎬 WATCH AD";
+    if (!element) {
+        return;
     }
-  }
 
-
-  updateDailyButton();
-  saveData();
+    element.style.display = "block";
+    element.textContent = text;
 }
 
 
-/* ================================
+/* =========================
    NAVIGATION
-================================ */
+========================= */
 
 function showTab(id, button) {
 
-  const tabs =
-    document.querySelectorAll(".tab");
+    var tabs =
+        document.getElementsByClassName("tab");
 
-  tabs.forEach(tab => {
-    tab.classList.remove("active");
-  });
+    var i;
 
+    for (i = 0; i < tabs.length; i++) {
 
-  const target =
-    document.getElementById(id);
+        tabs[i].classList.remove("active");
+    }
 
-  if (!target) return;
+    var target =
+        document.getElementById(id);
 
-  target.classList.add("active");
+    if (!target) {
+        return;
+    }
 
-
-  const navButtons =
-    document.querySelectorAll(".nav button");
-
-  navButtons.forEach(btn => {
-    btn.classList.remove("active");
-  });
+    target.classList.add("active");
 
 
-  if (button) {
-    button.classList.add("active");
-  }
+    var buttons =
+        document.querySelectorAll(".nav button");
+
+    for (i = 0; i < buttons.length; i++) {
+
+        buttons[i].classList.remove("active");
+    }
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    window.scrollTo(0, 0);
 }
 
 
-/* ================================
-   NAV BUTTON EVENTS
-================================ */
+/* =========================
+   UI
+========================= */
 
-document
-  .querySelectorAll(".nav button")
-  .forEach(button => {
+function updateUI() {
 
-    button.addEventListener("click", function(e) {
+    checkAdDay();
 
-      e.preventDefault();
-      e.stopPropagation();
-
-      const tab =
-        this.getAttribute("data-tab");
-
-      showTab(tab, this);
-    });
-
-  });
+    var element;
 
 
-/* ================================
-   ADSGRAM
-================================ */
+    element =
+        document.getElementById("balance");
 
-let adController = null;
-let adLoading = false;
+    if (element) {
+        element.textContent =
+            "$" + balance.toFixed(3);
+    }
 
-function initAdsGram() {
 
-  try {
+    element =
+        document.getElementById("withdrawBalance");
+
+    if (element) {
+        element.textContent =
+            "$" + balance.toFixed(3);
+    }
+
+
+    element =
+        document.getElementById("totalAds");
+
+    if (element) {
+        element.textContent =
+            totalAds;
+    }
+
+
+    element =
+        document.getElementById("todayAds");
+
+    if (element) {
+        element.textContent =
+            todayAds + "/" + ADS_PER_DAY_LIMIT;
+    }
+
+
+    element =
+        document.getElementById("adCounter");
+
+    if (element) {
+        element.textContent =
+            todayAds + "/" + ADS_PER_DAY_LIMIT;
+    }
+
+
+    element =
+        document.getElementById("invites");
+
+    if (element) {
+        element.textContent =
+            inviteCount;
+    }
+
+
+    element =
+        document.getElementById("inviteCount");
+
+    if (element) {
+        element.textContent =
+            inviteCount;
+    }
+
+
+    element =
+        document.getElementById("withdrawAds");
+
+    if (element) {
+        element.textContent =
+            totalAds + "/" + REQUIRED_ADS;
+    }
+
+
+    element =
+        document.getElementById("withdrawInvites");
+
+    if (element) {
+        element.textContent =
+            inviteCount + "/" + REQUIRED_INVITES;
+    }
+
+
+    var balancePercent =
+        (balance / MIN_WITHDRAW) * 100;
+
+    if (balancePercent > 100) {
+        balancePercent = 100;
+    }
+
+    element =
+        document.getElementById("balanceProgress");
+
+    if (element) {
+        element.style.width =
+            balancePercent + "%";
+    }
+
+
+    var invitePercent =
+        (inviteCount / REQUIRED_INVITES) * 100;
+
+    if (invitePercent > 100) {
+        invitePercent = 100;
+    }
+
+    element =
+        document.getElementById("inviteProgress");
+  if (element) {
+        element.style.width =
+            invitePercent + "%";
+    }
+
+
+    element =
+        document.getElementById("watchBtn");
+
+    if (element) {
+
+        if (
+            todayAds >=
+            ADS_PER_DAY_LIMIT
+        ) {
+
+            element.disabled = true;
+
+            element.textContent =
+                "✅ DAILY LIMIT REACHED";
+
+        } else {
+
+            element.disabled = false;
+
+            element.textContent =
+                "🎬 WATCH AD";
+        }
+    }
+
+
+    updateDailyButton();
+
+    saveData();
+}
+
+
+/* =========================
+   DAILY
+========================= */
+
+function updateDailyButton() {
+
+    var button =
+        document.getElementById("dailyBtn");
+
+    if (!button) {
+        return;
+    }
+
+    var now = Date.now();
 
     if (
-      typeof window.Adsgram ===
-      "undefined"
+        dailyClaim &&
+        now - dailyClaim <
+        86400000
     ) {
 
-      console.log(
-        "AdsGram SDK not available yet."
-      );
+        button.disabled = true;
 
-      return false;
-    }
-
-
-    adController =
-      window.Adsgram.init({
-        blockId: ADSGRAM_BLOCK_ID
-      });
-
-
-    console.log(
-      "AdsGram initialized."
-    );
-
-    return true;
-
-  } catch (error) {
-
-    console.error(
-      "AdsGram init error:",
-      error
-    );
-
-    return false;
-  }
-}
-
-
-/* ================================
-   WATCH AD
-================================ */
-
-async function watchAd() {
-
-  checkAdDay();
-
-  if (todayAds >= ADS_PER_DAY_LIMIT) {
-
-    showStatus(
-      "adStatus",
-      "⚠️ You reached today's 20-ad limit."
-    );
-
-    updateUI();
-
-    return;
-  }
-
-
-  if (adLoading) return;
-
-
-  if (!adController) {
-
-    if (!initAdsGram()) {
-
-      showStatus(
-        "adStatus",
-        "❌ AdsGram is not ready. Please try again."
-      );
-
-      return;
-    }
-  }
-
-
-  adLoading = true;
-
-  const button =
-    document.getElementById("watchBtn");
-
-  if (button) {
-
-    button.disabled = true;
-
-    button.textContent =
-      "⏳ LOADING AD...";
-  }
-
-
-  showStatus(
-    "adStatus",
-    "🎬 Please watch the advertisement completely."
-  );
-
-
-  try {
-
-    await adController.show();
-
-
-    balance += AD_REWARD;
-    totalAds += 1;
-    todayAds += 1;
-
-
-    showStatus(
-      "adStatus",
-      "✅ Completed! +$0.001 added to your balance."
-    );
-
-
-    updateUI();
-
-  } catch (error) {
-
-    console.error(
-      "AdsGram show error:",
-      error
-    );
-
-    showStatus(
-      "adStatus",
-      "❌ Advertisement was not completed. No reward was added."
-    );
-
-  } finally {
-
-    adLoading = false;
-
-    updateUI();
-  }
-}
-
-
-/* ================================
-   DAILY
-================================ */
-
-function claimDaily() {
-
-  const now = Date.now();
-
-  if (
-    dailyClaim &&
-    now - dailyClaim <
-    24 * 60 * 60 * 1000
-  ) {
-
-    showStatus(
-      "dailyStatus",
-      "⚠️ You already claimed your daily reward."
-    );
-
-    return;
-  }
-
-
-  balance += DAILY_REWARD;
-
-  dailyClaim = now;
-  showStatus(
-    "dailyStatus",
-    "🎉 Daily reward claimed! +$0.002"
-  );
-
-
-  updateUI();
-}
-
-
-/* ================================
-   CHANNEL
-================================ */
-
-function openChannel() {
-
-  try {
-
-    if (tg && typeof tg.openTelegramLink === "function") {
-
-      tg.openTelegramLink(CHANNEL_URL);
+        button.textContent =
+            "⏳ DAILY ALREADY CLAIMED";
 
     } else {
 
-      window.open(
-        CHANNEL_URL,
-        "_blank"
-      );
+        button.disabled = false;
+
+        button.textContent =
+            "🎁 CLAIM DAILY";
     }
-
-  } catch (error) {
-
-    console.error(error);
-
-    window.location.href =
-      CHANNEL_URL;
-  }
 }
 
 
-/* ================================
+function claimDaily() {
+
+    var now = Date.now();
+
+    if (
+        dailyClaim &&
+        now - dailyClaim <
+        86400000
+    ) {
+
+        showStatus(
+            "dailyStatus",
+            "⚠️ You already claimed today's reward."
+        );
+
+        return;
+    }
+
+    balance += DAILY_REWARD;
+
+    dailyClaim = now;
+
+    saveData();
+    updateUI();
+
+    showStatus(
+        "dailyStatus",
+        "🎉 Daily reward claimed! +$0.002"
+    );
+}
+
+
+/* =========================
+   ADSGRAM
+========================= */
+
+var adController = null;
+var adBusy = false;
+
+
+function initAdsGram() {
+
+    try {
+
+        if (
+            typeof window.Adsgram ===
+            "undefined"
+        ) {
+
+            console.log(
+                "AdsGram SDK not ready."
+            );
+
+            return false;
+        }
+
+
+        adController =
+            window.Adsgram.init({
+                blockId: ADSGRAM_BLOCK_ID
+            });
+
+
+        console.log(
+            "AdsGram initialized."
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.log(
+            "AdsGram init error:",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+/* =========================
+   WATCH AD
+========================= */
+
+function watchAd() {
+
+    checkAdDay();
+
+    if (
+        todayAds >=
+        ADS_PER_DAY_LIMIT
+    ) {
+
+        showStatus(
+            "adStatus",
+            "⚠️ You reached today's 20-ad limit."
+        );
+
+        return;
+    }
+
+
+    if (adBusy) {
+        return;
+    }
+
+
+    if (!adController) {
+
+        if (!initAdsGram()) {
+
+            showStatus(
+                "adStatus",
+                "❌ Ads are not ready yet. Please try again."
+            );
+
+            return;
+        }
+    }
+
+
+    adBusy = true;
+
+    var button =
+        document.getElementById("watchBtn");
+
+    if (button) {
+
+        button.disabled = true;
+
+        button.textContent =
+            "⏳ LOADING AD...";
+    }
+
+
+    showStatus(
+        "adStatus",
+        "🎬 Loading advertisement..."
+    );
+
+
+    adController
+        .show()
+        .then(function() {
+
+            balance += AD_REWARD;
+
+            totalAds += 1;
+
+            todayAds += 1;
+
+            saveData();
+            updateUI();
+
+            showStatus(
+                "adStatus",
+                "✅ Completed! +$0.001 added."
+            );
+
+        })
+        .catch(function(error) {
+
+            console.log(
+                "Ad error:",
+                error
+            );
+
+            showStatus(
+                "adStatus",
+                "❌ Ad was not completed. No reward added."
+            );
+
+        })
+        .finally(function() {
+
+            adBusy = false;
+
+            updateUI();
+        });
+}
+
+
+/* =========================
    USER
-================================ */
+========================= */
 
 function getUserId() {
 
-  if (telegramUser?.id) {
-    return telegramUser.id;
-  }
+    if (
+        telegramUser &&
+        telegramUser.id
+    ) {
 
-  return "guest";
+        return telegramUser.id;
+    }
+
+    return "guest";
 }
 
 
 function getReferralLink() {
-
   return (
-    "https://t.me/CyberNova_Bot?start=" +
-    getUserId()
-  );
+        "https://t.me/CyberNova_Bot?start=" +
+        getUserId()
+    );
 }
 
 
-function updateUserName() {
+function updateUser() {
 
-  const element =
-    document.getElementById("username");
+    var element =
+        document.getElementById("username");
 
-  if (!element) return;
-
-
-  if (!telegramUser) {
-
-    element.textContent =
-      "Guest";
-
-    return;
-  }
+    if (!element) {
+        return;
+    }
 
 
-  if (telegramUser.username) {
+    if (!telegramUser) {
 
-    element.textContent =
-      "@" + telegramUser.username;
+        element.textContent =
+            "Guest";
 
-  } else {
-
-    element.textContent =
-      telegramUser.first_name ||
-      "User";
-  }
-}
+        return;
+    }
 
 
-function updateReferralUI() {
+    if (telegramUser.username) {
 
-  const element =
-    document.getElementById("refLink");
+        element.textContent =
+            "@" + telegramUser.username;
 
-  if (!element) return;
-
-  element.textContent =
-    getReferralLink();
-}
-
-
-/* ================================
-   COPY REFERRAL
-================================ */
-
-async function copyReferral() {
-
-  const link =
-    getReferralLink();
-
-  try {
-
-    if (
-      navigator.clipboard &&
-      window.isSecureContext
+    } else if (
+        telegramUser.first_name
     ) {
 
-      await navigator.clipboard.writeText(link);
-
-      alert(
-        "✅ Referral link copied!"
-      );
+        element.textContent =
+            telegramUser.first_name;
 
     } else {
 
-      const textarea =
-        document.createElement("textarea");
-
-      textarea.value = link;
-
-      textarea.style.position =
-        "fixed";
-
-      textarea.style.left =
-        "-9999px";
-
-      document.body.appendChild(
-        textarea
-      );
-
-      textarea.select();
-
-      document.execCommand("copy");
-
-      textarea.remove();
-
-      alert(
-        "✅ Referral link copied!"
-      );
+        element.textContent =
+            "User";
     }
-
-  } catch (error) {
-
-    alert(link);
-  }
 }
 
 
-/* ================================
-   SHARE REFERRAL
-================================ */
+function updateReferral() {
+
+    var element =
+        document.getElementById("refLink");
+
+    if (element) {
+
+        element.textContent =
+            getReferralLink();
+    }
+}
+
+
+/* =========================
+   COPY
+========================= */
+
+function copyReferral() {
+
+    var link =
+        getReferralLink();
+
+
+    if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+    ) {
+
+        navigator.clipboard
+            .writeText(link)
+            .then(function() {
+
+                alert(
+                    "✅ Referral link copied!"
+                );
+
+            })
+            .catch(function() {
+
+                alert(link);
+            });
+
+        return;
+    }
+
+
+    var textarea =
+        document.createElement("textarea");
+
+    textarea.value = link;
+
+    textarea.style.position =
+        "fixed";
+
+    textarea.style.left =
+        "-9999px";
+
+    document.body.appendChild(
+        textarea
+    );
+
+    textarea.focus();
+    textarea.select();
+
+    try {
+
+        document.execCommand("copy");
+
+        alert(
+            "✅ Referral link copied!"
+        );
+
+    } catch (e) {
+
+        alert(link);
+    }
+
+    document.body.removeChild(
+        textarea
+    );
+}
+
+
+/* =========================
+   SHARE
+========================= */
 
 function shareReferral() {
 
-  const link =
-    getReferralLink();
+    var link =
+        getReferralLink();
 
-  const text =
-    "🚀 Join CyberNova and start earning!";
+    var text =
+        "🚀 Join CyberNova and start earning!";
 
-  const shareUrl =
-    "https://t.me/share/url?url=" +
-    encodeURIComponent(link) +
-    "&text=" +
-    encodeURIComponent(text);
+    var shareUrl =
+        "https://t.me/share/url?url=" +
+        encodeURIComponent(link) +
+        "&text=" +
+        encodeURIComponent(text);
 
 
-  try {
+    try {
 
-    if (
-      tg &&
-      typeof tg.openTelegramLink === "function"
-    ) {
+        if (
+            tg &&
+            typeof tg.openTelegramLink ===
+            "function"
+        ) {
 
-      tg.openTelegramLink(
-        shareUrl
-      );
+            tg.openTelegramLink(
+                shareUrl
+            );
 
-    } else {
+        } else {
 
-      window.open(
-        shareUrl,
-        "_blank"
-      );
+            window.open(
+                shareUrl,
+                "_blank"
+            );
+        }
+
+    } catch (error) {
+
+        window.location.href =
+            shareUrl;
     }
-
-  } catch (error) {
-
-    window.location.href =
-      shareUrl;
-  }
 }
 
 
-/* ================================
+/* =========================
    WITHDRAW
-================================ */
+========================= */
 
 function requestWithdraw() {
 
-  if (balance < MIN_WITHDRAW) {
+    if (balance < MIN_WITHDRAW) {
+
+        showStatus(
+            "withdrawStatus",
+            "❌ Minimum balance is $3.00."
+        );
+
+        return;
+    }
+
+
+    if (totalAds < REQUIRED_ADS) {
+
+        showStatus(
+            "withdrawStatus",
+            "❌ You need 1000 completed ads. Current: " +
+            totalAds
+        );
+
+        return;
+    }
+
+
+    if (inviteCount < REQUIRED_INVITES) {
+
+        showStatus(
+            "withdrawStatus",
+            "❌ You need 50 verified invites. Current: " +
+            inviteCount
+        );
+
+        return;
+    }
+
+
+    var fee =
+        balance * WITHDRAW_FEE;
+
+    var receive =
+        balance - fee;
+
 
     showStatus(
-      "withdrawStatus",
-      "❌ Minimum balance is $3.00."
+        "withdrawStatus",
+        "✅ Eligible! Balance: $" +
+        balance.toFixed(3) +
+        " | Fee: $" +
+        fee.toFixed(3) +
+        " | You receive: $" +
+        receive.toFixed(3)
     );
-
-    return;
-  }
-
-
-  if (totalAds < REQUIRED_ADS) {
-
-    showStatus(
-      "withdrawStatus",
-      ❌ You need 1000 completed ads. Current: ${totalAds}.
-    );
-
-    return;
-  }
-
-
-  if (inviteCount < REQUIRED_INVITES) {
-
-    showStatus(
-      "withdrawStatus",
-      ❌ You need 50 verified invites. Current: ${inviteCount}.
-    );
-
-    return;
-  }
-
-
-  const fee =
-    balance * WITHDRAW_FEE;
-
-  const receive =
-    balance - fee;
-
-
-  showStatus(
-    "withdrawStatus",
-    ✅ Eligible! Balance: $${balance.toFixed(3)} | Fee: $${fee.toFixed(3)} | You receive: $${receive.toFixed(3)}
-  );
 }
 
 
-/* ================================
-   BUTTON EVENTS
-================================ */
+/* =========================
+   CHANNEL
+========================= */
 
-const watchBtn =
-  document.getElementById("watchBtn");
+function openChannel() {
 
-if (watchBtn) {
+    try {
 
-  watchBtn.addEventListener(
-    "click",
-    function(e) {
+        if (
+            tg &&
+            typeof tg.openTelegramLink ===
+            "function"
+        ) {
 
-      e.preventDefault();
-      e.stopPropagation();
+            tg.openTelegramLink(
+                CHANNEL_URL
+            );
 
-      watchAd();
+        } else {
+
+            window.open(
+                CHANNEL_URL,
+                "_blank"
+            );
+        }
+
+    } catch (error) {
+
+        window.location.href =
+            CHANNEL_URL;
     }
-  );
 }
-
-
-const dailyBtn =
-  document.getElementById("dailyBtn");
-
-if (dailyBtn) {
-
-  dailyBtn.addEventListener(
-    "click",
-    function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      claimDaily();
-    }
-  );
-}
-
-
-const channelBtn =
-  document.getElementById("channelBtn");
-
-if (channelBtn) {
-
-  channelBtn.addEventListener(
-    "click",
-    function(e) {
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      openChannel();
-    }
-  );
-}
-
-
-const copyBtn =
-  document.getElementById("copyBtn");
-
-if (copyBtn) {
-
-  copyBtn.addEventListener(
-    "click",
-    function(e) {
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      copyReferral();
-    }
-  );
-}
-
-
-const shareBtn =
-  document.getElementById("shareBtn");
-
-if (shareBtn) {
-
-  shareBtn.addEventListener(
-    "click",
-    function(e) {
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      shareReferral();
-    }
-  );
-}
-
-
-const withdrawBtn =
-  document.getElementById("withdrawBtn");
-
-if (withdrawBtn) {
-
-  withdrawBtn.addEventListener(
-    "click",
-    function(e) {
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      requestWithdraw();
-    }
-  );
-}
-
-
-/* ================================
+  /* =========================
    START
-================================ */
+========================= */
 
-checkAdDay();
+function startApp() {
 
-updateUserName();
+    checkAdDay();
 
-updateReferralUI();
+    updateUser();
 
-updateUI();
+    updateReferral();
 
-
-/*
-  AdsGram is loaded separately.
-  We try after a short delay so that
-  SDK loading cannot break the app.
-*/
-
-setTimeout(() => {
-  initAdsGram();
-}, 1000);
+    updateUI();
 
 
-/* ================================
-   ERROR DEBUG
-================================ */
+    setTimeout(
+        function() {
 
-window.addEventListener(
-  "error",
-  function(event) {
+            initAdsGram();
 
-    console.error(
-      "CyberNova error:",
-      event.error || event.message
+        },
+        1500
     );
-  }
-);
+}
+
+
+startApp();
 
 console.log(
-  "🚀 CyberNova Mini App loaded successfully."
+    "CyberNova loaded successfully."
 );
 
 </script>
