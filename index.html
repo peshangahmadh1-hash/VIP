@@ -1,405 +1,1463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberNova App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --neon-blue: #00f3ff;
-            --neon-pink: #ff00ea;
-            --neon-green: #39ff14;
-            --neon-orange: #ff5e00;
-            --neon-purple: #b026ff;
-            --neon-gold: #ffd700;
-            --neon-red: #ff2a2a;
-            --bg-dark: #050510;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent; }
+  <title>CyberNova</title>
 
-        body {
-            background: linear-gradient(45deg, #020024, #090979, #00d4ff, #4facfe);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #ffffff;
-            padding-bottom: 90px;
-            min-height: 100vh;
-        }
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-        }
-        .header h1 {
-            font-size: 24px;
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-blue);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .user-badge {
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 0 10px var(--neon-pink);
-        }
+    body {
+      font-family: Arial, sans-serif;
+      color: white;
+      min-height: 100vh;
+      padding-bottom: 95px;
+      background:
+        radial-gradient(circle at 10% 10%, #4422aa 0%, transparent 30%),
+        radial-gradient(circle at 90% 15%, #007c91 0%, transparent 28%),
+        radial-gradient(circle at 50% 100%, #8b176e 0%, transparent 35%),
+        #070711;
+    }
 
-        /* Balance Card */
-        .balance-card {
-            background: rgba(5, 5, 16, 0.8);
-            backdrop-filter: blur(8px);
-            margin: 25px 20px;
-            border-radius: 25px;
-            padding: 30px 20px;
-            text-align: center;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
-        }
-        .balance-title { color: var(--neon-blue); font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-        .balance-amount { font-size: 48px; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); margin: 15px 0; }
-        
-        .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; }
-        .progress-fill { width: 2%; height: 100%; background: linear-gradient(90deg, var(--neon-green), #a8ff78); box-shadow: 0 0 10px var(--neon-green); transition: width 0.3s; }
-        .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: #fff; margin-top: 10px; font-weight: bold; }
+    .app {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      padding: 18px 14px;
+    }
 
-        /* Tabs Content */
-        .tab-content { display: none; padding: 0 20px; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
 
-        /* Task Cards */
-        .task-card {
-            background: rgba(10, 10, 25, 0.85);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-        }
-        .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .task-icon { background: linear-gradient(45deg, var(--neon-orange), #ff2a00); color: #fff; padding: 15px; border-radius: 15px; font-size: 22px; box-shadow: 0 0 15px var(--neon-orange); }
-        .task-title { flex: 1; margin-left: 15px; }
-        .task-title h3 { font-size: 18px; margin-bottom: 4px; color: #fff; }
-        .task-title p { color: #a1a1aa; font-size: 13px; }
-        .task-reward { background: rgba(57, 255, 20, 0.2); color: var(--neon-green); padding: 8px 15px; border-radius: 10px; font-weight: bold; font-size: 15px; border: 1px solid var(--neon-green); }
-        
-        .task-steps { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; margin-bottom: 20px; border-left: 3px solid var(--neon-purple); }
-        .step { display: flex; align-items: center; margin-bottom: 12px; font-size: 14px; color: #e2e8f0; }
-        .step:last-child { margin-bottom: 0; }
-        .step-num { background: var(--neon-purple); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 12px; margin-right: 12px; }
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      background: linear-gradient(90deg,#00f5ff,#7b5cff,#ff35c8);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-        /* Buttons */
-        .btn {
-            width: 100%; padding: 16px; border: none; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .btn:active { transform: scale(0.96); }
-        
-        .btn-orange { background: linear-gradient(45deg, var(--neon-orange), #ff0055); color: white; box-shadow: 0 0 20px rgba(255, 94, 0, 0.5); }
-        .btn-cyan { background: linear-gradient(45deg, var(--neon-blue), #0051ff); color: white; box-shadow: 0 0 20px rgba(0, 243, 255, 0.5); }
-        .btn-disabled { background: #1e1e2f; color: #4b5563; cursor: not-allowed; border: 1px dashed #4b5563; box-shadow: none !important; }
-        .btn-ad { background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white; box-shadow: 0 0 20px rgba(255, 0, 234, 0.6); font-size: 18px; padding: 20px;}
-        .btn-gold { background: linear-gradient(45deg, var(--neon-gold), #ff8c00); color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+    .user {
+      padding: 8px 12px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.08);
+      font-size: 12px;
+    }
 
-        /* Invite Section */
-        .invite-box { background: #000; padding: 20px; border-radius: 15px; border: 2px dashed var(--neon-pink); margin-bottom: 20px; }
-        .invite-link { color: var(--neon-blue); font-size: 14px; word-break: break-all; text-align: center; font-family: monospace; }
+    .balance-card {
+      padding: 25px 20px;
+      border-radius: 25px;
+      margin-bottom: 16px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(0,238,255,.18),
+          rgba(126,78,255,.2),
+          rgba(255,42,202,.17)
+        );
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+    }
 
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(5, 5, 16, 0.95); backdrop-filter: blur(15px);
-            display: flex; justify-content: space-around; padding: 15px 5px;
-            border-top: 2px solid var(--neon-purple); z-index: 1000;
-            box-shadow: 0 -5px 20px rgba(176, 38, 255, 0.3);
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 11px; width: 20%; font-weight: bold;
-        }
-        .nav-item i { font-size: 20px; margin-bottom: 6px; }
-        .nav-item.active { color: var(--neon-blue); transform: translateY(-5px); }
-        .nav-item.active i { color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); transform: scale(1.2); }
+    .balance-label {
+      color: #aaa;
+      font-size: 12px;
+    }
 
-    </style>
+    .balance {
+      font-size: 42px;
+      font-weight: 900;
+      margin: 6px 0;
+      background: linear-gradient(90deg,#00f5ff,#a66cff,#ff4dd8);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .target {
+      color: #999;
+      font-size: 12px;
+    }
+
+    .progress {
+      height: 8px;
+      margin-top: 13px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255,255,255,.08);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 20px;
+      background: linear-gradient(90deg,#00f5ff,#7c5cff,#ff35c8);
+      transition: .4s;
+    }
+
+    .card {
+      margin-bottom: 15px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.09);
+      backdrop-filter: blur(16px);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .muted {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      padding: 14px 8px;
+      text-align: center;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .stat span {
+      color: #888;
+      font-size: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 16px;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      background: linear-gradient(90deg,#0077ff,#763cff,#e02bff);
+      box-shadow: 0 8px 25px rgba(92,54,255,.25);
+    }
+
+    button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .green {
+      background: linear-gradient(90deg,#00b894,#00cec9);
+    }
+
+    .pink {
+      background: linear-gradient(90deg,#ff357f,#ff00cc);
+    }
+
+    .orange {
+      background: linear-gradient(90deg,#ff7300,#ffb000);
+    }
+
+    .big-ad {
+      text-align: center;
+      padding: 30px 18px;
+    }
+
+    .ad-icon {
+      font-size: 58px;
+      margin-bottom: 8px;
+    }
+      .ad-reward {
+      font-size: 28px;
+      font-weight: 900;
+      margin: 10px 0;
+      color: #00efff;
+    }
+
+    .counter {
+      margin-top: 9px;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .status {
+      display: none;
+      margin-top: 12px;
+      padding: 11px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.07);
+      color: #ddd;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .channel {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 17px;
+      background: rgba(0,234,255,.07);
+    }
+
+    .channel-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      font-size: 22px;
+      background: linear-gradient(135deg,#00c6ff,#0072ff);
+    }
+
+    .channel-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .channel-info strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .channel-info span {
+      color: #888;
+      font-size: 10px;
+    }
+
+    .small-btn {
+      width: auto;
+      margin: 0;
+      padding: 9px 12px;
+      font-size: 11px;
+    }
+
+    .ref-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 13px;
+      background: #05050b;
+      border: 1px solid rgba(255,255,255,.08);
+      color: #91f2ff;
+      font-size: 11px;
+      word-break: break-all;
+    }
+
+    .warning {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      color: #ffd36b;
+      background: rgba(255,184,0,.07);
+      border: 1px solid rgba(255,184,0,.2);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .rules {
+      margin-top: 10px;
+      padding-left: 18px;
+      color: #aaa;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 100;
+      left: 50%;
+      bottom: 9px;
+      transform: translateX(-50%);
+      width: calc(100% - 20px);
+      max-width: 580px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 4px;
+      border-radius: 22px;
+      background: rgba(13,13,28,.94);
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav button {
+      margin: 0;
+      padding: 9px 2px;
+      color: #777;
+      font-size: 10px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .nav button.active {
+      color: #00eaff;
+      background: rgba(0,234,255,.08);
+    }
+
+    .footer {
+      text-align: center;
+      margin: 25px 0;
+      color: #555;
+      font-size: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
-    <div class="header">
-        <h1><i class="fa-solid fa-bolt"></i> CyberNova</h1>
-        <div class="user-badge" id="username">User</div>
-    </div>
+<div class="app">
 
-    <!-- Balance -->
+  <div class="header">
+    <div class="logo">⚡ CyberNova</div>
+    <div class="user" id="username">Guest</div>
+  </div>
+
+  <!-- HOME -->
+  <section id="home" class="tab active">
+
     <div class="balance-card">
-        <div class="balance-title">Total Balance</div>
-        <div class="balance-amount">$<span id="balance">0.000</span></div>
-        
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        <div class="progress-labels">
-            <span>$0.00</span>
-            <span style="color: var(--neon-blue);">Target $5.00</span>
-            <span>$5.00</span>
+      <div class="balance-label">YOUR BALANCE</div>
+      <div class="balance" id="balance">$0.000</div>
+      <div class="target">Minimum withdrawal: $3.00</div>
+
+      <div class="progress">
+        <div class="progress-bar" id="balanceProgress"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Statistics</h3>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong id="totalAds">0</strong>
+          <span>Total Ads</span>
         </div>
-    </div>
 
-    <!-- Ads Tab -->
-    <div id="ads-tab" class="tab-content active">
-        <div class="task-card" style="border-color: var(--neon-pink);">
-            <h3 style="margin-bottom: 10px; color: var(--neon-pink); font-size: 22px;"><i class="fa-solid fa-play"></i> Watch & Earn</h3>
-            <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 25px;">Watching ads is the fastest way to increase your balance.</p>
-            <button class="btn btn-ad" id="watchAdBtn">
-                <i class="fa-solid fa-video"></i> Watch Ad (+$0.005)
-            </button>
+        <div class="stat">
+          <strong id="todayAds">0/20</strong>
+          <span>Ads Today</span>
         </div>
-    </div>
 
-    <!-- Daily Reward Tab -->
-    <div id="daily-tab" class="tab-content">
-        <div class="task-card" style="border-color: var(--neon-gold);">
-            <div class="task-header">
-                <div class="task-icon" style="background: rgba(255, 215, 0, 0.2); color: var(--neon-gold);"><i class="fa-solid fa-gift"></i></div>
-                <div class="task-title">
-                    <h3>Daily Bonus</h3>
-                    <p>Claim your free reward every 24 hours</p>
-                </div>
-                <div class="task-reward" style="color: var(--neon-gold); border-color: var(--neon-gold);">+$0.020</div>
-            </div>
-            <button class="btn btn-gold" id="dailyBtn">
-                <i class="fa-solid fa-hand-holding-dollar"></i> Claim Daily Reward
-            </button>
+        <div class="stat">
+          <strong id="invites">0</strong>
+          <span>Invites</span>
         </div>
-    </div>
 
-    <!-- Tasks Tab -->
-    <div id="tasks-tab" class="tab-content">
-        <div class="task-card" style="border-color: var(--neon-orange);">
-            <div class="task-header">
-                <div class="task-icon"><i class="fa-solid fa-bullhorn"></i></div>
-                <div class="task-title">
-                    <h3>Official Community</h3>
-                    <p>Join our Telegram channel</p>
-                </div>
-                <div class="task-reward">+$0.080</div>
-            </div>
-            
-            <div class="task-steps">
-                <div class="step"><div class="step-num">1</div> Open and join the official channel</div>
-                <div class="step"><div class="step-num">2</div> Return to CyberNova</div>
-                <div class="step"><div class="step-num">3</div> Press Verify Task</div>
-            </div>
-
-            <button class="btn btn-orange" id="joinBtn">
-                <i class="fa-solid fa-rocket"></i> Join Official Channel
-            </button>
-            <button class="btn btn-disabled" id="verifyBtn" disabled>
-                <i class="fa-solid fa-shield-halved"></i> Verify Membership
-            </button>
+        <div class="stat">
+          <strong>$0.001</strong>
+          <span>Per Ad</span>
         </div>
+
+      </div>
     </div>
 
-    <!-- Invite Tab -->
-    <div id="invite-tab" class="tab-content">
-        <div class="task-card" style="border-color: var(--neon-blue);">
-            <h3 style="margin-bottom: 15px; color: var(--neon-blue); font-size: 20px;"><i class="fa-solid fa-users-rays"></i> Invite Friends</h3>
-            <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 20px;">Share your personal CyberNova bot link with friends.</p>
-            
-            <div class="invite-box">
-                <div style="font-size: 12px; color: var(--neon-pink); margin-bottom: 10px; font-weight: bold;">Your Referral Link</div>
-                <div class="invite-link" id="refLink">https://t.me/CyberNova_Bot?start=ref_137</div>
-            </div>
-            
-            <button class="btn btn-cyan" id="copyBtn">
-                <i class="fa-regular fa-copy"></i> Copy Referral Link
-            </button>
+    <div class="card">
+      <h3>🚀 CyberNova</h3>
+
+      <p class="muted">
+        Welcome to CyberNova. Complete available activities
+        and use the app normally. Advertisements are optional
+        and rewards are granted only after successful completion.
+      </p>
+    </div>
+
+  </section>
+  <!-- ADS -->
+  <section id="ads" class="tab">
+
+    <div class="card big-ad">
+
+      <div class="ad-icon">🎬</div>
+
+      <h2>Watch & Earn</h2>
+
+      <div class="ad-reward">$0.001</div>
+
+      <p class="muted">
+        Watch the advertisement completely and receive
+        your reward.
+      </p>
+
+      <button id="watchBtn" onclick="watchAd()">
+        🎬 WATCH AD
+      </button>
+
+      <div class="counter">
+        Today:
+        <b id="adCounter">0/20</b>
+      </div>
+
+      <div id="adStatus" class="status"></div>
+
+    </div>
+
+    <div class="card">
+      <h3>📌 Advertisement Rules</h3>
+
+      <ul class="rules">
+        <li>Maximum 20 ads per day.</li>
+        <li>Each completed ad = $0.001.</li>
+        <li>Reward is added after successful completion.</li>
+        <li>Watching ads is not required for basic app usage.</li>
+      </ul>
+    </div>
+
+  </section>
+
+
+  <!-- DAILY -->
+  <section id="daily" class="tab">
+
+    <div class="card big-ad">
+
+      <div class="ad-icon">🎁</div>
+
+      <h2>Daily Reward</h2>
+
+      <div class="ad-reward">$0.002</div>
+
+      <p class="muted">
+        Claim your daily reward once every 24 hours.
+      </p>
+
+      <button
+        id="dailyBtn"
+        class="green"
+        onclick="claimDaily()">
+        🎁 CLAIM DAILY
+      </button>
+
+      <div id="dailyStatus" class="status"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TASKS -->
+  <section id="tasks" class="tab">
+
+    <div class="card">
+
+      <h3>📢 Official Channel</h3>
+
+      <div class="channel">
+
+        <div class="channel-icon">✈️</div>
+
+        <div class="channel-info">
+          <strong>CyberNova_Official</strong>
+          <span>Official Telegram Channel</span>
         </div>
+
+        <button
+          class="small-btn"
+          onclick="openChannel()">
+          JOIN
+        </button>
+
+      </div>
+
+      <div class="warning">
+        Real Telegram membership verification requires
+        a secure bot/backend. This frontend does not fake verification.
+      </div>
+
     </div>
-    <!-- Withdraw Tab -->
-    <div id="withdraw-tab" class="tab-content">
-        <div class="task-card" style="text-align: center; border-color: var(--neon-red);">
-            <i class="fa-solid fa-sack-dollar" style="font-size: 60px; color: var(--neon-red); margin-bottom: 20px; margin-top: 10px;"></i>
-            <h3 style="color: var(--neon-red); font-size: 24px;">Withdraw Funds</h3>
-            <p style="color: #cbd5e1; font-size: 15px; margin-top: 15px;">Once your balance reaches <span style="color:var(--neon-red); font-weight:bold;">$5.00</span>, you can withdraw.</p>
+
+    <div class="card">
+
+      <h3>💡 More Tasks</h3>
+
+      <p class="muted">
+        More tasks can be connected when your backend
+        and task system are ready.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- INVITE -->
+  <section id="invite" class="tab">
+
+    <div class="card">
+
+      <h3>👥 Invite Friends</h3>
+
+      <p class="muted">
+        Earn <b>$0.003</b> for every verified referral.
+      </p>
+
+      <div class="ref-box" id="refLink">
+        Loading...
+      </div>
+
+      <button
+        class="pink"
+        onclick="copyReferral()">
+        📋 COPY REFERRAL LINK
+      </button>
+
+      <button onclick="shareReferral()">
+        🚀 SHARE INVITE
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <h3>📈 Referral Progress</h3>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong id="inviteCount">0</strong>
+          <span>Your Invites</span>
         </div>
+
+        <div class="stat">
+          <strong>50</strong>
+          <span>Required</span>
+        </div>
+
+      </div>
+
+      <div class="progress">
+        <div
+          class="progress-bar"
+          id="inviteProgress">
+        </div>
+      </div>
+
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav" id="bottomNav">
-        <div class="nav-item active" data-tab="ads"><i class="fa-solid fa-play"></i>Ads</div>
-        <div class="nav-item" data-tab="daily"><i class="fa-solid fa-gift"></i>Daily</div>
-        <div class="nav-item" data-tab="tasks"><i class="fa-solid fa-list-check"></i>Tasks</div>
-        <div class="nav-item" data-tab="invite"><i class="fa-solid fa-users"></i>Invite</div>
-        <div class="nav-item" data-tab="withdraw"><i class="fa-solid fa-wallet"></i>Withdraw</div>
+  </section>
+
+
+  <!-- WITHDRAW -->
+  <section id="withdraw" class="tab">
+
+    <div class="card">
+
+      <h3>💸 Withdraw</h3>
+
+      <p class="muted">
+        Minimum withdrawal: <b>$3.00</b>
+      </p>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong id="withdrawBalance">$0.000</strong>
+          <span>Balance</span>
+        </div>
+
+        <div class="stat">
+          <strong>40%</strong>
+          <span>Fee</span>
+        </div>
+
+        <div class="stat">
+          <strong id="withdrawAds">0/1000</strong>
+          <span>Ads</span>
+        </div>
+
+        <div class="stat">
+          <strong id="withdrawInvites">0/50</strong>
+          <span>Invites</span>
+        </div>
+
+      </div>
+      <div class="warning">
+        Withdrawal requires $3.00 balance,
+        1000 completed advertisements and 50 verified invites.
+        A 40% fee is deducted from the requested amount.
+      </div>
+
+      <button
+        class="orange"
+        onclick="requestWithdraw()">
+        💰 REQUEST WITHDRAWAL
+      </button>
+
+      <div
+        id="withdrawStatus"
+        class="status">
+      </div>
+
     </div>
 
-    <!-- Adsgram SDK -->
-    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let balance = 0.000;
-            let isJoined = false;
-            let lastClaimDate = localStorage.getItem('cybernova_daily');
+  </section>
 
-            // Telegram WebApp Init
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.expand();
-                const user = window.Telegram.WebApp.initDataUnsafe?.user;
-                if (user) {
-                    document.getElementById('username').innerText = user.first_name || "User";
-                    document.getElementById('refLink').innerText = https://t.me/CyberNova_Bot?start=${user.id};
-                }
-            }
 
-            // Daily Reward Check
-            const dailyBtn = document.getElementById('dailyBtn');
-            if (lastClaimDate) {
-                let lastDay = new Date(parseInt(lastClaimDate)).toDateString();
-                let today = new Date().toDateString();
-                if (lastDay === today) {
-                    dailyBtn.className = 'btn btn-disabled';
-                    dailyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Already Claimed';
-                    dailyBtn.disabled = true;
-                }
-            }
+  <div class="footer">
+    CyberNova © 2026
+  </div>
 
-            function updateBalance(amount) {
-                balance += amount;
-                document.getElementById('balance').innerText = balance.toFixed(3);
-                let percent = (balance / 5.0) * 100;
-                if (percent > 100) percent = 100;
-                document.getElementById('progressFill').style.width = percent + '%';
-                
-                try {
-                    if (window.Telegram?.WebApp?.HapticFeedback) {
-                        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-                    }
-                } catch(e) {}
-            }
+</div>
 
-            // Tab Switching Logic
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                    
-                    document.getElementById(tabId + '-tab').classList.add('active');
-                    this.classList.add('active');
 
-                    try {
-                        if (window.Telegram?.WebApp?.HapticFeedback) {
-                            window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-                        }
-                    } catch(e) {}
-                });
-            });
-            // Daily Reward Click
-            dailyBtn.addEventListener('click', function() {
-                let todayTime = new Date().getTime();
-                localStorage.setItem('cybernova_daily', todayTime);
-                updateBalance(0.020);
-                
-                this.className = 'btn btn-disabled';
-                this.innerHTML = '<i class="fa-solid fa-check"></i> Claimed Successfully!';
-                this.disabled = true;
-                alert("Success! Daily bonus claimed.");
-            });
+<!-- BOTTOM NAV -->
+<div class="nav">
 
-            // Copy Referral Link
-            document.getElementById('copyBtn').addEventListener('click', function() {
-                const link = document.getElementById('refLink').innerText;
-                navigator.clipboard.writeText(link).then(() => {
-                    alert("Link copied successfully!");
-                }).catch(err => {
-                    alert("Failed to copy link.");
-                });
-            });
+  <button
+    class="active"
+    onclick="showTab('home',this)">
+    🏠<br>Home
+  </button>
 
-            // Telegram Channel Join & Verify
-            const joinBtn = document.getElementById('joinBtn');
-            const verifyBtn = document.getElementById('verifyBtn');
-            const channelLink = 'https://t.me/CyberNova_Official';
+  <button
+    onclick="showTab('ads',this)">
+    🎬<br>Ads
+  </button>
 
-            joinBtn.addEventListener('click', function() {
-                try {
-                    if (window.Telegram?.WebApp?.openTelegramLink) {
-                        window.Telegram.WebApp.openTelegramLink(channelLink);
-                    } else {
-                        window.open(channelLink, '_blank');
-                    }
-                } catch(e) {
-                    window.open(channelLink, '_blank');
-                }
-                
-                verifyBtn.className = 'btn btn-cyan';
-                verifyBtn.disabled = false;
-                verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
-                
-                setTimeout(() => {
-                    verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Verify Membership';
-                    isJoined = true;
-                }, 3000);
-            });
+  <button
+    onclick="showTab('daily',this)">
+    🎁<br>Daily
+  </button>
 
-            verifyBtn.addEventListener('click', function() {
-                if (!isJoined) {
-                    alert("Please join the channel first!");
-                    return;
-                }
-                
-                this.className = 'btn';
-                this.style.background = 'var(--neon-green)';
-                this.style.color = '#000';
-                this.innerHTML = '<i class="fa-solid fa-check-double"></i> Verified!';
-                this.disabled = true;
-                joinBtn.style.display = 'none';
-                
-                updateBalance(0.080);
-            });
+  <button
+    onclick="showTab('invite',this)">
+    👥<br>Invite
+  </button>
 
-            // Adsgram Integration
-            let adController = null;
-            try {
-                if (window.Adsgram) {
-                    adController = window.Adsgram.init({ blockId: "YOUR_BLOCK_ID_HERE" });
-                }
-            } catch(e) {
-                console.log("Adsgram init error:", e);
-            }
+  <button
+    onclick="showTab('withdraw',this)">
+    💸<br>Withdraw
+  </button>
 
-            document.getElementById('watchAdBtn').addEventListener('click', function() {
-                if (adController) {
-                    adController.show().then((result) => {
-                        updateBalance(0.005);
-                        alert("Success! Balance increased.");
-                    }).catch((result) => {
-                        alert("Error: Ad was not finished or not ready.");
-                    });
-                } else {
-                    alert("Adsgram is not configured yet. Please put your Block ID.");
-                }
-            });
+</div>
+
+
+<script>
+
+  /* =================================
+     CYBERNOVA SETTINGS
+  ================================= */
+
+  const ADSGRAM_BLOCK_ID = "46454";
+
+  const AD_REWARD = 0.001;
+  const DAILY_REWARD = 0.002;
+  const INVITE_REWARD = 0.003;
+
+  const ADS_PER_DAY_LIMIT = 20;
+
+  const MIN_WITHDRAW = 3.00;
+  const REQUIRED_ADS = 1000;
+  const REQUIRED_INVITES = 50;
+
+  const WITHDRAW_FEE = 0.40;
+
+  const CHANNEL_URL =
+    "https://t.me/CyberNova_Official";
+
+
+  /* =================================
+     TELEGRAM
+  ================================= */
+
+  const tg =
+    window.Telegram?.WebApp;
+
+  if (tg) {
+    tg.ready();
+    tg.expand();
+  }
+
+  const telegramUser =
+    tg?.initDataUnsafe?.user || null;
+
+
+  /* =================================
+     DATA
+  ================================= */
+
+  let balance =
+    Number(
+      localStorage.getItem(
+        "cybernova_balance"
+      ) || 0
+    );
+
+  let totalAds =
+    Number(
+      localStorage.getItem(
+        "cybernova_total_ads"
+      ) || 0
+    );
+
+  let inviteCount =
+    Number(
+      localStorage.getItem(
+        "cybernova_invites"
+      ) || 0
+    );
+
+  let dailyClaim =
+    Number(
+      localStorage.getItem(
+        "cybernova_daily"
+      ) || 0
+    );
+
+  let adDate =
+    localStorage.getItem(
+      "cybernova_ad_date"
+    ) || "";
+
+  let todayAds =
+    Number(
+      localStorage.getItem(
+        "cybernova_today_ads"
+      ) || 0
+    );
+
+
+  /* =================================
+     DATE
+  ================================= */
+
+  function getToday() {
+
+    const d = new Date();
+
+    const y =
+      d.getFullYear();
+
+    const m =
+      String(
+        d.getMonth() + 1
+      ).padStart(2,"0");
+
+    const day =
+      String(
+        d.getDate()
+      ).padStart(2,"0");
+
+    return ${y}-${m}-${day};
+  }
+
+
+  function checkAdDay() {
+
+    const today =
+      getToday();
+
+    if (adDate !== today) {
+
+      adDate = today;
+
+      todayAds = 0;
+
+      localStorage.setItem(
+        "cybernova_ad_date",
+        adDate
+      );
+
+      localStorage.setItem(
+        "cybernova_today_ads",
+        "0"
+      );
+    }
+  }
+
+
+  /* =================================
+     SAVE
+  ================================= */
+
+  function saveData() {
+
+    localStorage.setItem(
+      "cybernova_balance",
+      balance.toFixed(6)
+    );
+
+    localStorage.setItem(
+      "cybernova_total_ads",
+      totalAds
+    );
+
+    localStorage.setItem(
+      "cybernova_invites",
+      inviteCount
+    );
+
+    localStorage.setItem(
+      "cybernova_daily",
+      dailyClaim
+    );
+
+    localStorage.setItem(
+      "cybernova_ad_date",
+      adDate
+    );
+
+    localStorage.setItem(
+      "cybernova_today_ads",
+      todayAds
+    );
+  }
+
+
+  /* =================================
+     UI
+  ================================= */
+
+  function updateUI() {
+
+    checkAdDay();
+
+    document.getElementById(
+      "balance"
+    ).textContent =
+      "$" + balance.toFixed(3);
+
+    document.getElementById(
+      "withdrawBalance"
+    ).textContent =
+      "$" + balance.toFixed(3);
+
+    document.getElementById(
+      "totalAds"
+    ).textContent =
+      totalAds;
+      document.getElementById(
+      "todayAds"
+    ).textContent =
+      ${todayAds}/${ADS_PER_DAY_LIMIT};
+
+    document.getElementById(
+      "adCounter"
+    ).textContent =
+      ${todayAds}/${ADS_PER_DAY_LIMIT};
+
+    document.getElementById(
+      "invites"
+    ).textContent =
+      inviteCount;
+
+    document.getElementById(
+      "inviteCount"
+    ).textContent =
+      inviteCount;
+
+    document.getElementById(
+      "withdrawAds"
+    ).textContent =
+      ${totalAds}/${REQUIRED_ADS};
+
+    document.getElementById(
+      "withdrawInvites"
+    ).textContent =
+      ${inviteCount}/${REQUIRED_INVITES};
+
+
+    const balanceProgress =
+      Math.min(
+        (balance / MIN_WITHDRAW) * 100,
+        100
+      );
+
+    document.getElementById(
+      "balanceProgress"
+    ).style.width =
+      balanceProgress + "%";
+
+
+    const inviteProgress =
+      Math.min(
+        (inviteCount / REQUIRED_INVITES) * 100,
+        100
+      );
+
+    document.getElementById(
+      "inviteProgress"
+    ).style.width =
+      inviteProgress + "%";
+
+
+    const watchBtn =
+      document.getElementById(
+        "watchBtn"
+      );
+
+    if (
+      todayAds >=
+      ADS_PER_DAY_LIMIT
+    ) {
+
+      watchBtn.disabled = true;
+
+      watchBtn.textContent =
+        "✅ DAILY LIMIT REACHED";
+
+    } else {
+
+      watchBtn.disabled = false;
+
+      watchBtn.textContent =
+        "🎬 WATCH AD";
+    }
+
+
+    updateDailyButton();
+
+    saveData();
+  }
+
+
+  /* =================================
+     NAVIGATION
+  ================================= */
+
+  function showTab(
+    id,
+    button
+  ) {
+
+    document
+      .querySelectorAll(".tab")
+      .forEach(tab =>
+        tab.classList.remove(
+          "active"
+        )
+      );
+
+    document
+      .getElementById(id)
+      .classList.add("active");
+
+
+    document
+      .querySelectorAll(".nav button")
+      .forEach(btn =>
+        btn.classList.remove(
+          "active"
+        )
+      );
+
+    button.classList.add("active");
+  }
+
+
+  /* =================================
+     STATUS
+  ================================= */
+
+  function showStatus(
+    id,
+    message
+  ) {
+
+    const box =
+      document.getElementById(id);
+
+    box.style.display =
+      "block";
+
+    box.textContent =
+      message;
+  }
+
+
+  /* =================================
+     ADSGRAM
+  ================================= */
+
+  let adController = null;
+  let adLoading = false;
+
+
+  function initAdsGram() {
+
+    try {
+
+      if (
+        typeof window.Adsgram ===
+        "undefined"
+      ) {
+
+        showStatus(
+          "adStatus",
+          "❌ AdsGram SDK could not be loaded."
+        );
+
+        return false;
+      }
+
+
+      adController =
+        window.Adsgram.init({
+          blockId:
+            ADSGRAM_BLOCK_ID
         });
-    </script>
+
+
+      return true;
+
+    } catch (error) {
+
+      showStatus(
+        "adStatus",
+        "❌ AdsGram initialization failed."
+      );
+
+      return false;
+    }
+  }
+
+
+  /* =================================
+     WATCH AD
+  ================================= */
+
+  async function watchAd() {
+
+    checkAdDay();
+
+
+    if (
+      todayAds >=
+      ADS_PER_DAY_LIMIT
+    ) {
+
+      showStatus(
+        "adStatus",
+        "⚠️ You reached today's 20-ad limit."
+      );
+
+      return;
+    }
+
+
+    if (adLoading) {
+      return;
+    }
+
+
+    if (!adController) {
+
+      if (!initAdsGram()) {
+        return;
+      }
+    }
+
+
+    adLoading = true;
+
+
+    const button =
+      document.getElementById(
+        "watchBtn"
+      );
+
+    button.disabled = true;
+
+    button.textContent =
+      "⏳ LOADING AD...";
+
+
+    showStatus(
+      "adStatus",
+      "🎬 Please watch the advertisement completely."
+    );
+
+
+    try {
+
+      /*
+        Reward is granted only after
+        AdsGram show() resolves successfully.
+      */
+
+      await adController.show();
+
+
+      balance +=
+        AD_REWARD;
+
+      totalAds += 1;
+
+      todayAds += 1;
+
+
+      showStatus(
+        "adStatus",
+        "✅ Completed! +$0.001 added to your balance."
+      );
+
+
+      updateUI();
+
+    } catch (error) {
+        showStatus(
+        "adStatus",
+        "❌ Advertisement was not completed. No reward was added."
+      );
+
+    } finally {
+
+      adLoading = false;
+
+      updateUI();
+    }
+  }
+
+
+  /* =================================
+     DAILY
+  ================================= */
+
+  function updateDailyButton() {
+
+    const button =
+      document.getElementById(
+        "dailyBtn"
+      );
+
+    const now =
+      Date.now();
+
+
+    if (
+      dailyClaim &&
+      now - dailyClaim <
+      24 * 60 * 60 * 1000
+    ) {
+
+      button.disabled = true;
+
+      button.textContent =
+        "⏳ DAILY ALREADY CLAIMED";
+
+    } else {
+
+      button.disabled = false;
+
+      button.textContent =
+        "🎁 CLAIM DAILY";
+    }
+  }
+
+
+  function claimDaily() {
+
+    const now =
+      Date.now();
+
+
+    if (
+      dailyClaim &&
+      now - dailyClaim <
+      24 * 60 * 60 * 1000
+    ) {
+
+      showStatus(
+        "dailyStatus",
+        "⚠️ You already claimed today's reward."
+      );
+
+      return;
+    }
+
+
+    balance +=
+      DAILY_REWARD;
+
+    dailyClaim =
+      now;
+
+
+    showStatus(
+      "dailyStatus",
+      "🎉 Daily reward claimed! +$0.002"
+    );
+
+
+    updateUI();
+  }
+
+
+  /* =================================
+     CHANNEL
+  ================================= */
+
+  function openChannel() {
+
+    if (tg) {
+
+      tg.openTelegramLink(
+        CHANNEL_URL
+      );
+
+    } else {
+
+      window.open(
+        CHANNEL_URL,
+        "_blank"
+      );
+    }
+  }
+
+
+  /* =================================
+     REFERRAL
+  ================================= */
+
+  function getUserId() {
+
+    if (
+      telegramUser?.id
+    ) {
+
+      return telegramUser.id;
+    }
+
+    return "guest";
+  }
+
+
+  function getReferralLink() {
+
+    return (
+      "https://t.me/CyberNova_Bot?start=" +
+      getUserId()
+    );
+  }
+
+
+  function copyReferral() {
+
+    const link =
+      getReferralLink();
+
+
+    if (
+      navigator.clipboard
+    ) {
+
+      navigator.clipboard
+        .writeText(link)
+        .then(() => {
+
+          alert(
+            "✅ Referral link copied!"
+          );
+
+        })
+        .catch(() => {
+
+          alert(link);
+        });
+
+    } else {
+
+      alert(link);
+    }
+  }
+
+
+  function shareReferral() {
+
+    const link =
+      getReferralLink();
+
+    const text =
+      "🚀 Join CyberNova and start earning!";
+
+
+    const shareUrl =
+      "https://t.me/share/url?url=" +
+      encodeURIComponent(link) +
+      "&text=" +
+      encodeURIComponent(text);
+
+
+    if (tg) {
+
+      tg.openTelegramLink(
+        shareUrl
+      );
+
+    } else {
+
+      window.open(
+        shareUrl,
+        "_blank"
+      );
+    }
+  }
+
+
+  /* =================================
+     WITHDRAW
+  ================================= */
+
+  function requestWithdraw() {
+
+    if (
+      balance <
+      MIN_WITHDRAW
+    ) {
+
+      showStatus(
+        "withdrawStatus",
+        "❌ Minimum balance is $3.00."
+      );
+
+      return;
+    }
+
+
+    if (
+      totalAds <
+      REQUIRED_ADS
+    ) {
+
+      showStatus(
+        "withdrawStatus",
+        ❌ You need 1000 completed ads. Current: ${totalAds}.
+      );
+
+      return;
+    }
+
+
+    if (
+      inviteCount <
+      REQUIRED_INVITES
+    ) {
+
+      showStatus(
+        "withdrawStatus",
+        ❌ You need 50 verified invites. Current: ${inviteCount}.
+      );
+
+      return;
+    }
+
+
+    const fee =
+      balance *
+      WITHDRAW_FEE;
+
+    const receive =
+      balance -
+      fee;
+
+
+    showStatus(
+      "withdrawStatus",
+      ✅ Eligible! Balance: $${balance.toFixed(3)} | Fee: $${fee.toFixed(3)} | You receive: $${receive.toFixed(3)}
+    );
+  }
+
+
+  /* =================================
+     USER
+  ================================= */
+
+  function updateUserName() {
+
+    const element =
+      document.getElementById(
+        "username"
+      );
+
+
+    if (!telegramUser) {
+
+      element.textContent =
+        "Guest";
+
+      return;
+    }
+
+
+    if (
+      telegramUser.username
+    ) {
+
+      element.textContent =
+        "@" +
+        telegramUser.username;
+
+    } else {
+
+      element.textContent =
+        telegramUser.first_name ||
+        "User";
+    }
+  }
+    /* =================================
+     REFERRAL UI
+  ================================= */
+
+  function updateReferralUI() {
+
+    document.getElementById(
+      "refLink"
+    ).textContent =
+      getReferralLink();
+  }
+
+
+  /* =================================
+     START
+  ================================= */
+
+  checkAdDay();
+
+  updateUserName();
+
+  updateReferralUI();
+
+  updateUI();
+
+  initAdsGram();
+
+</script>
+
 </body>
 </html>
