@@ -14,6 +14,8 @@
             --neon-green: #39ff14;
             --neon-orange: #ff5e00;
             --neon-purple: #b026ff;
+            --neon-gold: #ffd700;
+            --neon-red: #ff2a2a;
             --bg-dark: #050510;
         }
 
@@ -77,14 +79,13 @@
         .balance-amount { font-size: 48px; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); margin: 15px 0; }
         
         .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; box-shadow: inset 0 0 5px #000; }
-        .progress-fill { width: 2%; height: 100%; background: linear-gradient(90deg, var(--neon-green), #a8ff78); box-shadow: 0 0 10px var(--neon-green); }
+        .progress-fill { width: 2%; height: 100%; background: linear-gradient(90deg, var(--neon-green), #a8ff78); box-shadow: 0 0 10px var(--neon-green); transition: width 0.3s; }
         .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: #fff; margin-top: 10px; font-weight: bold; }
 
         /* Tabs Content */
         .tab-content { display: none; padding: 0 20px; animation: fadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
         /* Task Cards */
         .task-card {
             background: rgba(10, 10, 25, 0.85);
@@ -99,7 +100,7 @@
         
         .task-card::before {
             content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px;
-            background: var(--neon-blue); filter: blur(50px); opacity: 0.3; border-radius: 50%;
+            background: inherit; filter: blur(50px); opacity: 0.3; border-radius: 50%;
         }
 
         .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -123,8 +124,9 @@
         .btn-orange { background: linear-gradient(45deg, var(--neon-orange), #ff0055); color: white; box-shadow: 0 0 20px rgba(255, 94, 0, 0.5); }
         .btn-cyan { background: linear-gradient(45deg, var(--neon-blue), #0051ff); color: white; box-shadow: 0 0 20px rgba(0, 243, 255, 0.5); }
         .btn-disabled { background: #1e1e2f; color: #4b5563; cursor: not-allowed; border: 1px dashed #4b5563; }
+        
         .btn-ad { background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white; box-shadow: 0 0 20px rgba(255, 0, 234, 0.6); font-size: 18px; padding: 20px;}
-        .btn-green { background: linear-gradient(45deg, #10b981, var(--neon-green)); color: #000; box-shadow: 0 0 20px rgba(57, 255, 20, 0.5); }
+        .btn-gold { background: linear-gradient(45deg, var(--neon-gold), #ff8c00); color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
 
         /* Invite Section */
         .invite-box { background: #000; padding: 20px; border-radius: 15px; border: 2px dashed var(--neon-pink); margin-bottom: 20px; position: relative; }
@@ -137,10 +139,10 @@
             display: flex; justify-content: space-around; padding: 15px 5px;
             border-top: 2px solid var(--neon-purple); z-index: 1000;
             box-shadow: 0 -5px 20px rgba(176, 38, 255, 0.3);
-        }
+            }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 11px; transition: 0.3s; width: 20%; font-weight: bold;
-            }
+        }
         .nav-item i { font-size: 20px; margin-bottom: 6px; transition: 0.3s; }
         
         .nav-item.active { color: var(--neon-blue); transform: translateY(-5px); }
@@ -170,7 +172,7 @@
 
     <!-- Ads Tab -->
     <div id="ads-tab" class="tab-content active">
-        <div class="task-card" style="border-color: var(--neon-pink);">
+        <div class="task-card" style="border-color: var(--neon-pink); --neon-blue: var(--neon-pink);">
             <h3 style="margin-bottom: 10px; color: var(--neon-pink); font-size: 22px; text-shadow: 0 0 10px var(--neon-pink);"><i class="fa-solid fa-play"></i> Watch & Earn</h3>
             <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 25px;">Watching ads is the fastest way to increase your balance.</p>
             <button class="btn btn-ad" onclick="watchAd()">
@@ -179,18 +181,18 @@
         </div>
     </div>
 
-    <!-- Daily Reward Tab -->
+    <!-- Daily Reward Tab (New Gold Color) -->
     <div id="daily-tab" class="tab-content">
-        <div class="task-card" style="border-color: var(--neon-green);">
+        <div class="task-card" style="border-color: var(--neon-gold); --neon-blue: var(--neon-gold);">
             <div class="task-header">
-                <div class="task-icon" style="background: rgba(57, 255, 20, 0.2); color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green);"><i class="fa-solid fa-gift"></i></div>
+                <div class="task-icon" style="background: rgba(255, 215, 0, 0.2); color: var(--neon-gold); box-shadow: 0 0 15px var(--neon-gold);"><i class="fa-solid fa-gift"></i></div>
                 <div class="task-title">
-                    <h3>Daily Bonus</h3>
+                    <h3 style="text-shadow: 0 0 5px var(--neon-gold);">Daily Bonus</h3>
                     <p>Claim your free reward every 24 hours</p>
                 </div>
-                <div class="task-reward">+$0.020</div>
+                <div class="task-reward" style="color: var(--neon-gold); border-color: var(--neon-gold); box-shadow: 0 0 10px rgba(255,215,0,0.3);">+$0.020</div>
             </div>
-            <button class="btn btn-green" id="dailyBtn" onclick="claimDaily()">
+            <button class="btn btn-gold" id="dailyBtn" onclick="claimDaily()">
                 <i class="fa-solid fa-hand-holding-dollar"></i> Claim Daily Reward
             </button>
         </div>
@@ -198,7 +200,7 @@
 
     <!-- Tasks Tab -->
     <div id="tasks-tab" class="tab-content">
-        <div class="task-card">
+        <div class="task-card" style="border-color: var(--neon-orange); --neon-blue: var(--neon-orange);">
             <div class="task-header">
                 <div class="task-icon"><i class="fa-solid fa-bullhorn"></i></div>
                 <div class="task-title">
@@ -213,9 +215,7 @@
                 <div class="step"><div class="step-num">2</div> Return to CyberNova</div>
                 <div class="step"><div class="step-num">3</div> Press Verify Task</div>
             </div>
-
-            <!-- Put your channel link here -->
-            <button class="btn btn-orange" id="joinBtn" onclick="joinChannel('https://t.me/YOUR_CHANNEL_HERE')">
+<button class="btn btn-orange" id="joinBtn" onclick="joinChannel('https://t.me/CyberNova_Official')">
                 <i class="fa-solid fa-rocket"></i> Join Official Channel
             </button>
             <button class="btn btn-disabled" id="verifyBtn" onclick="verifyTask()" disabled>
@@ -226,7 +226,7 @@
 
     <!-- Invite Tab -->
     <div id="invite-tab" class="tab-content">
-        <div class="task-card" style="border-color: var(--neon-blue);">
+        <div class="task-card" style="border-color: var(--neon-blue); --neon-blue: var(--neon-blue);">
             <h3 style="margin-bottom: 15px; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); font-size: 20px;"><i class="fa-solid fa-users-rays"></i> Invite Friends</h3>
             <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 20px;">Share your personal CyberNova bot link with friends and earn rewards.</p>
             
@@ -241,12 +241,12 @@
         </div>
     </div>
 
-    <!-- Withdraw Tab -->
+    <!-- Withdraw Tab (New Red Color) -->
     <div id="withdraw-tab" class="tab-content">
-        <div class="task-card" style="text-align: center; border-color: var(--neon-green);">
-            <i class="fa-solid fa-sack-dollar" style="font-size: 60px; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green); margin-bottom: 20px; margin-top: 10px;"></i>
-            <h3 style="color: var(--neon-green); font-size: 24px;">Withdraw Funds</h3>
-            <p style="color: #cbd5e1; font-size: 15px; margin-top: 15px; line-height: 1.6;">Once your balance reaches <span style="color:var(--neon-green); font-weight:bold;">$5.00</span>, you can withdraw your funds.</p>
+        <div class="task-card" style="text-align: center; border-color: var(--neon-red); --neon-blue: var(--neon-red);">
+            <i class="fa-solid fa-sack-dollar" style="font-size: 60px; color: var(--neon-red); text-shadow: 0 0 20px var(--neon-red); margin-bottom: 20px; margin-top: 10px;"></i>
+            <h3 style="color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); font-size: 24px;">Withdraw Funds</h3>
+            <p style="color: #cbd5e1; font-size: 15px; margin-top: 15px; line-height: 1.6;">Once your balance reaches <span style="color:var(--neon-red); font-weight:bold; text-shadow:0 0 5px var(--neon-red);">$5.00</span>, you can withdraw your funds.</p>
         </div>
     </div>
 
@@ -262,124 +262,152 @@
     <!-- Adsgram SDK -->
     <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
     <script>
-        let balance = 0.000;
-        let isJoined = false;
-        let lastClaimDate = localStorage.getItem('cybernova_daily');
+        // گرتنی هەڵەکان بۆ ئەوەی دوگمەکان لە کار نەکەون
+        try {
+            let balance = 0.000;
+            let isJoined = false;
+            let lastClaimDate = localStorage.getItem('cybernova_daily');
 
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.expand();
-            const user = window.Telegram.WebApp.initDataUnsafe?.user;
-            if (user) {
-                document.getElementById('username').innerText = user.first_name;
-                document.getElementById('refLink').innerText = https://t.me/CyberNova_Bot?start=${user.id};
-            }
-        }
-
-        // پشکنینی پاداشتی ڕۆژانە
-        if (lastClaimDate) {
-            let lastDay = new Date(parseInt(lastClaimDate)).toDateString();
-            let today = new Date().toDateString();
-            if (lastDay === today) {
-                let btn = document.getElementById('dailyBtn');
-                btn.classList.remove('btn-green');
-                btn.classList.add('btn-disabled');
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Already Claimed';
-                btn.disabled = true;
-            }
-        }
-
-        function updateBalance(amount) {
-            balance += amount;
-            document.getElementById('balance').innerText = balance.toFixed(3);
-            let percent = (balance / 5.0) * 100;
-            if (percent > 100) percent = 100;
-            document.getElementById('progressFill').style.width = percent + '%';
-            
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-            }
-        }
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            
-            document.getElementById(tabId + '-tab').classList.add('active');
-            element.classList.add('active');
-
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
-            }
-        }
-
-        function claimDaily() {
-            let todayTime = new Date().getTime();
-            localStorage.setItem('cybernova_daily', todayTime);
-            updateBalance(0.020);
-            
-            let btn = document.getElementById('dailyBtn');
-            btn.classList.remove('btn-green');
-            btn.classList.add('btn-disabled');
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Claimed Successfully!';
-            btn.disabled = true;
-            alert("Success! Daily bonus claimed.");
-        }
-
-        function copyRef() {
-            const link = document.getElementById('refLink').innerText;
-            navigator.clipboard.writeText(link);
-            alert("Link copied successfully!");
-        }
-
-        function joinChannel(link) {
+            // وەرگرتنی ناوی بەکارهێنەر
             if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.openTelegramLink(link);
-            } else {
-                window.open(link, '_blank');
+                window.Telegram.WebApp.expand();
+                const user = window.Telegram.WebApp.initDataUnsafe?.user;
+                if (user) {
+                    document.getElementById('username').innerText = user.first_name || "User";
+                    document.getElementById('refLink').innerText = https://t.me/CyberNova_Bot?start=${user.id};
+                }
             }
-            
-            let verifyBtn = document.getElementById('verifyBtn');
-            verifyBtn.classList.remove('btn-disabled');
-            verifyBtn.classList.add('btn-cyan');
-            verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
-            
-            setTimeout(() => {
-                verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Verify Membership';
-                isJoined = true;
-            }, 3000);
-        }
 
-        function verifyTask() {
-            if (!isJoined) {
-                alert("Please join the channel first!");
-                return;
+            // پشکنینی پاداشتی ڕۆژانە
+            if (lastClaimDate) {
+                let lastDay = new Date(parseInt(lastClaimDate)).toDateString();
+                let today = new Date().toDateString();
+                if (lastDay === today) {
+                    let btn = document.getElementById('dailyBtn');
+                    if(btn) {
+                        btn.classList.remove('btn-gold');
+                        btn.classList.add('btn-disabled');
+                        btn.innerHTML = '<i class="fa-solid fa-check"></i> Already Claimed';
+                        btn.disabled = true;
+                    }
+                }
             }
-            
-            let verifyBtn = document.getElementById('verifyBtn');
-            let joinBtn = document.getElementById('joinBtn');
-            
-            verifyBtn.classList.remove('btn-cyan');
-            verifyBtn.style.background = 'var(--neon-green)';
-            verifyBtn.style.boxShadow = '0 0 20px var(--neon-green)';
-            verifyBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> Verified!';
-            verifyBtn.disabled = true;
-            joinBtn.style.display = 'none';
-            
-            updateBalance(0.080);
-        }
 
-        // =========================================================================
-        // 👇👇👇 PUT YOUR ADSGRAM BLOCK ID HERE 👇👇👇
-        // =========================================================================
-        const adController = window.Adsgram.init({ blockId: "YOUR_BLOCK_ID_HERE" }); 
+            // فەنکشنەکان کرانە گڵۆباڵ بۆ ئەوەی لە HTMLـەوە بانگ بکرێن
+            window.updateBalance = function(amount) {
+                balance += amount;
+                document.getElementById('balance').innerText = balance.toFixed(3);
+                let percent = (balance / 5.0) * 100;
+                if (percent > 100) percent = 100;
+                document.getElementById('progressFill').style.width = percent + '%';
+                
+                try {
+                    if (window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred) {
+                        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                    }
+                } catch(e) {}
+            };
 
-        function watchAd() {
-            adController.show().then((result) => {
-                updateBalance(0.005);
-                alert("Success! Balance increased.");
-            }).catch((result) => {
-                alert("Error: Ad was not finished or not ready.");
-            });
+            window.switchTab = function(tabId, element) {
+                try {
+                    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                    element.classList.add('active');
+
+                    if (window.Telegram?.WebApp?.HapticFeedback?.impactOccurred) {
+                        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+                    }
+                } catch(e) { console.log(e); }
+            };
+
+            window.claimDaily = function() {
+                let todayTime = new Date().getTime();
+                localStorage.setItem('cybernova_daily', todayTime);
+                window.updateBalance(0.020);
+                
+                let btn = document.getElementById('dailyBtn');
+                btn.classList.remove('btn-gold');
+                btn.classList.add('btn-disabled');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Claimed Successfully!';
+                btn.disabled = true;
+                alert("Success! Daily bonus claimed.");
+            };
+
+            window.copyRef = function() {
+                const link = document.getElementById('refLink').innerText;
+                navigator.clipboard.writeText(link);
+                alert("Link copied successfully!");
+            };
+
+            window.joinChannel = function(link) {
+                try {
+                    if (window.Telegram?.WebApp?.openTelegramLink) {
+                        window.Telegram.WebApp.openTelegramLink(link);
+                    } else {
+                        window.open(link, '_blank');
+                    }
+                } catch(e) {
+                    window.open(link, '_blank');
+                }
+                
+                let verifyBtn = document.getElementById('verifyBtn');
+                verifyBtn.classList.remove('btn-disabled');
+                verifyBtn.classList.add('btn-cyan');
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
+                
+                setTimeout(() => {
+                    verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Verify Membership';
+                    isJoined = true;
+                }, 3000);
+            };
+
+            window.verifyTask = function() {
+                if (!isJoined) {
+                    alert("Please join the channel first!");
+                    return;
+                }
+                
+                let verifyBtn = document.getElementById('verifyBtn');
+                let joinBtn = document.getElementById('joinBtn');
+                
+                verifyBtn.classList.remove('btn-cyan');
+                verifyBtn.style.background = 'var(--neon-green)';
+                verifyBtn.style.boxShadow = '0 0 20px var(--neon-green)';
+                verifyBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> Verified!';
+                verifyBtn.disabled = true;
+                joinBtn.style.display = 'none';
+                
+                window.updateBalance(0.080);
+            };
+
+            // =========================================================================
+            // Adsgram Initialization (Safe mode)
+            // =========================================================================
+            let adController = null;
+            try {
+                adController = window.Adsgram.init({ blockId: "YOUR_BLOCK_ID_HERE" }); 
+            } catch(e) {
+                console.log("Adsgram Error:", e);
+            }
+
+            window.watchAd = function() {
+                if(adController) {
+                    adController.show().then((result) => {
+                        window.updateBalance(0.005);
+                        alert("Success! Balance increased.");
+                    }).catch((result) => {
+                        alert("Error: Ad was not finished or not ready.");
+                    });
+                } else {
+                    alert("Adsgram is not configured properly yet. Please add your Block ID.");
+                }
+            };
+            
+        } catch(mainError) {
+            console.error("Main script error:", mainError);
         }
     </script>
 </body>
