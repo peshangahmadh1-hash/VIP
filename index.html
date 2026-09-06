@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>StarVault App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ea;
+            --neon-green: #39ff14;
+            --neon-orange: #ff5e00;
+            --neon-purple: #b026ff;
+            --bg-dark: #050510;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background: linear-gradient(45deg, #020024, #090979, #00d4ff, #4facfe);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            padding-bottom: 90px;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+        .header h1 {
+            font-size: 24px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-badge {
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: rgba(5, 5, 16, 0.8);
+            backdrop-filter: blur(8px);
+            margin: 25px 20px;
+            border-radius: 25px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+        .balance-title { color: var(--neon-blue); font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        .balance-amount { font-size: 48px; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); margin: 15px 0; }
+        
+        .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; box-shadow: inset 0 0 5px #000; }
+        .progress-fill { width: 2%; height: 100%; background: linear-gradient(90deg, var(--neon-green), #a8ff78); box-shadow: 0 0 10px var(--neon-green); }
+        .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: #fff; margin-top: 10px; font-weight: bold; }
+
+        /* Tabs Content */
+        .tab-content { display: none; padding: 0 20px; animation: fadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        /* Task Cards */
+        .task-card {
+            background: rgba(10, 10, 25, 0.85);
+          border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .task-card::before {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px;
+            background: var(--neon-blue); filter: blur(50px); opacity: 0.3; border-radius: 50%;
+        }
+
+        .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .task-icon { background: linear-gradient(45deg, var(--neon-orange), #ff2a00); color: #fff; padding: 15px; border-radius: 15px; font-size: 22px; box-shadow: 0 0 15px var(--neon-orange); }
+        .task-title { flex: 1; margin-left: 15px; }
+        .task-title h3 { font-size: 18px; margin-bottom: 4px; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+        .task-title p { color: #a1a1aa; font-size: 13px; }
+        .task-reward { background: rgba(57, 255, 20, 0.2); color: var(--neon-green); padding: 8px 15px; border-radius: 10px; font-weight: bold; font-size: 15px; border: 1px solid var(--neon-green); box-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+        
+        .task-steps { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 15px; margin-bottom: 20px; border-left: 3px solid var(--neon-purple); }
+        .step { display: flex; align-items: center; margin-bottom: 12px; font-size: 14px; color: #e2e8f0; }
+        .step:last-child { margin-bottom: 0; }
+        .step-num { background: var(--neon-purple); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 12px; margin-right: 12px; box-shadow: 0 0 10px var(--neon-purple); }
+
+        /* Buttons */
+        .btn {
+            width: 100%; padding: 16px; border: none; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-orange { background: linear-gradient(45deg, var(--neon-orange), #ff0055); color: white; box-shadow: 0 0 20px rgba(255, 94, 0, 0.5); }
+        .btn-cyan { background: linear-gradient(45deg, var(--neon-blue), #0051ff); color: white; box-shadow: 0 0 20px rgba(0, 243, 255, 0.5); }
+        .btn-disabled { background: #1e1e2f; color: #4b5563; cursor: not-allowed; border: 1px dashed #4b5563; }
+        .btn-ad { background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white; box-shadow: 0 0 20px rgba(255, 0, 234, 0.6); font-size: 18px; padding: 20px;}
+
+        /* Invite Section */
+        .invite-box { background: #000; padding: 20px; border-radius: 15px; border: 2px dashed var(--neon-pink); margin-bottom: 20px; position: relative; }
+        .invite-link { color: var(--neon-blue); font-size: 14px; word-break: break-all; text-align: center; font-family: monospace; letter-spacing: 0.5px; }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(5, 5, 16, 0.95); backdrop-filter: blur(15px);
+            display: flex; justify-content: space-around; padding: 15px 5px;
+            border-top: 2px solid var(--neon-purple); z-index: 1000;
+            box-shadow: 0 -5px 20px rgba(176, 38, 255, 0.3);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 12px; transition: 0.3s; width: 25%; font-weight: bold;
+          }
+        .nav-item i { font-size: 22px; margin-bottom: 6px; transition: 0.3s; }
+        
+        .nav-item.active { color: var(--neon-blue); transform: translateY(-5px); }
+        .nav-item.active i { color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); transform: scale(1.2); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1><i class="fa-solid fa-bolt"></i> StarVault</h1>
+        <div class="user-badge" id="username">User</div>
+    </div>
+
+    <!-- Balance -->
+    <div class="balance-card">
+        <div class="balance-title">Total Balance</div>
+        <div class="balance-amount">$<span id="balance">0.000</span></div>
+        
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-labels">
+            <span>$0.00</span>
+            <span style="color: var(--neon-blue);">Target $5.00</span>
+            <span>$5.00</span>
+        </div>
+    </div>
+
+    <!-- Ads Tab -->
+    <div id="ads-tab" class="tab-content active">
+        <div class="task-card" style="border-color: var(--neon-pink);">
+            <h3 style="margin-bottom: 10px; color: var(--neon-pink); font-size: 22px; text-shadow: 0 0 10px var(--neon-pink);"><i class="fa-solid fa-play"></i> Watch & Earn</h3>
+            <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 25px;">Watching ads is the fastest way to increase your balance.</p>
+            <button class="btn btn-ad" onclick="watchAd()">
+                <i class="fa-solid fa-video"></i> Watch Ad (+$0.005)
+            </button>
+        </div>
+    </div>
+
+    <!-- Tasks Tab -->
+    <div id="tasks-tab" class="tab-content">
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                <div class="task-title">
+                    <h3>Official Community</h3>
+                    <p>Join our Telegram channel</p>
+                </div>
+                <div class="task-reward">+$0.080</div>
+            </div>
+            
+            <div class="task-steps">
+                <div class="step"><div class="step-num">1</div> Open and join the official channel</div>
+                <div class="step"><div class="step-num">2</div> Return to StarVault</div>
+                <div class="step"><div class="step-num">3</div> Press Verify Task</div>
+            </div>
+
+            <!-- Put your channel link here -->
+            <button class="btn btn-orange" id="joinBtn" onclick="joinChannel('https://t.me/YOUR_CHANNEL_HERE')">
+                <i class="fa-solid fa-rocket"></i> Join Official Channel
+            </button>
+            <button class="btn btn-disabled" id="verifyBtn" onclick="verifyTask()" disabled>
+                <i class="fa-solid fa-shield-halved"></i> Verify Membership
+            </button>
+        </div>
+    </div>
+
+    <!-- Invite Tab -->
+    <div id="invite-tab" class="tab-content">
+        <div class="task-card" style="border-color: var(--neon-blue);">
+            <h3 style="margin-bottom: 15px; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); font-size: 20px;"><i class="fa-solid fa-users-rays"></i> Invite Friends</h3>
+            <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 20px;">Share your personal StarVault bot link with friends and earn rewards.</p>
+            
+            <div class="invite-box">
+                <div style="font-size: 12px; color: var(--neon-pink); margin-bottom: 10px; text-transform: uppercase; font-weight: bold;">Your Referral Link</div>
+                <div class="invite-link" id="refLink">https://t.me/StarVault_Real_bot?start=ref_137</div>
+            </div>
+            
+            <button class="btn btn-cyan" onclick="copyRef()">
+                <i class="fa-regular fa-copy"></i> Copy Referral Link
+            </button>
+        </div>
+    </div>
+    <!-- Withdraw Tab -->
+    <div id="withdraw-tab" class="tab-content">
+        <div class="task-card" style="text-align: center; border-color: var(--neon-green);">
+            <i class="fa-solid fa-sack-dollar" style="font-size: 60px; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green); margin-bottom: 20px; margin-top: 10px;"></i>
+            <h3 style="color: var(--neon-green); font-size: 24px;">Withdraw Funds</h3>
+            <p style="color: #cbd5e1; font-size: 15px; margin-top: 15px; line-height: 1.6;">Once your balance reaches <span style="color:var(--neon-green); font-weight:bold;">$5.00</span>, you can withdraw your funds.</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('ads', this)"><i class="fa-solid fa-play"></i>Ads</div>
+        <div class="nav-item" onclick="switchTab('tasks', this)"><i class="fa-solid fa-list-check"></i>Tasks</div>
+        <div class="nav-item" onclick="switchTab('invite', this)"><i class="fa-solid fa-users"></i>Invite</div>
+        <div class="nav-item" onclick="switchTab('withdraw', this)"><i class="fa-solid fa-wallet"></i>Withdraw</div>
+    </div>
+
+    <!-- Adsgram SDK -->
+    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
+    <script>
+        let balance = 0.000;
+        let isJoined = false;
+
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.expand();
+            const user = window.Telegram.WebApp.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('username').innerText = user.first_name;
+                document.getElementById('refLink').innerText = https://t.me/StarVault_bot?start=${user.id};
+            }
+        }
+
+        function updateBalance(amount) {
+            balance += amount;
+            document.getElementById('balance').innerText = balance.toFixed(3);
+            let percent = (balance / 5.0) * 100;
+            if (percent > 100) percent = 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+            
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            
+            document.getElementById(tabId + '-tab').classList.add('active');
+            element.classList.add('active');
+
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+            }
+        }
+
+        function copyRef() {
+            const link = document.getElementById('refLink').innerText;
+            navigator.clipboard.writeText(link);
+            alert("Link copied successfully!");
+        }
+
+        function joinChannel(link) {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.openTelegramLink(link);
+            } else {
+                window.open(link, '_blank');
+            }
+            
+            let verifyBtn = document.getElementById('verifyBtn');
+            verifyBtn.classList.remove('btn-disabled');
+            verifyBtn.classList.add('btn-cyan');
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
+            
+            setTimeout(() => {
+                verifyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Verify Membership';
+                isJoined = true;
+            }, 3000);
+        }
+      function verifyTask() {
+            if (!isJoined) {
+                alert("Please join the channel first!");
+                return;
+            }
+            
+            let verifyBtn = document.getElementById('verifyBtn');
+            let joinBtn = document.getElementById('joinBtn');
+            
+            verifyBtn.classList.remove('btn-cyan');
+            verifyBtn.style.background = 'var(--neon-green)';
+            verifyBtn.style.boxShadow = '0 0 20px var(--neon-green)';
+            verifyBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> Verified!';
+            verifyBtn.disabled = true;
+            joinBtn.style.display = 'none';
+            
+            updateBalance(0.080);
+        }
+
+        // =========================================================================
+        // 👇👇👇 PUT YOUR ADSGRAM BLOCK ID HERE 👇👇👇
+        // =========================================================================
+        const adController = window.Adsgram.init({ blockId: "YOUR_BLOCK_ID_HERE" }); 
+
+        function watchAd() {
+            adController.show().then((result) => {
+                updateBalance(0.005);
+                alert("Success! Balance increased.");
+            }).catch((result) => {
+                alert("Error: Ad was not finished or not ready.");
+            });
+        }
+    </script>
+</body>
+</html>
