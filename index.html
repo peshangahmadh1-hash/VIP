@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NovaPlus - Next-Gen Ecosystem</title>
+    <!-- Telegram WebApp JS -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Adsgram SDK -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <style>
+        :root {
+            --bg-deep: #05070f;
+            --bg-gradient:
+                radial-gradient(circle at 15% 5%, rgba(34, 211, 238, 0.12) 0%, transparent 28%),
+                radial-gradient(circle at 85% 12%, rgba(244, 63, 94, 0.12) 0%, transparent 30%),
+                radial-gradient(circle at 50% 0%, #171038 0%, #05070f 75%);
+            --card-bg: rgba(18, 24, 41, 0.7);
+            --border-glow: rgba(168, 85, 247, 0.25);
+            --primary-glow: linear-gradient(135deg, #06b6d4 0%, #6366f1 38%, #a855f7 68%, #ec4899 100%);
+            --accent-pink: #f43f5e;
+            --accent-cyan: #22d3ee;
+            --accent-green: #34d399;
+            --accent-yellow: #facc15;
+            --accent-orange: #fb923c;
+            --accent-violet: #a78bfa;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 12px 95px 12px;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: auto;
+        }
+
+        /* Top Brand Header */
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 4px 8px 4px;
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--primary-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+            animation: logoPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(139, 92, 246, 0.5); }
+            50% { transform: scale(1.06); box-shadow: 0 0 25px rgba(236, 72, 153, 0.7); }
+        }
+
+        .brand-title {
+            font-size: 21px;
+            font-weight: 800;
+            background: linear-gradient(to right, #60a5fa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-username {
+            font-size: 11px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Main Cards */
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border-glow);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+            position: relative;
+            overflow: hidden;
+        }
+.main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-glow);
+        }
+
+        .card-title-sm {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .card-main-value {
+            font-size: 34px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #22d3ee, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .card-sub-info {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* Stats Grid (2x2) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: linear-gradient(145deg, rgba(10, 15, 28, 0.82), rgba(24, 31, 52, 0.62));
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 8px 20px rgba(0,0,0,0.18);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-2px);
+            border-color: rgba(167, 139, 250, 0.28);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+        }
+
+        .stat-num {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Action Buttons */
+        .action-button {
+            width: 100%;
+            background: var(--primary-glow);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 14px;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+
+        .action-button:active {
+            transform: scale(0.97);
+            opacity: 0.85;
+        }
+
+        /* Rules Box */
+        .rules-box {
+            background: rgba(10, 15, 28, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+
+        .rules-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rules-list {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .rules-list li {
+            font-size: 11px;
+            color: var(--text-muted);
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .rules-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #8b5cf6;
+        }
+
+        /* Tab Sections */
+        .tab-section {
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .tab-section.active {
+            display: flex;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+width: 94%;
+            max-width: 390px;
+            background: rgba(10, 15, 28, 0.88);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            z-index: 100;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 9px;
+            font-weight: 500;
+            padding: 5px 8px;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-item span:first-child {
+            font-size: 15px;
+        }
+
+        .nav-item.active {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), rgba(168, 85, 247, 0.22), rgba(236, 72, 153, 0.16));
+            border: 1px solid rgba(167, 139, 250, 0.42);
+            box-shadow: 0 4px 18px rgba(139, 92, 246, 0.16);
+        }
+
+
+        .color-cyan { color: var(--accent-cyan) !important; }
+        .color-green { color: var(--accent-green) !important; }
+        .color-yellow { color: var(--accent-yellow) !important; }
+        .color-orange { color: var(--accent-orange) !important; }
+        .color-violet { color: var(--accent-violet) !important; }
+
+        .color-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: -25%;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(34, 211, 238, 0.16) 0 5%, transparent 22%),
+                radial-gradient(circle at 88% 15%, rgba(236, 72, 153, 0.15) 0 5%, transparent 24%),
+                radial-gradient(circle at 18% 82%, rgba(52, 211, 153, 0.12) 0 4%, transparent 21%),
+                radial-gradient(circle at 82% 78%, rgba(250, 204, 21, 0.10) 0 4%, transparent 20%),
+                radial-gradient(circle at 50% 48%, rgba(139, 92, 246, 0.10) 0 8%, transparent 32%);
+            animation: ambientGlow 12s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            background:
+                linear-gradient(120deg, transparent 20%, rgba(59,130,246,0.035) 45%, transparent 70%),
+                linear-gradient(300deg, transparent 25%, rgba(244,63,94,0.035) 50%, transparent 75%);
+            animation-duration: 18s;
+        }
+
+        @keyframes ambientGlow {
+            0% { transform: scale(1) rotate(0deg); opacity: .75; }
+            50% { transform: scale(1.08) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1.03) rotate(-2deg); opacity: .8; }
+        }
+
+        .main-card,
+        .rules-box,
+        .stat-box {
+            position: relative;
+        }
+
+        .main-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(34,211,238,.08), transparent 28%),
+                radial-gradient(circle at 100% 100%, rgba(236,72,153,.07), transparent 28%);
+        }
+
+        .bottom-nav::before {
+            content: "";
+position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            pointer-events: none;
+            background: linear-gradient(90deg,
+                rgba(34,211,238,.28),
+                rgba(99,102,241,.18),
+                rgba(168,85,247,.28),
+                rgba(236,72,153,.24));
+            filter: blur(8px);
+            opacity: .65;
+            z-index: -1;
+        }
+
+        /* Footer Copyright */
+        .footer-cr {
+            position: relative;
+            text-align: center;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 15, 0.82);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 200;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #111827;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 22px;
+            padding: 22px 18px;
+            width: 84%;
+            max-width: 300px;
+            text-align: center;
+            transform: scale(0.85);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.65);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .modal-box h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .modal-box p {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-bottom: 18px;
+            line-height: 1.4;
+        }
+
+        .modal-btn {
+            background: var(--primary-glow);
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 11px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .referral-input-group {
+            display: flex;
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 11px;
+            color: var(--text-muted);
+            word-break: break-all;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Header -->
+        <div class="brand-header">
+            <div class="brand-logo-area">
+                <div class="brand-icon">⚡</div>
+                <div class="brand-title">NovaPlus</div>
+            </div>
+            <div class="brand-username">@pesha_Y_zaman</div>
+        </div>
+
+        <!-- 1. HOME TAB -->
+        <div id="tab-home" class="tab-section active">
+            <div class="main-card">
+                <div class="card-title-sm">Your Balance</div>
+                <div class="card-main-value" id="user-balance">$0.002</div>
+                <div class="card-sub-info">Minimum withdrawal: $2.50</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-num" id="stat-total-ads">0</div>
+                    <div class="stat-label">Total Ads</div>
+                </div>
+                <div class="stat-box">
+<div class="stat-num">0/20</div>
+                    <div class="stat-label">Ads Today</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num" id="stat-invites">0</div>
+                    <div class="stat-label">Invites</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">$0.001</div>
+                    <div class="stat-label">Per Ad</div>
+                </div>
+            </div>
+
+            <div class="main-card" style="padding: 16px;">
+                <div class="card-title-sm" style="margin-bottom: 4px;">NovaPlus Ecosystem</div><div style="font-size: 10px; color: var(--text-muted); margin-top: 8px;">Rewarded ads are optional and are shown only after the user taps “WATCH AD”.</div>
+                <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Welcome to NovaPlus. Complete available activities, explore special tasks, and enjoy seamless execution.</p>
+            </div>
+        </div>
+
+        <!-- 2. ADS TAB -->
+        <div id="tab-ads" class="tab-section">
+            <div class="main-card" style="text-align: center;">
+                <div style="font-size: 30px; margin-bottom: 8px;">🎬</div>
+                <div style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;">Watch & Earn</div>
+                <div style="font-size: 20px; font-weight: 700; color: #38bdf8; margin-bottom: 10px;">$0.001</div>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 16px;">Watch the advertisement completely and receive your reward.</p>
+                
+                <button class="action-button" onclick="watchAd()">🎬 WATCH AD</button>
+                <div style="margin-top: 10px; font-size: 11px; color: var(--text-muted);">Today: <span id="ads-today-count">0</span>/20</div>
+            </div>
+
+            <div class="rules-box">
+                <div class="rules-title">📌 Advertisement Rules</div>
+                <ul class="rules-list">
+                    <li>Maximum 20 ads per day.</li>
+                    <li>Each completed ad = $0.001.</li>
+                    <li>Reward after successful completion.</li>
+                    <li>Ads are optional.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. DAILY TAB -->
+        <div id="tab-daily" class="tab-section">
+            <div class="main-card" style="text-align: center;">
+                <div style="font-size: 36px; margin-bottom: 8px;">🎁</div>
+                <div style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;">Daily Reward</div>
+                <div style="font-size: 20px; font-weight: 700; color: #f43f5e; margin-bottom: 10px;">$0.002</div>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 16px;">Claim your daily reward once every 24 hours.</p>
+                
+                <button class="action-button" id="daily-btn" onclick="claimDaily()" style="background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); box-shadow: 0 4px 18px rgba(244, 63, 94, 0.4);">⏳ CLAIM DAILY</button>
+            </div>
+        </div>
+
+        <!-- 4. TASK TAB (Updated with Official Channel) -->
+        <div id="tab-task" class="tab-section">
+            <div class="main-card">
+                <div style="font-size: 17px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">📋 Special Tasks</div>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 14px;">Complete community tasks to boost your rewards.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="background: rgba(10, 15, 28, 0.65); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+<div>
+                            <div style="font-size: 12px; font-weight: 600;">Join Community Official</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Reward: $0.005</div>
+                        </div>
+                        <button onclick="joinChannelTask(this)" style="background: #3b82f6; border: none; color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer;">Join</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. INVITE TAB -->
+        <div id="tab-invite" class="tab-section">
+            <div class="main-card">
+                <div style="font-size: 17px; font-weight: 800; margin-bottom: 4px;">👥 Invite Friends</div>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 14px;">Earn $0.0018 for every verified referral.</p>
+                
+                <div class="referral-input-group" id="ref-link-text">
+                    https://t.me/NovaPlus_Bot?start=5952732391
+                </div>
+
+                <button class="action-button" onclick="copyRefLink()" style="margin-top: 0; margin-bottom: 8px;">📋 COPY REFERRAL LINK</button>
+                <button class="action-button" onclick="shareRefLink()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); box-shadow: none; margin-top: 0;">🚀 SHARE INVITE</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-num" id="stat-ref-count">0</div>
+                    <div class="stat-label">Your Invites</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">10</div>
+                    <div class="stat-label">Required</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. WITHDRAW TAB -->
+        <div id="tab-withdraw" class="tab-section">
+            <div class="main-card">
+                <div class="card-title-sm">💳 Withdraw</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Minimum withdrawal: $2.50</div>
+
+                <div class="stats-grid" style="margin-bottom: 14px;">
+                    <div class="stat-box">
+                        <div class="stat-num" id="withdraw-balance-val">$0.002</div>
+                        <div class="stat-label">Balance</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num color-orange">15%</div>
+                        <div class="stat-label">Fee</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num" id="withdraw-ads-count">0/50</div>
+                        <div class="stat-label">Ads</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num color-green">0/5</div>
+                        <div class="stat-label">Invites</div>
+                    </div>
+                </div>
+
+                <div class="rules-box" style="margin-bottom: 14px;">
+                    <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+                        Withdrawal requires $2.50 balance, 50 completed advertisements and 5 verified invites.
+                    </p>
+                </div>
+
+                <button class="action-button" onclick="requestWithdrawal()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 18px rgba(245, 158, 11, 0.4);">💰 REQUEST WITHDRAWAL</button>
+            </div>
+        </div>
+
+        <div class="footer-cr">NovaPlus &copy; 2026</div>
+
+    </div>
+<!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('home', this)">
+            <span>🏠</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('ads', this)">
+            <span>🎬</span>
+            <span>Ads</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('daily', this)">
+            <span>🎁</span>
+            <span>Daily</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('task', this)">
+            <span>📋</span>
+            <span>Task</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('invite', this)">
+            <span>👥</span>
+            <span>Invite</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('withdraw', this)">
+            <span>💳</span>
+            <span>Withdraw</span>
+        </button>
+    </div>
+
+    <!-- General Popup Modal -->
+    <div class="modal-overlay" id="popupModal">
+        <div class="modal-box">
+            <div class="modal-icon" id="modal-icon">🚀</div>
+            <h3 id="modal-title">Notice</h3>
+            <p id="modal-desc">Message content goes here...</p>
+            <button class="modal-btn" onclick="closeModal()">Got it</button>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        //  لێرەدا Block IDـی خۆت لە Adsgram دادەنێیت երբ وەرگرت 
+        const ADSGRAM_BLOCK_ID = "YOUR_ADSGRAM_BLOCK_ID";
+        let adController = null;
+
+        function initAdsgram() {
+            try {
+                if (!window.Adsgram) {
+                    console.error("AdsGram SDK not loaded.");
+                    return false;
+                }
+
+                if (!ADSGRAM_BLOCK_ID || ADSGRAM_BLOCK_ID === "YOUR_ADSGRAM_BLOCK_ID") {
+                    console.warn("AdsGram Block ID is not configured.");
+                    return false;
+                }
+
+                adController = window.Adsgram.init({
+                    blockId: ADSGRAM_BLOCK_ID
+                });
+
+                return true;
+            } catch (e) {
+                console.error("AdsGram init error:", e);
+                return false;
+            }
+        }
+
+        initAdsgram();
+
+        let state = {
+            balance: 0.002,
+            totalAds: 0,
+            adsToday: 0,
+            invites: 0,
+            dailyClaimed: localStorage.getItem('novaplus_daily_claimed') === new Date().toISOString().slice(0, 10),
+            taskDone: localStorage.getItem('novaplus_task_done') === '1'
+        };
+
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            element.classList.add('active');
+
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.selectionChanged();
+            }
+        }
+
+        function updateUI() {
+            const dailyBtn = document.getElementById('daily-btn');
+            if (state.dailyClaimed && dailyBtn) {
+                dailyBtn.innerText = '✅ CLAIMED';
+                dailyBtn.style.opacity = '0.6';
+            }
+            document.getElementById('user-balance').innerText = '$' + state.balance.toFixed(3);
+            document.getElementById('withdraw-balance-val').innerText = '$' + state.balance.toFixed(3);
+            document.getElementById('stat-total-ads').innerText = state.totalAds;
+            document.getElementById('ads-today-count').innerText = state.adsToday;
+            document.getElementById('withdraw-ads-count').innerText = state.totalAds + '/50';
+            document.getElementById('stat-ref-count').innerText = state.invites;
+        }
+function watchAd() {
+            if (state.adsToday >= 20) {
+                showModal('⚠️', 'Limit Reached', 'You have reached the maximum 20 ads per day limit.');
+                return;
+            }
+
+            if (!adController) {
+                showModal(
+                    '⚠️',
+                    'Ads Unavailable',
+                    'The advertisement system is not ready yet. Please try again later.'
+                );
+                return;
+            }
+
+            adController.show()
+                .then(() => {
+                    // Reward ONLY after AdsGram confirms the rewarded ad completed.
+                    grantAdReward();
+                })
+                .catch((result) => {
+                    console.error("AdsGram show error:", result);
+                    showModal(
+                        '❌',
+                        'Ad Unavailable',
+                        'No advertisement is available right now. Please try again later.'
+                    );
+                });
+        }
+
+        function grantAdReward() {
+            state.balance += 0.001;
+            state.totalAds += 1;
+            state.adsToday += 1;
+            updateUI();
+            showModal('🎉', 'Reward Added!', 'Successfully watched ad. +$0.001 added to your balance.');
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
+        function claimDaily() {
+            if (state.dailyClaimed) {
+                showModal('⏳', 'Already Claimed', 'You can claim your daily reward once every 24 hours.');
+                return;
+            }
+            state.balance += 0.002;
+            state.dailyClaimed = true;
+            localStorage.setItem('novaplus_daily_claimed', new Date().toISOString().slice(0, 10));
+            let btn = document.getElementById('daily-btn');
+            btn.innerText = '✅ CLAIMED';
+            btn.style.opacity = '0.6';
+            updateUI();
+            showModal('🎁', 'Daily Reward', 'Successfully claimed +$0.002 daily bonus!');
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
+        function joinChannelTask(btn) {
+            // کردنەوەی چەناڵی فەرمی لە تلگرام
+            window.open('https://t.me/NovaPlus_Official', '_blank');
+            
+            if (!state.taskDone) {
+                state.taskDone = true;
+                localStorage.setItem('novaplus_task_done', '1');
+                btn.innerText = 'Done ✓';
+                btn.style.background = '#10b981';
+                state.balance += 0.005;
+                updateUI();
+                setTimeout(() => {
+                    showModal('🎯', 'Task Completed', 'Official channel joined! +$0.005 added to your balance.');
+                }, 500);
+            }
+        }
+
+        function copyRefLink() {
+            navigator.clipboard.writeText("https://t.me/NovaPlus_Bot?start=5952732391");
+            showModal('📋', 'Copied', 'Referral link copied to clipboard successfully.');
+        }
+
+        function shareRefLink() {
+            let url = "https://t.me/share/url?url=" + encodeURIComponent("https://t.me/NovaPlus_Bot?start=5952732391") + "&text=" + encodeURIComponent("Join NovaPlus and start exploring ecosystem!");
+            window.open(url, '_blank');
+        }
+
+        function requestWithdrawal() {
+            showModal('💳', 'Withdrawal Request', 'Withdrawal requires $2.50 balance, 50 completed ads and 5 invites. Keep going!');
+        }
+
+        function showModal(icon, title, desc) {
+            document.getElementById('modal-icon').innerText = icon;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('popupModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('popupModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
