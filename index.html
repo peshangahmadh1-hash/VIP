@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#030308" />
   <meta name="color-scheme" content="dark" />
-  <title>LOTIX Mini App - Full RGB Edition</title>
+  <title>LOTIX Mini App - Full RGB Ultra</title>
 
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -15,8 +15,7 @@
   <style>
     :root {
       --bg: #030308;
-      --bg-card: rgba(15, 15, 30, 0.85);
-      --bg-card-hover: rgba(25, 25, 48, 0.95);
+      --bg-card: rgba(12, 12, 28, 0.85);
       
       --neon-pink: #ff007f;
       --neon-purple: #9d00ff;
@@ -27,7 +26,6 @@
       --text-main: #ffffff;
       --text-muted: #8e95b3;
       --border: rgba(255, 255, 255, 0.12);
-      --border-glow: rgba(0, 243, 255, 0.4);
       --radius: 22px;
     }
 
@@ -48,24 +46,23 @@
       overflow-x: hidden;
     }
 
-    /* Animated RGB Dynamic Background */
+    /* Full RGB Ambient Lighting */
     .rgb-background {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
       background: 
-        radial-gradient(circle at 15% 15%, rgba(255, 0, 127, 0.25), transparent 45%),
-        radial-gradient(circle at 85% 20%, rgba(0, 243, 255, 0.25), transparent 45%),
-        radial-gradient(circle at 50% 75%, rgba(157, 0, 255, 0.3), transparent 50%);
+        radial-gradient(circle at 15% 15%, rgba(255, 0, 127, 0.3), transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(0, 243, 255, 0.3), transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(157, 0, 255, 0.35), transparent 50%);
       filter: blur(60px);
-      animation: rgbAmbient 10s infinite alternate ease-in-out;
+      animation: rgbAmbient 8s infinite alternate ease-in-out;
     }
 
     @keyframes rgbAmbient {
       0% { transform: scale(1) rotate(0deg); }
-      50% { transform: scale(1.15) rotate(5deg); }
-      100% { transform: scale(1) rotate(-5deg); }
+      100% { transform: scale(1.15) rotate(8deg); }
     }
 
     /* SPLASH SCREEN (Exact 4 Seconds Loader) */
@@ -78,7 +75,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+      transition: opacity 0.6s ease, visibility 0.6s;
     }
 
     #splash-screen.fade-out {
@@ -87,7 +84,6 @@
     }
 
     .splash-logo-box {
-      position: relative;
       width: 90px;
       height: 90px;
       display: flex;
@@ -99,11 +95,7 @@
       animation: pulseGlow 2s infinite alternate;
     }
 
-    .splash-logo-box span {
-      font-size: 44px;
-      font-weight: 900;
-      color: #fff;
-    }
+    .splash-logo-box span { font-size: 44px; font-weight: 900; color: #fff; }
 
     .splash-title {
       margin-top: 20px;
@@ -154,7 +146,7 @@
       100% { transform: scale(1.05); box-shadow: 0 0 50px var(--neon-cyan); }
     }
 
-    /* APP CONTAINER */
+    /* MAIN APP SHELL */
     #app-container {
       width: 100%;
       max-width: 600px;
@@ -162,7 +154,6 @@
       padding: 16px 16px 110px 16px;
     }
 
-    /* TOP HEADER */
     .header {
       display: flex;
       align-items: center;
@@ -170,11 +161,7 @@
       padding: 8px 0 20px 0;
     }
 
-    .profile-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .profile-info { display: flex; align-items: center; gap: 12px; }
 
     .avatar {
       width: 44px;
@@ -189,44 +176,39 @@
       box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
     }
 
-    .user-details .username {
-      font-size: 16px;
-      font-weight: 800;
-    }
+    .user-details .username { font-size: 16px; font-weight: 800; }
+    .user-details .status { font-size: 11px; color: var(--neon-green); font-weight: 700; }
 
-    .user-details .status {
-      font-size: 11px;
-      color: var(--neon-green);
-      font-weight: 700;
-    }
-
-    /* CARDS */
+    /* ALL CARDS RGB GLOW STYLING */
     .card {
+      position: relative;
       background: var(--bg-card);
       backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 22px;
       margin-bottom: 18px;
-      position: relative;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid transparent;
     }
 
-    /* BALANCE DISPLAY */
-    .balance-card {
-      text-align: center;
-      padding: 30px 20px;
-      border: 1px solid var(--border-glow);
-      box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      padding: 1.5px;
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan), rgba(255,255,255,0.05), var(--neon-purple));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
     }
 
-    .balance-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+    /* BALANCE CARD */
+    .balance-card { text-align: center; padding: 30px 20px; }
+
+    .balance-label { font-size: 12px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
     .balance-amount {
       font-size: 46px;
@@ -240,39 +222,20 @@
       animation: textGradient 4s linear infinite;
     }
 
-    .usd-estimate {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--neon-green);
-    }
+    .usd-estimate { font-size: 15px; font-weight: 800; color: var(--neon-green); }
 
-    /* STATS GRID */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 18px 0;
-    }
+    /* MINING STATS GRID */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
 
     .stat-box {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 14px;
     }
 
-    .stat-box .title {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .stat-box .value {
-      font-size: 16px;
-      font-weight: 800;
-      margin-top: 6px;
-    }
+    .stat-box .title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .stat-box .value { font-size: 16px; font-weight: 800; margin-top: 6px; }
 
     /* BUTTONS */
     .btn {
@@ -290,9 +253,7 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .btn:active {
-      transform: scale(0.97);
-    }
+    .btn:active { transform: scale(0.97); }
 
     .btn-primary {
       background: linear-gradient(90deg, var(--neon-gold), var(--neon-cyan));
@@ -307,16 +268,11 @@
     }
 
     /* BOOST GRID */
-    .boost-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
+    .boost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
 
     .boost-item {
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 18px;
       padding: 16px;
     }
@@ -345,6 +301,96 @@
       font-weight: 900;
       border: none;
       cursor: pointer;
+    }
+
+    /* WITHDRAW PAGE SPECIFIC STYLES */
+    .withdraw-user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      margin-bottom: 16px;
+    }
+
+    .withdraw-user-bar .left-name { font-weight: 800; font-size: 14px; color: #fff; }
+    .withdraw-user-bar .right-id { font-weight: 700; font-size: 12px; color: var(--neon-cyan); }
+
+    .balance-exchange-card {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(0, 243, 255, 0.15));
+      border: 1px solid var(--neon-pink);
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.2);
+    }
+
+    .exchange-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    /* FULL RGB COMING SOON MODAL POPUP */
+    #modal-coming-soon {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: rgba(2, 2, 8, 0.85);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    #modal-coming-soon.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-box {
+      width: min(90%, 400px);
+      padding: 40px 25px;
+      border-radius: 30px;
+      background: #080818;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 50px var(--neon-pink), 0 0 30px var(--neon-cyan);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .modal-box::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 32px;
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-gold), var(--neon-purple));
+      z-index: -1;
+      animation: rgbGradient 3s infinite linear;
+    }
+
+    .modal-box h2 {
+      font-size: 36px;
+      font-weight: 900;
+      margin: 0;
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+    }
+
+    .modal-box p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin: 15px 0 25px 0;
     }
 
     /* TABS */
@@ -386,8 +432,8 @@
 
     .nav-item.active {
       color: #fff;
-      background: linear-gradient(135deg, rgba(255, 0, 127, 0.25), rgba(0, 243, 255, 0.25));
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(135deg, rgba(255, 0, 127, 0.3), rgba(0, 243, 255, 0.3));
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     /* TOAST */
@@ -409,10 +455,7 @@
       transition: all 0.3s ease;
     }
 
-    #toast-msg.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    #toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -431,7 +474,7 @@
     <div class="splash-status-text" id="splash-text">Connecting to Telegram Engine...</div>
   </div>
 
-  <!-- 2. MAIN APPLICATION -->
+  <!-- 2. MAIN APPLICATION LAYER -->
   <div id="app-container">
     
     <!-- TOP HEADER -->
@@ -440,7 +483,7 @@
         <div class="avatar" id="user-avatar">L</div>
         <div class="user-details">
           <div class="username" id="user-name">Telegram User</div>
-          <div class="status">● Mining Session Active</div>
+          <div class="status">● RGB Mining Active</div>
         </div>
       </div>
     </div>
@@ -448,7 +491,6 @@
     <!-- TAB 1: MINING PAGE -->
     <div id="tab-mining" class="tab-content active">
       
-      <!-- BALANCE CARD -->
       <div class="card balance-card">
         <div class="balance-label">Your Balance</div>
         <div class="balance-amount">
@@ -458,7 +500,6 @@
         <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">Conversion: 50 LOT = $1.00 USD</div>
       </div>
 
-      <!-- MINING SESSION CARD -->
       <div class="card">
         <div style="display:flex; justify-content: space-between; align-items:center;">
           <h3 style="margin:0; font-size:16px;">Mining Session</h3>
@@ -494,7 +535,6 @@
         <h3 style="margin:0 0 14px 0; font-size:16px;">Mining Boosts</h3>
         <div class="boost-grid">
           
-          <!-- 2X BOOST -->
           <div class="boost-item">
             <div style="font-weight: 800; font-size: 15px;">⚡ 2x Speed</div>
             <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Watch 5 ads for 24h boost</div>
@@ -505,7 +545,6 @@
             </div>
           </div>
 
-          <!-- 4X BOOST -->
           <div class="boost-item">
             <div style="font-weight: 800; font-size: 15px;">🚀 4x Speed</div>
             <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Watch 20 ads for 6h boost</div>
@@ -521,10 +560,10 @@
 
     </div>
 
-    <!-- TAB 2: TASKS PAGE -->
+    <!-- TAB 2: TASKS PAGE (FULL RGB) -->
     <div id="tab-tasks" class="tab-content">
       <div class="card">
-        <h3 style="margin-top:0;">Available Tasks</h3>
+        <h3 style="margin-top:0; color: var(--neon-cyan);">Available Tasks</h3>
         <p style="font-size:12px; color:var(--text-muted);">Complete simple tasks to earn instant LOTIX rewards.</p>
         
         <div style="display:flex; justify-content:space-between; align-items:center; padding: 14px 0; border-top: 1px solid var(--border);">
@@ -537,15 +576,15 @@
       </div>
     </div>
 
-    <!-- TAB 3: FRIENDS PAGE -->
+    <!-- TAB 3: FRIENDS PAGE (FULL RGB) -->
     <div id="tab-friends" class="tab-content">
       <div class="card">
-        <h3 style="margin-top:0;">Referral System</h3>
+        <h3 style="margin-top:0; color: var(--neon-pink);">Referral System</h3>
         <p style="font-size: 12px; color: var(--text-muted);">
-          Invite friends and earn <strong>0.02 LOTIX</strong> per successful referral!
+          Invite friends and earn <strong style="color: var(--neon-gold);">0.02 LOTIX</strong> per successful referral!
         </p>
 
-        <div style="background: rgba(0,0,0,0.3); border:1px solid var(--border); padding: 12px; border-radius: 14px; font-size: 11px; word-break: break-all; margin-top: 14px;" id="ref-link">
+        <div style="background: rgba(0,0,0,0.4); border:1px solid var(--neon-cyan); padding: 14px; border-radius: 14px; font-size: 11px; word-break: break-all; margin-top: 14px; color: #fff;" id="ref-link">
           https://t.me/Lotix_Official_Bot?start=ref_12345
         </div>
 
@@ -557,6 +596,13 @@
 
     <!-- TAB 4: WITHDRAW PAGE -->
     <div id="tab-withdraw" class="tab-content">
+      
+      <!-- TOP USER ID & NAME BAR -->
+      <div class="withdraw-user-bar">
+        <div class="left-name" id="withdraw-user-name">User Name</div>
+        <div class="right-id" id="withdraw-user-id">ID: 00000000</div>
+      </div>
+
       <div class="card">
         <h3 style="margin-top:0;">Withdrawal Setup</h3>
         
@@ -564,7 +610,27 @@
         <input type="text" id="wallet-input" placeholder="Enter wallet address" style="width:100%; padding: 14px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color:#fff; margin: 8px 0 16px 0;" />
 
         <button class="btn btn-primary" style="background: var(--neon-purple); color:#fff;" onclick="saveWallet()">SAVE WALLET</button>
-        <button class="btn btn-primary" style="margin-top: 12px;" onclick="requestWithdraw()">REQUEST WITHDRAWAL</button>
+        
+        <button class="btn btn-primary" style="margin-top: 12px;" onclick="openComingSoon()">REQUEST WITHDRAWAL</button>
+
+        <!-- RGB BALANCE & EXCHANGE CARD -->
+        <div class="balance-exchange-card">
+          <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Your Balance</div>
+          <div class="exchange-row">
+            <div style="font-size: 24px; font-weight: 900; color: #fff;">
+              <span id="withdraw-bal">0.00000</span> <span style="font-size: 14px; color: var(--neon-cyan);">LOT</span>
+            </div>
+          </div>
+
+          <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 12px 0;"></div>
+
+          <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Exchange with USD</div>
+          <div class="exchange-row">
+            <div style="font-size: 22px; font-weight: 900; color: var(--neon-green);">
+              $ <span id="withdraw-usd">0.00</span> USD
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- PRIVACY POLICY LINK -->
@@ -573,6 +639,15 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- FULL RGB COMING SOON POPUP MODAL -->
+  <div id="modal-coming-soon">
+    <div class="modal-box">
+      <h2>Coming soon...!</h2>
+      <p>Withdrawal feature is under final maintenance and will be unlocked soon!</p>
+      <button class="btn btn-primary" onclick="closeComingSoon()">CLOSE</button>
+    </div>
   </div>
 
   <!-- NAVIGATION BAR -->
@@ -586,7 +661,6 @@
   <div id="toast-msg">Notification</div>
 
   <script>
-    // CONFIGURATION
     const CONFIG = {
       ADSGRAM_BLOCK_ID: "46913",
       USD_PER_LOT: 0.02,
@@ -600,7 +674,6 @@
       CHANNEL_URL: "https://t.me/Lotix_App_Official"
     };
 
-    // LOCAL STORAGE STATE
     let state = {
       balance: parseFloat(localStorage.getItem("lotix_bal")) || 0.00000,
       miningEnd: parseInt(localStorage.getItem("lotix_m_end")) || 0,
@@ -615,7 +688,6 @@
     const tg = window.Telegram?.WebApp;
     if (tg) { tg.ready(); tg.expand(); }
 
-    // SPLASH LOADER (4 SECONDS EXACT)
     window.addEventListener('DOMContentLoaded', () => {
       let progress = 0;
       const bar = document.getElementById('splash-bar');
@@ -624,7 +696,6 @@
       const interval = setInterval(() => {
         progress += 2.5;
         bar.style.width = progress + '%';
-        
         if (progress === 30) txt.innerText = "Authenticating Telegram Session...";
         if (progress === 65) txt.innerText = "Initializing RGB Canvas Engine...";
         if (progress === 90) txt.innerText = "Syncing Mining Engine Data...";
@@ -641,14 +712,19 @@
     function initTelegramData() {
       if (tg?.initDataUnsafe?.user) {
         const u = tg.initDataUnsafe.user;
-        document.getElementById('user-name').innerText = u.first_name + (u.last_name ? " " + u.last_name : "");
+        const fullName = u.first_name + (u.last_name ? " " + u.last_name : "");
+        
+        document.getElementById('user-name').innerText = fullName;
         document.getElementById('user-avatar').innerText = u.first_name.charAt(0).toUpperCase();
         document.getElementById('ref-link').innerText = `https://t.me/${CONFIG.BOT_NAME}?start=ref_${u.id}`;
+
+        // Withdraw page User Header Setup
+        document.getElementById('withdraw-user-name').innerText = fullName;
+        document.getElementById('withdraw-user-id').innerText = "ID: " + u.id;
       }
       if (state.wallet) document.getElementById('wallet-input').value = state.wallet;
     }
 
-    // REALTIME MINING LOGIC
     function calculateMining() {
       const now = Date.now();
       if (!state.miningEnd) {
@@ -685,10 +761,15 @@
       localStorage.setItem("lotix_wallet", state.wallet);
     }
 
-    // UI RENDER
     function render() {
-      document.getElementById('balance-val').innerText = state.balance.toFixed(5);
-      document.getElementById('usd-val').innerText = (state.balance * CONFIG.USD_PER_LOT).toFixed(2);
+      const balFixed = state.balance.toFixed(5);
+      const usdCalculated = (state.balance * CONFIG.USD_PER_LOT).toFixed(2);
+
+      // Home & Withdraw balance updates
+      document.getElementById('balance-val').innerText = balFixed;
+      document.getElementById('usd-val').innerText = usdCalculated;
+      document.getElementById('withdraw-bal').innerText = balFixed;
+      document.getElementById('withdraw-usd').innerText = usdCalculated;
 
       const now = Date.now();
       const isActive = state.miningEnd > now;
@@ -715,7 +796,6 @@
       else if (state.boost2xEnd > now) currentMult = 2;
       document.getElementById('mult-val').innerText = currentMult + "x Boost";
 
-      // Boost Bars Progress
       document.getElementById('fill-2x').style.width = Math.min(100, (state.ads2x / CONFIG.BOOST_2X_ADS) * 100) + "%";
       document.getElementById('txt-2x').innerText = `${state.ads2x}/${CONFIG.BOOST_2X_ADS} ads`;
 
@@ -730,7 +810,6 @@
       return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     }
 
-    // ACTIONS
     function startMining() {
       if (state.miningEnd > Date.now()) return;
       state.miningEnd = Date.now() + CONFIG.MINING_MS;
@@ -784,12 +863,12 @@
       toast("Wallet address saved!");
     }
 
-    function requestWithdraw() {
-      if (!state.wallet) {
-        toast("Save your wallet address first!");
-        return;
-      }
-      toast("Withdrawal request submitted!");
+    function openComingSoon() {
+      document.getElementById('modal-coming-soon').classList.add('show');
+    }
+
+    function closeComingSoon() {
+      document.getElementById('modal-coming-soon').classList.remove('show');
     }
 
     function openChannel() {
@@ -804,7 +883,6 @@
       setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    // MAIN ENGINE LOOP
     setInterval(() => {
       calculateMining();
       render();
