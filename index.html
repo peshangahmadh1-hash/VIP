@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Universal Media Downloader</title>
+    <title>DowanloaderPro - Universal Media Downloader</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -43,7 +43,7 @@
             color: #000;
             font-size: 10px;
             font-weight: 900;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 20px;
             text-transform: uppercase;
         }
@@ -93,7 +93,7 @@
             border-radius: 24px;
             padding: 30px 22px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .hero-title {
@@ -107,7 +107,33 @@
             color: #7e859b;
             font-size: 13px;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        /* Quality Select Bar */
+        .quality-options {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .q-chip {
+            background: #090a0f;
+            border: 1px solid #222638;
+            color: #7e859b;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .q-chip.active {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: #00f2fe;
+            color: #00f2fe;
         }
 
         /* Large Input Field with Paste Button */
@@ -155,19 +181,20 @@
 
         .btn-paste:hover { background: #00f2fe; color: #000; }
 
-        /* Slow Motion RGB Animation for Download Button */
+        /* Slow Motion RGB Animation Keyframes */
         @keyframes slowRgbGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
+        /* Button RGB Container */
         .btn-download-wrapper {
             padding: 3px;
             border-radius: 18px;
             background: linear-gradient(90deg, #ff0055, #7a00ff, #00ffff, #00ff88, #ff0055);
             background-size: 300% 300%;
-            animation: slowRgbGradient 8s ease infinite; /* Slow Motion Effect */
+            animation: slowRgbGradient 8s ease infinite;
             box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
             cursor: pointer;
             transition: transform 0.2s ease;
@@ -200,16 +227,24 @@
             animation: slowRgbGradient 6s ease infinite;
         }
 
-        .btn-download i {
-            color: #00ffff;
-        }
+        .btn-download i { color: #00ffff; }
 
-        /* Video Preview Area */
-        .preview-box {
+        /* Slow Motion RGB Frame for Download/Result Area */
+        .preview-box-rgb-wrapper {
             display: none;
             margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid #222638;
+            padding: 3px;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #00f2fe, #9b51e0, #ff007a, #00f2fe);
+            background-size: 300% 300%;
+            animation: slowRgbGradient 10s ease infinite;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.25);
+        }
+
+        .preview-box {
+            background: #0d0f18;
+            border-radius: 17px;
+            padding: 20px;
             animation: fadeIn 0.4s ease;
         }
 
@@ -223,8 +258,8 @@
         }
 
         .video-thumb {
-            width: 90px;
-            height: 90px;
+            width: 85px;
+            height: 85px;
             border-radius: 12px;
             object-fit: cover;
             background: #090a0f;
@@ -274,6 +309,27 @@
         .dl-link-btn:hover { border-color: #00f2fe; background: #22273f; }
         .dl-link-btn i { color: #00f2fe; }
 
+        /* App Live Stats Bar */
+        .stats-bar {
+            width: 100%;
+            max-width: 600px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: #13151f;
+            border: 1px solid #222638;
+            border-radius: 16px;
+            padding: 12px 5px;
+        }
+
+        .stat-value { font-size: 15px; font-weight: 800; color: #00f2fe; }
+        .stat-label { font-size: 10px; color: #7e859b; font-weight: 600; margin-top: 2px; }
+
         /* How It Works Section */
         .how-section {
             width: 100%;
@@ -285,7 +341,7 @@
         }
 
         .section-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             margin-bottom: 20px;
             display: flex;
@@ -324,7 +380,7 @@
 
         .step-text { font-size: 11px; color: #a0a5b8; font-weight: 600; line-height: 1.4; }
 
-        /* Status & Toast Messages */
+        /* Status Messages */
         #statusText { margin-top: 15px; font-size: 13px; font-weight: 600; text-align: center; }
 
         /* Ad Modal */
@@ -339,7 +395,7 @@
     <!-- Header Logo -->
     <header>
         <div class="logo">
-            <i class="fa-solid fa-cloud-arrow-down"></i> DOWNLOADERPRO
+            <i class="fa-solid fa-cloud-arrow-down"></i> DowanloaderPro
         </div>
         <span class="badge-pro">ULTRA HD</span>
     </header>
@@ -367,7 +423,15 @@
     <!-- Main Card -->
     <div class="main-card">
         <h1 class="hero-title" id="platformTitle">TikTok Downloader</h1>
-        <p class="hero-subtitle">Fast, Free & Watermark-Free HD Downloads</p>
+        <p class="hero-subtitle">Fast, Free & Watermark-Free Downloads</p>
+
+        <!-- Quality Select Chips -->
+        <div class="quality-options">
+            <span class="q-chip active" onclick="selectQuality(this)">Auto Best</span>
+            <span class="q-chip" onclick="selectQuality(this)">4K / HD</span>
+            <span class="q-chip" onclick="selectQuality(this)">1080p</span>
+            <span class="q-chip" onclick="selectQuality(this)">MP3 Audio</span>
+        </div>
 
         <div class="input-wrapper">
             <input type="text" id="urlInput" placeholder="Paste TikTok Link Here!">
@@ -386,19 +450,37 @@
 
         <div id="statusText"></div>
 
-        <!-- Result Preview & Download Box -->
-        <div class="preview-box" id="previewBox">
-            <div class="video-info">
-                <img src="" id="videoThumb" class="video-thumb" alt="Thumbnail">
-                <div class="video-details">
-                    <div class="video-title" id="videoTitle">Video Title Here</div>
-                    <div class="video-author" id="videoAuthor">@author</div>
+        <!-- Result Frame with Slow Motion RGB Border -->
+        <div class="preview-box-rgb-wrapper" id="previewBoxWrapper">
+            <div class="preview-box">
+                <div class="video-info">
+                    <img src="" id="videoThumb" class="video-thumb" alt="Thumbnail">
+                    <div class="video-details">
+                        <div class="video-title" id="videoTitle">Video Title Here</div>
+                        <div class="video-author" id="videoAuthor">@creator</div>
+                    </div>
+                </div>
+
+                <div class="download-options" id="downloadOptions">
+                    <!-- Links injected dynamically -->
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="download-options" id="downloadOptions">
-                <!-- Links injected dynamically -->
-            </div>
+    <!-- Live Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-value">1.2M+</div>
+            <div class="stat-label">Downloads Today</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">10x</div>
+            <div class="stat-label">Fast Speed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Free & Safe</div>
         </div>
     </div>
 
@@ -418,7 +500,7 @@
             </div>
             <div class="step-item">
                 <div class="step-number">3</div>
-                <div class="step-text">Click Extract & save file instantly</div>
+                <div class="step-text">Click Download Now & save file</div>
             </div>
         </div>
     </div>
@@ -441,8 +523,13 @@
 
             document.getElementById('platformTitle').innerText = platform + ' Downloader';
             document.getElementById('urlInput').placeholder = placeholderText;
-            document.getElementById('previewBox').style.display = 'none';
+            document.getElementById('previewBoxWrapper').style.display = 'none';
             document.getElementById('statusText').innerHTML = '';
+        }
+
+        function selectQuality(el) {
+            document.querySelectorAll('.q-chip').forEach(chip => chip.classList.remove('active'));
+            el.classList.add('active');
         }
 
         async function pasteFromClipboard() {
@@ -504,11 +591,11 @@
         async function fetchDownload() {
             const urlInput = document.getElementById('urlInput').value.trim();
             const statusText = document.getElementById('statusText');
-            const previewBox = document.getElementById('previewBox');
+            const previewBoxWrapper = document.getElementById('previewBoxWrapper');
 
             statusText.style.color = '#00f2fe';
-            statusText.innerHTML = '⏳ Extracting video details...';
-            previewBox.style.display = 'none';
+            statusText.innerHTML = '⏳ Processing video details...';
+            previewBoxWrapper.style.display = 'none';
 
             try {
                 const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`);
@@ -517,7 +604,7 @@
                 if (data && data.code === 0) {
                     statusText.innerHTML = '';
                     
-                    document.getElementById('videoThumb').src = data.data.cover || 'https://via.placeholder.com/90';
+                    document.getElementById('videoThumb').src = data.data.cover || 'https://via.placeholder.com/85';
                     document.getElementById('videoTitle').innerText = data.data.title || 'HD Video Content';
                     document.getElementById('videoAuthor').innerText = '@' + (data.data.author.unique_id || 'creator');
 
@@ -532,12 +619,12 @@
                             <i class="fa-solid fa-download"></i>
                         </a>
                         <a href="${data.data.music}" class="dl-link-btn" target="_blank" download>
-                            <span><i class="fa-solid fa-music"></i> Audio Only (MP3)</span>
+                            <span><i class="fa-solid fa-music"></i> Download MP3 Audio</span>
                             <i class="fa-solid fa-download"></i>
                         </a>
                     `;
 
-                    previewBox.style.display = 'block';
+                    previewBoxWrapper.style.display = 'block';
                 } else {
                     statusText.style.color = '#ff3b30';
                     statusText.innerHTML = '❌ Link is invalid or private.';
