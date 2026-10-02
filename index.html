@@ -155,29 +155,56 @@
 
         .btn-paste:hover { background: #00f2fe; color: #000; }
 
-        /* Fetch Button */
+        /* Slow Motion RGB Animation for Download Button */
+        @keyframes slowRgbGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-download-wrapper {
+            padding: 3px;
+            border-radius: 18px;
+            background: linear-gradient(90deg, #ff0055, #7a00ff, #00ffff, #00ff88, #ff0055);
+            background-size: 300% 300%;
+            animation: slowRgbGradient 8s ease infinite; /* Slow Motion Effect */
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-download-wrapper:active { transform: scale(0.98); }
+
         .btn-download {
             width: 100%;
             padding: 18px;
             border: none;
-            background: linear-gradient(135deg, #00f2fe, #4facfe);
-            color: #000;
+            background: #090a0f;
+            color: #ffffff;
             font-size: 16px;
             font-weight: 800;
-            border-radius: 16px;
+            border-radius: 15px;
             cursor: pointer;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.3);
-            transition: 0.3s;
         }
 
-        .btn-download:active { transform: scale(0.98); }
+        .btn-download span {
+            background: linear-gradient(90deg, #00ffff, #00ff88, #ff00ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slowRgbGradient 6s ease infinite;
+        }
 
-        /* Video Preview Area (Appears after fetch) */
+        .btn-download i {
+            color: #00ffff;
+        }
+
+        /* Video Preview Area */
         .preview-box {
             display: none;
             margin-top: 25px;
@@ -312,7 +339,7 @@
     <!-- Header Logo -->
     <header>
         <div class="logo">
-            <i class="fa-solid fa-cloud-arrow-down"></i> SAVEPRO
+            <i class="fa-solid fa-cloud-arrow-down"></i> DOWNLOADERPRO
         </div>
         <span class="badge-pro">ULTRA HD</span>
     </header>
@@ -349,9 +376,13 @@
             </button>
         </div>
 
-        <button class="btn-download" onclick="startProcess()">
-            <i class="fa-solid fa-bolt"></i> Extract Media
-        </button>
+        <!-- Slow Motion RGB Button Container -->
+        <div class="btn-download-wrapper" onclick="startProcess()">
+            <button class="btn-download">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Download Now</span>
+            </button>
+        </div>
 
         <div id="statusText"></div>
 
