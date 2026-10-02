@@ -3,2223 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SnapTikHd - Free TikTok Downloader</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-html{
-    scroll-behavior:smooth;
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:'Poppins','Segoe UI',sans-serif;
-}
-
-body{
-    background:#06050b;
-    color:#fff;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding-bottom:40px;
-    overflow-x:hidden;
-}
-
-button,
-a,
-input{
-    -webkit-tap-highlight-color:transparent;
-}
-
-button{
-    font-family:inherit;
-}
-
-.background-glow{
-    position:fixed;
-    inset:0;
-    z-index:-1;
-    pointer-events:none;
-    overflow:hidden;
-}
-
-.orb{
-    position:absolute;
-    width:350px;
-    height:350px;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:.42;
-}
-
-.orb-1{
-    background:#00ffff;
-    top:-100px;
-    left:-100px;
-    animation:floatOne 8s ease-in-out infinite alternate;
-}
-
-.orb-2{
-    background:#ff0055;
-    right:-100px;
-    bottom:-100px;
-    animation:floatTwo 9s ease-in-out infinite alternate;
-}
-
-@keyframes floatOne{
-    from{transform:translate(0,0) scale(1)}
-    to{transform:translate(40px,35px) scale(1.1)}
-}
-
-@keyframes floatTwo{
-    from{transform:translate(0,0) scale(1)}
-    to{transform:translate(-35px,-30px) scale(1.08)}
-}
-
-/* HEADER */
-
-header{
-    width:100%;
-    max-width:1100px;
-    padding:20px 25px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:rgba(6,5,11,.92);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.logo{
-    font-size:24px;
-    font-weight:900;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:linear-gradient(45deg,#00ffff,#ff0055);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.nav-links{
-    display:flex;
-    gap:18px;
-    align-items:center;
-}
-
-.nav-link{
-    color:#aaa;
-    text-decoration:none;
-    font-size:12px;
-    font-weight:600;
-    transition:.3s;
-}
-
-.nav-link:hover{
-    color:#00ffff;
-}
-
-/* TOP AD */
-
-.ad-banner-top{
-    width:92%;
-    max-width:728px;
-    min-height:40px;
-    margin:10px 0 5px;
-}
-
-/* MAIN CARD */
-
-.main-card{
-    width:92%;
-    max-width:520px;
-    margin-top:10px;
-    padding:35px 25px;
-    text-align:center;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:24px;
-    backdrop-filter:blur(20px);
-    box-shadow:
-        0 0 50px rgba(0,0,0,.8),
-        0 0 25px rgba(0,255,255,.13);
-}
-
-h1{
-    font-size:32px;
-    font-weight:800;
-    margin-bottom:8px;
-    background:linear-gradient(45deg,#00ffff,#ff0055);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.hero-desc{
-    color:#aaa;
-    font-size:13px;
-    margin-bottom:25px;
-    line-height:1.5;
-}
-
-/* INPUT */
-
-.input-wrapper{
-    position:relative;
-    margin-bottom:20px;
-}
-
-.input-wrapper i{
-    position:absolute;
-    left:15px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#666;
-    font-size:16px;
-    pointer-events:none;
-}
-
-input[type="text"]{
-    width:100%;
-    padding:16px 16px 16px 45px;
-    background:rgba(0,0,0,.5);
-    border:2px solid rgba(255,255,255,.1);
-    border-radius:14px;
-    color:#fff;
-    font-size:14px;
-    outline:none;
-    transition:.3s;
-}
-
-input[type="text"]:focus{
-    border-color:#00ffff;
-    box-shadow:0 0 15px rgba(0,255,255,.3);
-}
-
-/* QUALITY */
-
-.option-title{
-    font-size:11px;
-    color:#888;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    text-align:left;
-    margin-bottom:8px;
-    font-weight:600;
-}
-
-.quality-selector{
-    display:flex;
-    gap:10px;
-    margin-bottom:18px;
-}
-[10/2/2026 6:44 AM] Pesha Y Zaman: .quality-btn{
-    flex:1;
-    padding:12px 6px;
-    background:rgba(255,255,255,.03);
-    border:1px solid rgba(255,255,255,.1);
-    color:#aaa;
-    border-radius:12px;
-    cursor:pointer;
-    font-size:12px;
-    font-weight:600;
-    transition:.25s;
-    touch-action:manipulation;
-}
-
-.quality-btn:hover{
-    border-color:#00ffff;
-    color:#fff;
-}
-
-.quality-btn:active{
-    transform:scale(.97);
-}
-
-.quality-btn span{
-    display:block;
-    margin-top:4px;
-    color:#666;
-    font-size:9px;
-}
-
-.quality-btn.active{
-    background:rgba(0,255,255,.1);
-    border-color:#00ffff;
-    color:#fff;
-    box-shadow:0 0 15px rgba(0,255,255,.25);
-}
-
-.quality-btn.active span{
-    color:#00ffff;
-}
-
-/* DOWNLOAD */
-
-.btn-download{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:14px;
-    color:#fff;
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-    transition:.25s;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    touch-action:manipulation;
-}
-
-.btn-download.locked{
-    background:linear-gradient(45deg,#343434,#191919);
-    border:1px solid rgba(255,170,0,.35);
-    color:#aaa;
-    box-shadow:0 0 15px rgba(255,170,0,.08);
-}
-
-.btn-download.unlocked{
-    background:linear-gradient(45deg,#00ff88,#00c8ff);
-    color:#00100b;
-    box-shadow:0 0 25px rgba(0,255,136,.35);
-}
-
-.btn-download:hover{
-    transform:translateY(-2px);
-}
-
-.btn-download:disabled{
-    opacity:.65;
-    cursor:wait;
-    transform:none;
-}
-
-/* AD BUTTON */
-
-.fun-ad-section{
-    margin-top:16px;
-}
-
-.fun-ad-btn{
-    width:100%;
-    padding:13px;
-    border:1px dashed #ffaa00;
-    background:rgba(255,170,0,.08);
-    color:#ffaa00;
-    font-size:13px;
-    font-weight:700;
-    border-radius:12px;
-    cursor:pointer;
-    transition:.25s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    touch-action:manipulation;
-}
-
-.fun-ad-btn:hover{
-    background:#ffaa00;
-    color:#000;
-    box-shadow:0 0 20px rgba(255,170,0,.45);
-}
-
-.fun-ad-btn:active{
-    transform:scale(.98);
-}
-
-.fun-ad-btn.attention{
-    animation:adPulse .65s ease-in-out 2;
-}
-
-@keyframes adPulse{
-    0%,100%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.035);
-        box-shadow:0 0 30px rgba(255,170,0,.7);
-    }
-}
-
-/* AD PROGRESS */
-
-.ad-progress{
-    display:none;
-    margin-top:15px;
-    padding:14px;
-    background:rgba(255,170,0,.06);
-    border:1px solid rgba(255,170,0,.18);
-    border-radius:14px;
-}
-
-.ad-progress-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:8px;
-    font-size:11px;
-}
-
-.ad-progress-title{
-    color:#aaa;
-    font-weight:600;
-}
-
-#adProgressCount{
-    color:#ffaa00;
-    font-weight:800;
-}
-
-.progress-track{
-    width:100%;
-    height:7px;
-    background:rgba(255,255,255,.08);
-    border-radius:20px;
-    overflow:hidden;
-}
-
-#progressBar{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#ffaa00,#00ffff);
-    border-radius:20px;
-    transition:width .4s ease;
-}
-
-.ad-progress-note{
-    margin-top:7px;
-    color:#777;
-    font-size:10px;
-    line-height:1.4;
-}
-
-.manual-ad-link{
-    display:none;
-    margin:10px auto 0;
-    padding:9px 14px;
-    border-radius:9px;
-    background:rgba(255,170,0,.12);
-    border:1px solid rgba(255,170,0,.35);
-    color:#ffaa00;
-    text-decoration:none;
-    font-size:11px;
-    font-weight:700;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-}
-
-/* STATUS */
-
-#statusText{
-    margin-top:14px;
-    min-height:20px;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.status-success{
-    color:#00ff88;
-}
-
-.status-warning{
-    color:#ffaa00;
-}
-
-.status-error{
-    color:#ff3366;
-}
-
-.status-info{
-    color:#00ffff;
-}
-
-/* SECTIONS */
-
-.features-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    width:92%;
-    max-width:520px;
-    margin-top:35px;
-}
-.feature-card{
-    background:rgba(255,255,255,.02);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:16px;
-    padding:16px;
-    text-align:left;
-}
-
-.feature-card i{
-    font-size:20px;
-    color:#00ffff;
-    margin-bottom:8px;
-}
-
-.feature-card h3{
-    font-size:14px;
-    margin-bottom:4px;
-}
-
-.feature-card p{
-    font-size:11px;
-    color:#888;
-    line-height:1.4;
-}
-
-.steps-section{
-    width:92%;
-    max-width:520px;
-    margin-top:35px;
-    text-align:left;
-    scroll-margin-top:80px;
-}
-
-.steps-container{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    margin-top:15px;
-}
-
-.step-item{
-    background:rgba(255,255,255,.02);
-    border:1px solid rgba(255,255,255,.06);
-    border-radius:14px;
-    padding:14px 18px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.step-number{
-    width:36px;
-    height:36px;
-    flex-shrink:0;
-    background:rgba(0,255,255,.1);
-    border:1px solid #00ffff;
-    color:#00ffff;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;
-}
-
-.step-info h4{
-    font-size:13px;
-}
-
-.step-info p{
-    font-size:11px;
-    color:#aaa;
-}
-
-.platforms-box{
-    width:92%;
-    max-width:520px;
-    margin-top:30px;
-    background:rgba(255,255,255,.02);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:16px;
-    padding:20px;
-    text-align:center;
-}
-
-.platforms-icons{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    margin-top:12px;
-    font-size:24px;
-    color:#00ffff;
-}
-
-/* STATS */
-
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    width:92%;
-    max-width:520px;
-    margin-top:25px;
-}
-
-.stat-box{
-    background:rgba(255,255,255,.02);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:14px;
-    padding:15px 10px;
-    text-align:center;
-}
-
-.stat-number{
-    font-size:18px;
-    font-weight:800;
-    color:#00ffff;
-}
-
-.stat-label{
-    font-size:10px;
-    color:#777;
-    text-transform:uppercase;
-    margin-top:4px;
-}
-
-/* FAQ */
-
-.content-section{
-    width:92%;
-    max-width:520px;
-    margin-top:35px;
-    text-align:left;
-    scroll-margin-top:80px;
-}
-
-.section-title{
-    font-size:18px;
-    color:#fff;
-    margin-bottom:15px;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.section-title i{
-    color:#ff0055;
-}
-
-.faq-item{
-    background:rgba(255,255,255,.03);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:12px;
-    padding:14px 18px;
-    margin-bottom:10px;
-    cursor:pointer;
-}
-
-.faq-question{
-    font-size:13px;
-    font-weight:600;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.faq-question i{
-    transition:.25s;
-}
-
-.faq-item.active .faq-question i{
-    transform:rotate(180deg);
-}
-
-.faq-answer{
-    font-size:12px;
-    color:#aaa;
-    line-height:1.5;
-    margin-top:10px;
-    display:none;
-}
-
-.faq-item.active .faq-answer{
-    display:block;
-}
-
-/* FOOTER */
-
-footer{
-    margin-top:40px;
-    text-align:center;
-    color:#555;
-    font-size:12px;
-    width:100%;
-}
-
-.footer-links{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:15px;
-    margin-bottom:12px;
-}
-
-.footer-links a{
-    color:#888;
-    text-decoration:none;
-    font-size:11px;
-}
-
-.footer-links a:hover{
-    color:#00ffff;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-    header{
-        padding:16px;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    .nav-links{
-        gap:10px;
-    }
-
-    .nav-link{
-        font-size:10px;
-    }
-
-    .main-card{
-        padding:28px 17px;
-    }
-
-    h1{
-        font-size:29px;
-    }
-
-    .quality-selector{
-        gap:6px;
-    }
-
-    .quality-btn{
-        padding:11px 3px;
-        font-size:10px;
-    }
-
-    .quality-btn span{
-        font-size:8px;
-    }
-
-    .stats-grid{
-        gap:6px;
-    }
-
-    .stat-number{
-        font-size:15px;
-    }
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Poppins,sans-serif}
+html{scroll-behavior:smooth}
+body{background:#06050b;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px;overflow-x:hidden}
+button,a,input{-webkit-tap-highlight-color:transparent}
+button{font-family:inherit}
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.orb{position:absolute;width:350px;height:350px;border-radius:50%;filter:blur(100px);opacity:.42}
+.o1{background:#0ff;top:-100px;left:-100px}
+.o2{background:#f05;right:-100px;bottom:-100px}
+header{width:100%;max-width:1100px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;background:rgba(6,5,11,.92);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-size:22px;font-weight:900;display:flex;align-items:center;gap:10px;background:linear-gradient(45deg,#0ff,#f05);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+nav{display:flex;gap:14px}
+nav a{color:#aaa;text-decoration:none;font-size:12px;font-weight:600}
+nav a:hover{color:#0ff}
+.card{width:92%;max-width:520px;margin-top:20px;padding:32px 22px;text-align:center;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:24px;box-shadow:0 0 50px rgba(0,0,0,.8),0 0 25px rgba(0,255,255,.13)}
+h1{font-size:30px;font-weight:800;margin-bottom:8px;background:linear-gradient(45deg,#0ff,#f05);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.desc{color:#aaa;font-size:13px;margin-bottom:22px}
+.input{position:relative;margin-bottom:18px}
+.input i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#666;pointer-events:none}
+input{width:100%;padding:16px 16px 16px 45px;background:rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.1);border-radius:14px;color:#fff;font-size:14px;outline:none}
+input:focus{border-color:#0ff}
+.label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;text-align:left;margin-bottom:8px;font-weight:600}
+.q{display:flex;gap:8px;margin-bottom:18px}
+.qb{flex:1;padding:12px 4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:#aaa;border-radius:12px;cursor:pointer;font-size:12px;font-weight:600}
+.qb span{display:block;margin-top:4px;color:#666;font-size:10px}
+.qb.active{background:rgba(0,255,255,.1);border-color:#0ff;color:#fff}
+.qb.active span{color:#0ff}
+.btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:10px}
+#dl.locked{background:linear-gradient(45deg,#343434,#191919);border:1px solid rgba(255,170,0,.35);color:#aaa}
+#dl.unlocked{background:linear-gradient(45deg,#00ff88,#00c8ff);color:#00100b}
+#ad{margin-top:14px;padding:13px;border:1px dashed #fa0;background:rgba(255,170,0,.08);color:#fa0;font-size:13px;font-weight:700;border-radius:12px}
+.bar{height:7px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-top:14px}
+#bar{width:0;height:100%;background:linear-gradient(90deg,#fa0,#0ff);transition:width .4s}
+#manual{display:none;margin-top:10px;padding:9px 14px;border-radius:9px;background:rgba(255,170,0,.12);border:1px solid rgba(255,170,0,.35);color:#fa0;text-decoration:none;font-size:12px;font-weight:700}
+#msg{margin-top:14px;min-height:20px;font-size:12px;line-height:1.5}
+.success{color:#0f8}.warning{color:#fa0}.error{color:#f36}.info{color:#0ff}
+.sec{width:92%;max-width:520px;margin-top:32px;text-align:left;scroll-margin-top:80px}
+.sec h2{font-size:18px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
+.box i{color:#0ff;font-size:20px;margin-bottom:8px}
+.box h3,.box h4{font-size:14px;margin-bottom:4px}
+.box p{font-size:11px;color:#999;line-height:1.4}
+.step{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+.num{width:34px;height:34px;flex-shrink:0;border:1px solid #0ff;color:#0ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
+.faq{cursor:pointer;margin-bottom:10px}
+.faq b{font-size:13px;display:block}
+.faq p{display:none;margin-top:8px;font-size:12px;color:#aaa;line-height:1.5}
+.faq.open p{display:block}
+footer{margin-top:40px;text-align:center;color:#555;font-size:12px}
+footer a{color:#888;text-decoration:none;font-size:11px;margin:0 8px}
 </style>
 </head>
-
 <body>
 
-<div class="background-glow">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-</div>
+<div class="glow"><div class="orb o1"></div><div class="orb o2"></div></div>
 
 <header>
-[10/2/2026 6:44 AM] Pesha Y Zaman: <div class="logo">
-        <i class="fa-brands fa-tiktok"></i>
-        SnapTikHd
-    </div>
-
-    <div class="nav-links">
-
-        <a href="#how-to" class="nav-link">
-            How to Use
-        </a>
-
-        <a href="#features" class="nav-link">
-            Features
-        </a>
-
-        <a href="#faq" class="nav-link">
-            FAQ
-        </a>
-
-    </div>
-
+  <div class="logo"><i class="fa-brands fa-tiktok"></i> SnapTikHd</div>
+  <nav><a href="#how">How to Use</a><a href="#features">Features</a><a href="#faq">FAQ</a></nav>
 </header>
 
-<div class="ad-banner-top"></div>
+<div class="card">
+  <h1>SnapTikHd</h1>
+  <p class="desc">Download TikTok Videos Without Watermark in HD &amp; 1080p</p>
 
-<!-- MAIN -->
+  <div class="input">
+    <i class="fa-solid fa-link"></i>
+    <input type="text" id="url" placeholder="Paste TikTok video link here..." autocomplete="off" spellcheck="false">
+  </div>
 
-<div class="main-card">
+  <div class="label">Select Quality / Format:</div>
+  <div class="q">
+    <button type="button" class="qb active" data-q="hd" data-ads="1"><i class="fa-solid fa-video"></i> HD Video<span>1 Ad</span></button>
+    <button type="button" class="qb" data-q="fullhd" data-ads="5"><i class="fa-solid fa-film"></i> 1080p<span>5 Ads</span></button>
+    <button type="button" class="qb" data-q="mp3" data-ads="1"><i class="fa-solid fa-music"></i> MP3<span>1 Ad</span></button>
+  </div>
 
-    <h1>SnapTikHd</h1>
+  <button type="button" class="btn locked" id="dl"><i class="fa-solid fa-lock"></i> UNLOCK WITH AD</button>
+  <button type="button" class="btn" id="ad"><i class="fa-solid fa-gift"></i> WATCH AD</button>
 
-    <p class="hero-desc">
-        Download TikTok Videos Without Watermark in HD & 1080p
-    </p>
-
-    <div class="input-wrapper">
-
-        <i class="fa-solid fa-link"></i>
-
-        <input
-            type="text"
-            id="urlInput"
-            placeholder="Paste TikTok video link here..."
-            autocomplete="off"
-            spellcheck="false"
-        >
-
-    </div>
-
-    <div class="option-title">
-        Select Quality / Format:
-    </div>
-
-    <div class="quality-selector">
-
-        <button
-            type="button"
-            class="quality-btn active"
-            data-quality="hd"
-            data-ads="1"
-        >
-            <i class="fa-solid fa-video"></i>
-            HD Video
-            <span>1 Ad</span>
-        </button>
-
-        <button
-            type="button"
-            class="quality-btn"
-            data-quality="fullhd"
-            data-ads="5"
-        >
-            <i class="fa-solid fa-film"></i>
-            1080p Full HD
-            <span>5 Ads</span>
-        </button>
-
-        <button
-            type="button"
-            class="quality-btn"
-            data-quality="mp3"
-            data-ads="1"
-        >
-            <i class="fa-solid fa-music"></i>
-            MP3 Audio
-            <span>1 Ad</span>
-        </button>
-
-    </div>
-
-    <button
-        type="button"
-        class="btn-download locked"
-        id="downloadBtn"
-    >
-        <i class="fa-solid fa-lock"></i>
-        UNLOCK WITH AD
-    </button>
-
-    <div class="fun-ad-section">
-
-        <button
-            type="button"
-            class="fun-ad-btn"
-            id="funAdBtn"
-        >
-            <i class="fa-solid fa-gift"></i>
-            WATCH AD
-        </button>
-
-    </div>
-
-    <div
-        class="ad-progress"
-        id="adProgressBox"
-    >
-
-        <div class="ad-progress-top">
-
-            <span class="ad-progress-title">
-                Ads Opened
-            </span>
-
-            <span id="adProgressCount">
-                0 / 1
-            </span>
-
-        </div>
-
-        <div class="progress-track">
-            <div id="progressBar"></div>
-        </div>
-
-        <div class="ad-progress-note">
-            Open the required advertisement(s) to unlock this download.
-        </div>
-
-        <a
-            id="manualAdLink"
-            class="manual-ad-link"
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            Open Advertisement
-        </a>
-
-    </div>
-
-    <div id="statusText"></div>
-
+  <div class="bar"><div id="bar"></div></div>
+  <a id="manual" href="#" target="_blank" rel="noopener noreferrer">Open Advertisement</a>
+  <div id="msg" class="info">Paste your TikTok link, then open the required ad.</div>
 </div>
 
-<!-- HOW TO -->
-
-<div class="steps-section" id="how-to">
-
-    <div class="section-title">
-        <i class="fa-solid fa-list-check"></i>
-        How to Download TikTok Videos
-    </div>
-
-    <div class="steps-container">
-
-        <div class="step-item">
-
-            <div class="step-number">1</div>
-
-            <div class="step-info">
-
-                <h4>Copy Video Link</h4>
-
-                <p>
-                    Open TikTok, tap Share and copy the video link.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="step-item">
-
-            <div class="step-number">2</div>
-
-            <div class="step-info">
-
-                <h4>Paste in SnapTikHd</h4>
-
-                <p>
-                    Paste your TikTok link and select your quality.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="step-item">
-
-            <div class="step-number">3</div>
-
-            <div class="step-info">
-
-                <h4>Unlock & Download</h4>
-<p>
-                    Open the required advertisement(s), then download.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<div class="sec" id="how">
+  <h2>How to Download</h2>
+  <div class="step"><div class="num">1</div><div><h4>Copy Video Link</h4><p style="font-size:11px;color:#aaa">Open TikTok, tap Share and copy the link.</p></div></div>
+  <div class="step"><div class="num">2</div><div><h4>Paste in SnapTikHd</h4><p style="font-size:11px;color:#aaa">Paste the link and select quality.</p></div></div>
+  <div class="step"><div class="num">3</div><div><h4>Unlock &amp; Download</h4><p style="font-size:11px;color:#aaa">Open the required ad(s), then download.</p></div></div>
 </div>
 
-<!-- FEATURES -->
-
-<div class="features-grid" id="features">
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-ban"></i>
-
-        <h3>No Watermark</h3>
-
-        <p>
-            Download supported TikTok videos without the TikTok watermark.
-        </p>
-
-    </div>
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-bolt"></i>
-
-        <h3>Fast Processing</h3>
-
-        <p>
-            Quick video processing with a simple download experience.
-        </p>
-
-    </div>
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-infinity"></i>
-
-        <h3>Easy to Use</h3>
-
-        <p>
-            Paste your link, unlock the download and save your media.
-        </p>
-
-    </div>
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-headphones"></i>
-
-        <h3>Audio Extractor</h3>
-
-        <p>
-            Convert supported TikTok videos into audio.
-        </p>
-
-    </div>
-
+<div class="sec" id="features">
+  <div class="grid">
+    <div class="box"><i class="fa-solid fa-ban"></i><h3>No Watermark</h3><p>Download supported videos without the watermark.</p></div>
+    <div class="box"><i class="fa-solid fa-bolt"></i><h3>Fast</h3><p>Quick processing, simple experience.</p></div>
+    <div class="box"><i class="fa-solid fa-infinity"></i><h3>Easy to Use</h3><p>Paste, unlock and save.</p></div>
+    <div class="box"><i class="fa-solid fa-headphones"></i><h3>Audio</h3><p>Convert supported videos to MP3.</p></div>
+  </div>
 </div>
 
-<!-- PLATFORMS -->
-
-<div class="platforms-box">
-
-    <div style="font-size:13px;font-weight:700;color:#fff;">
-        Supported Devices & Browsers
-    </div>
-
-    <div class="platforms-icons">
-
-        <i class="fa-brands fa-android" title="Android"></i>
-
-        <i class="fa-brands fa-apple" title="iOS & Mac"></i>
-
-        <i class="fa-brands fa-windows" title="Windows"></i>
-
-        <i class="fa-brands fa-chrome" title="Chrome"></i>
-
-    </div>
-
-</div>
-
-<!-- STATS -->
-
-<div class="stats-grid">
-
-    <div class="stat-box">
-
-        <div class="stat-number" id="downloadCount">
-            1,842,910
-        </div>
-
-        <div class="stat-label">
-            Local Counter
-        </div>
-
-    </div>
-
-    <div class="stat-box">
-
-        <div class="stat-number">
-            Fast
-        </div>
-
-        <div class="stat-label">
-            Processing
-        </div>
-
-    </div>
-
-    <div class="stat-box">
-
-        <div class="stat-number">
-            Free
-        </div>
-
-        <div class="stat-label">
-            Service
-        </div>
-
-    </div>
-
-</div>
-
-<!-- FAQ -->
-
-<div class="content-section" id="faq">
-
-    <div class="section-title">
-
-        <i class="fa-solid fa-circle-question"></i>
-
-        Frequently Asked Questions
-
-    </div>
-
-    <div class="faq-item">
-
-        <div class="faq-question">
-
-            <span>
-                Do I need to pay to download?
-            </span>
-
-            <i class="fa-solid fa-chevron-down"></i>
-
-        </div>
-
-        <div class="faq-answer">
-
-            SnapTikHd does not charge a direct download fee.
-            An advertisement may be required before downloading.
-
-        </div>
-
-    </div>
-
-    <div class="faq-item">
-
-        <div class="faq-question">
-
-            <span>
-                Does it remove the TikTok watermark?
-            </span>
-
-            <i class="fa-solid fa-chevron-down"></i>
-
-        </div>
-
-        <div class="faq-answer">
-
-            The available download source determines whether
-            a watermark-free version is returned.
-
-        </div>
-
-    </div>
-
-    <div class="faq-item">
-
-        <div class="faq-question">
-
-            <span>
-                Can I convert TikTok videos to MP3?
-            </span>
-
-            <i class="fa-solid fa-chevron-down"></i>
-
-        </div>
-
-        <div class="faq-answer">
-
-            Select MP3 Audio when supported by the source API.
-
-        </div>
-
-    </div>
-
+<div class="sec" id="faq">
+  <h2>FAQ</h2>
+  <div class="box faq"><b>Do I need to pay?</b><p>No direct fee. An advertisement may be required before downloading.</p></div>
+  <div class="box faq"><b>Does it remove the watermark?</b><p>It depends on the version the source returns.</p></div>
+  <div class="box faq"><b>Can I get MP3?</b><p>Select MP3 when supported by the source.</p></div>
 </div>
 
 <footer>
-
-    <div class="footer-links">
-
-        <a href="#!">Privacy Policy</a>
-
-        <a href="#!">Terms of Service</a>
-
-        <a href="#!">DMCA Disclaimer</a>
-
-        <a href="#!">Contact Us</a>
-
-    </div>
-
-    <p>
-        © 2026 SnapTikHd. All Rights Reserved.
-    </p>
-
+  <div><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">DMCA</a><a href="#">Contact</a></div>
+  <p style="margin-top:10px">© 2026 SnapTikHd. All Rights Reserved.</p>
 </footer>
 
-
 <script>
-(function(){
+(function () {
+  var AD_URL = "https://araplhn.org/4/718787872bf62907dd99606e2222b500";
+  var API = "https://www.tikwm.com/api/?url=";
+  var KEY = "snaptikhd_ads_v6";
 
-    "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var dl = $("dl"), ad = $("ad"), msg = $("msg"), bar = $("bar"), manual = $("manual"), url = $("url");
 
-    /* ==========================================
-       CONFIGURATION
-    ========================================== */
+  var quality = "hd", need = 1, busy = false;
+  var ads = { hd: 0, fullhd: 0, mp3: 0 };
 
-    const AD_URL =
-        "https://araplhn.org/4/718787872bf62907dd99606e2222b500";
-const API_URL =
-        "https://www.tikwm.com/api/?url=";
+  try { var s = JSON.parse(localStorage.getItem(KEY)); if (s) { ads.hd = +s.hd || 0; ads.fullhd = +s.fullhd || 0; ads.mp3 = +s.mp3 || 0; } } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(ads)); } catch (e) {} }
 
-    const STORAGE_KEY =
-        "snaptikhd_ad_progress_v5";
+  function say(t, type) { msg.className = type || "info"; msg.textContent = t; }
+  function cur() { return Math.min(ads[quality] || 0, need); }
+  function open_() { return cur() >= need; }
 
-    const DOWNLOAD_KEY =
-        "snaptikhd_downloads_v5";
+  function ui() {
+    bar.style.width = (cur() / need * 100) + "%";
+    if (open_()) {
+      dl.className = "btn unlocked";
+      dl.innerHTML = '<i class="fa-solid fa-download"></i> DOWNLOAD NOW';
+      ad.innerHTML = '<i class="fa-solid fa-circle-check"></i> ADS COMPLETED';
+    } else {
+      dl.className = "btn locked";
+      dl.innerHTML = '<i class="fa-solid fa-lock"></i> UNLOCK WITH AD';
+      ad.innerHTML = '<i class="fa-solid fa-gift"></i> WATCH AD ' + cur() + "/" + need;
+    }
+  }
 
-    const REQUEST_TIMEOUT =
-        30000;
+  function addAd() {
+    if (open_()) return;
+    ads[quality] = cur() + 1;
+    save(); ui();
+    say(open_() ? "✓ Download is unlocked!" : "✓ Ad opened. " + (need - cur()) + " more required.", "success");
+  }
 
+  ad.onclick = function () {
+    if (busy) return;
+    if (open_()) return say("✓ Ads completed. You can download now.", "success");
+    var w = window.open(AD_URL, "_blank");
+    if (w) { manual.style.display = "none"; addAd(); }
+    else {
+      manual.href = AD_URL; manual.style.display = "inline-block";
+      say("⚠️ Popup blocked. Tap 'Open Advertisement' below.", "warning");
+    }
+  };
 
-    /* ==========================================
-       GET ELEMENTS
-    ========================================== */
+  manual.onclick = function () {
+    setTimeout(function () { addAd(); manual.style.display = "none"; }, 250);
+  };
 
-    const urlInput =
-        document.getElementById("urlInput");
-
-    const downloadBtn =
-        document.getElementById("downloadBtn");
-
-    const funAdBtn =
-        document.getElementById("funAdBtn");
-
-    const statusText =
-        document.getElementById("statusText");
-
-    const adProgressBox =
-        document.getElementById("adProgressBox");
-
-    const adProgressCount =
-        document.getElementById("adProgressCount");
-
-    const progressBar =
-        document.getElementById("progressBar");
-
-    const manualAdLink =
-        document.getElementById("manualAdLink");
-
-    const qualityButtons =
-        document.querySelectorAll(".quality-btn");
-
-    const faqItems =
-        document.querySelectorAll(".faq-item");
-
-    const downloadCount =
-        document.getElementById("downloadCount");
-
-
-    /* ==========================================
-       STATE
-    ========================================== */
-
-    let selectedQuality = "hd";
-
-    let requiredAds = 1;
-
-    let isDownloading = false;
-
-    let ads = {
-        hd:0,
-        fullhd:0,
-        mp3:0
+  var qbs = document.querySelectorAll(".qb");
+  for (var i = 0; i < qbs.length; i++) {
+    qbs[i].onclick = function () {
+      for (var j = 0; j < qbs.length; j++) qbs[j].classList.remove("active");
+      this.classList.add("active");
+      quality = this.getAttribute("data-q");
+      need = parseInt(this.getAttribute("data-ads"), 10) || 1;
+      ui();
+      say(open_() ? "✓ This quality is already unlocked." : "🔒 " + (need - cur()) + " more ad(s) required.", open_() ? "success" : "warning");
     };
+  }
 
+  var faqs = document.querySelectorAll(".faq");
+  for (var k = 0; k < faqs.length; k++) {
+    faqs[k].onclick = function () { this.classList.toggle("open"); };
+  }
 
-    /* ==========================================
-       LOAD LOCAL DATA
-    ========================================== */
+  function validUrl(v) {
+    try { var h = new URL(v).hostname.toLowerCase(); return h === "tiktok.com" || h.slice(-11) === ".tiktok.com"; }
+    catch (e) { return false; }
+  }
 
-    function loadData(){
+  function mediaUrl(d) {
+    if (quality === "mp3") return d.music || (d.music_info && d.music_info.play) || "";
+    if (quality === "fullhd") return d.hdplay || d.play || d.wmplay || "";
+    return d.play || d.hdplay || d.wmplay || "";
+  }
 
-        try{
+  function go(link) {
+    var a = document.createElement("a");
+    a.href = link; a.target = "_blank"; a.rel = "noopener noreferrer";
+    document.body.appendChild(a); a.click(); a.remove();
+  }
 
-            const saved =
-                localStorage.getItem(STORAGE_KEY);
+  dl.onclick = async function () {
+    if (!open_()) return say("🔒 Locked. Open " + (need - cur()) + " more ad(s) first.", "warning");
+    if (busy) return;
+    var link = url.value.trim();
+    if (!validUrl(link)) { say("⚠️ Please paste a valid TikTok link.", "error"); url.focus(); return; }
 
-            if(!saved){
-                return;
-            }
+    busy = true;
+    dl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> PROCESSING...';
+    say("⏳ Processing your video...", "info");
 
-            const data =
-                JSON.parse(saved);
+    var ctrl = new AbortController();
+    var t = setTimeout(function () { ctrl.abort(); }, 30000);
 
-            if(data && typeof data === "object"){
-
-                ads.hd =
-                    Number(data.hd) || 0;
-
-                ads.fullhd =
-                    Number(data.fullhd) || 0;
-
-                ads.mp3 =
-                    Number(data.mp3) || 0;
-            }
-
-        }catch(error){
-
-            console.log(
-                "Storage load error:",
-                error
-            );
-
-        }
-
+    try {
+      var r = await fetch(API + encodeURIComponent(link), { signal: ctrl.signal });
+      if (!r.ok) throw new Error("Service returned an error.");
+      var j = await r.json();
+      if (!j || j.code !== 0 || !j.data) throw new Error((j && j.msg) || "Video could not be processed.");
+      var m = mediaUrl(j.data);
+      if (!m) throw new Error("No download link for this format.");
+      go(m);
+      ads[quality] = 0; save();
+      say("✅ Download started! Ads reset for the next download.", "success");
+    } catch (e) {
+      say("❌ " + (e.name === "AbortError" ? "Request timed out. Try again." : (e.message || "Something went wrong.")), "error");
+    } finally {
+      clearTimeout(t); busy = false; ui();
     }
+  };
 
-
-    /* ==========================================
-       SAVE LOCAL DATA
-    ========================================== */
-
-    function saveData(){
-
-        try{
-
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(ads)
-            );
-
-        }catch(error){
-
-            console.log(
-                "Storage save error:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* ==========================================
-       STATUS
-    ========================================== */
-
-    function status(message,type){
-
-        statusText.className =
-            "status-" + (type || "info");
-
-        statusText.textContent =
-            message;
-
-    }
-
-
-    /* ==========================================
-       CURRENT PROGRESS
-    ========================================== */
-
-    function currentAds(){
-
-        const value =
-            Number(ads[selectedQuality]) || 0;
-
-        return Math.min(
-            value,
-            requiredAds
-        );
-
-    }
-
-
-    /* ==========================================
-       UNLOCK CHECK
-    ========================================== */
-
-    function unlocked(){
-
-        return currentAds() >= requiredAds;
-
-    }
-
-
-    /* ==========================================
-       UPDATE UI
-    ========================================== */
-
-    function updateUI(){
-
-        const current =
-            currentAds();
-
-        const percent =
-            requiredAds > 0
-            ? Math.min(
-                100,
-                (current / requiredAds) * 100
-              )
-            : 0;
-
-
-        adProgressBox.style.display =
-            "block";
-
-        adProgressCount.textContent =
-            current + " / " + requiredAds;
-
-        progressBar.style.width =
-            percent + "%";
-
-
-        if(unlocked())
-            downloadBtn.classList.remove("locked");
-            downloadBtn.classList.add("unlocked");
-
-            downloadBtn.disabled =
-                false;
-
-            downloadBtn.innerHTML =
-                '<i class="fa-solid fa-download"></i> DOWNLOAD NOW';
-
-            funAdBtn.innerHTML =
-                '<i class="fa-solid fa-circle-check"></i> ADS COMPLETED';
-
-        }else{
-
-            downloadBtn.classList.remove("unlocked");
-            downloadBtn.classList.add("locked");
-
-            downloadBtn.disabled =
-                false;
-
-            downloadBtn.innerHTML =
-                '<i class="fa-solid fa-lock"></i> UNLOCK WITH AD';
-
-            funAdBtn.innerHTML =
-                '<i class="fa-solid fa-gift"></i> WATCH AD • ' +
-                current +
-                '/' +
-                requiredAds;
-        }
-
-    }
-
-
-    /* ==========================================
-       ADD AD PROGRESS
-    ========================================== */
-
-    function addAdProgress(){
-
-        if(unlocked()){
-            return;
-        }
-
-        ads[selectedQuality] =
-            (Number(ads[selectedQuality]) || 0) + 1;
-
-        if(
-            ads[selectedQuality] >
-            requiredAds
-        ){
-
-            ads[selectedQuality] =
-                requiredAds;
-        }
-
-        saveData();
-
-        updateUI();
-
-
-        if(unlocked()){
-
-            status(
-                "✓ Ad requirement completed. Download is unlocked!",
-                "success"
-            );
-
-        }else{
-
-            const remaining =
-                requiredAds -
-                currentAds();
-
-            status(
-                "✓ Advertisement opened. " +
-                remaining +
-                " more ad(s) required.",
-                "success"
-            );
-        }
-
-    }
-
-
-    /* ==========================================
-       OPEN AD
-    ========================================== */
-
-    function openAd(){
-
-        if(!AD_URL){
-
-            status(
-                "Advertisement is not configured.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /*
-         IMPORTANT:
-         window.open is executed directly from
-         the user's button click.
-        */
-
-        let adWindow = null;
-
-        try{
-
-            adWindow =
-                window.open(
-                    AD_URL,
-                    "_blank"
-                );
-
-        }catch(error){
-
-            adWindow = null;
-
-        }
-
-
-        if(adWindow){
-
-            manualAdLink.style.display =
-                "none";
-
-            /*
-             The Direct Link does not provide
-             a completion callback.
-             Therefore this records that the
-             advertisement was opened.
-            */
-
-            addAdProgress();
-
-        }else{
-
-            /*
-             Popup blocker.
-            Show a normal clickable link.
-            */
-
-            manualAdLink.href =
-                AD_URL;
-
-            manualAdLink.style.display =
-                "inline-flex";
-
-            status(
-                "⚠️ Your browser blocked the popup. Tap 'Open Advertisement' below.",
-                "warning"
-            );
-
-        }
-
-    }
-
-
-    /* ==========================================
-       WATCH AD BUTTON
-    ========================================== */
-
-    funAdBtn.addEventListener(
-        "click",
-        function(event){
-
-            event.preventDefault();
-
-            if(isDownloading){
-                return;
-            }
-
-            if(unlocked()){
-
-                status(
-                    "✓ Ads completed. You can download now.",
-                    "success"
-                );
-
-                return;
-            }
-
-            openAd();
-
-        }
-    );
-
-
-    /* ==========================================
-       MANUAL AD LINK
-    ========================================== */
-
-    manualAdLink.addEventListener(
-        "click",
-        function(){
-
-            /*
-             Count this user-initiated manual
-             advertisement open.
-            */
-
-            if(!unlocked()){
-setTimeout(
-                    function(){
-
-                        addAdProgress();
-
-                        manualAdLink.style.display =
-                            "none";
-
-                    },
-                    250
-                );
-
-            }
-
-        }
-    );
-
-
-    /* ==========================================
-       QUALITY BUTTONS
-    ========================================== */
-
-    qualityButtons.forEach(
-        function(button){
-
-            button.addEventListener(
-                "click",
-                function(event){
-
-                    event.preventDefault();
-
-                    qualityButtons.forEach(
-                        function(item){
-
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        }
-                    );
-
-                    button.classList.add(
-                        "active"
-                    );
-
-                    selectedQuality =
-                        button.getAttribute(
-                            "data-quality"
-                        ) || "hd";
-
-                    requiredAds =
-                        parseInt(
-                            button.getAttribute(
-                                "data-ads"
-                            ) || "1",
-                            10
-                        );
-
-                    if(
-                        !Number.isFinite(requiredAds) ||
-                        requiredAds < 1
-                    ){
-
-                        requiredAds = 1;
-
-                    }
-
-                    updateUI();
-
-
-                    if(unlocked()){
-
-                        status(
-                            "✓ This quality is already unlocked.",
-                            "success"
-                        );
-
-                    }else{
-
-                        const remaining =
-                            requiredAds -
-                            currentAds();
-
-                        status(
-                            "🔒 " +
-                            remaining +
-                            " more ad(s) required for this quality.",
-                            "warning"
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    /* ==========================================
-       TIKTOK URL VALIDATION
-    ========================================== */
-
-    function validTikTokUrl(value){
-
-        if(!value){
-            return false;
-        }
-
-        try{
-
-            const url =
-                new URL(value);
-
-            const host =
-                url.hostname.toLowerCase();
-
-            return (
-                host === "tiktok.com" ||
-                host === "www.tiktok.com" ||
-                host.endsWith(".tiktok.com")
-            );
-
-        }catch(error){
-
-            return false;
-
-        }
-
-    }
-
-
-    /* ==========================================
-       GET MEDIA URL
-    ========================================== */
-
-    function getMediaUrl(data){
-
-        if(
-            !data ||
-            !data.data
-        ){
-
-            return "";
-
-        }
-
-        const media =
-            data.data;
-
-
-        if(selectedQuality === "mp3"){
-
-            return (
-                media.music ||
-                (
-                    media.music_info &&
-                    media.music_info.play
-                ) ||
-                ""
-            );
-
-        }
-
-
-        if(selectedQuality === "fullhd"){
-
-            return (
-                media.hdplay ||
-                media.hd_play ||
-                media.play ||
-                media.wmplay ||
-                ""
-            );
-
-        }
-
-
-        return (
-            media.play ||
-            media.hdplay ||
-            media.wmplay ||
-            ""
-        );
-
-    }
-
-
-    /* ==========================================
-       OPEN DOWNLOAD
-    ========================================== */
-
-    function openDownload(url){
-if(!url){
-            throw new Error(
-                "No download URL was returned."
-            );
-        }
-
-
-        /*
-         Try a normal new tab first.
-        */
-
-        const newWindow =
-            window.open(
-                url,
-                "_blank"
-            );
-
-
-        if(newWindow){
-            return true;
-        }
-
-
-        /*
-         If popup is blocked,
-         create a real user-clickable
-         download link.
-        */
-
-        const link =
-            document.createElement("a");
-
-        link.href =
-            url;
-
-        link.target =
-            "_blank";
-
-        link.rel =
-            "noopener noreferrer";
-
-        link.textContent =
-            "Open Download";
-
-        link.style.position =
-            "fixed";
-
-        link.style.left =
-            "50%";
-
-        link.style.bottom =
-            "20px";
-
-        link.style.transform =
-            "translateX(-50%)";
-
-        link.style.zIndex =
-            "99999";
-
-        link.style.padding =
-            "14px 22px";
-
-        link.style.background =
-            "#00ff88";
-
-        link.style.color =
-            "#000";
-
-        link.style.borderRadius =
-            "12px";
-
-        link.style.fontWeight =
-            "800";
-
-        document.body.appendChild(link);
-
-        status(
-            "⚠️ Popup blocked. Tap 'Open Download' button.",
-            "warning"
-        );
-
-        return false;
-
-    }
-
-
-    /* ==========================================
-       DOWNLOAD BUTTON
-    ========================================== */
-
-    downloadBtn.addEventListener(
-        "click",
-        async function(event){
-
-            event.preventDefault();
-
-
-            /* HARD AD LOCK */
-
-            if(!unlocked()){
-
-                const remaining =
-                    requiredAds -
-                    currentAds();
-
-                status(
-                    "🔒 Download locked. Open " +
-                    remaining +
-                    " more ad(s) first.",
-                    "warning"
-                );
-
-
-                funAdBtn.classList.remove(
-                    "attention"
-                );
-
-                void funAdBtn.offsetWidth;
-
-                funAdBtn.classList.add(
-                    "attention"
-                );
-
-
-                setTimeout(
-                    function(){
-
-                        funAdBtn.classList.remove(
-                            "attention"
-                        );
-
-                    },
-                    1500
-                );
-
-                return;
-
-            }
-
-
-            if(isDownloading){
-                return;
-            }
-
-
-            const url =
-                urlInput.value.trim();
-
-
-            if(!validTikTokUrl(url)){
-
-                status(
-                    "⚠️ Please paste a valid TikTok link first.",
-                    "error"
-                );
-
-                urlInput.focus();
-
-                return;
-
-            }
-
-
-            isDownloading =
-                true;
-
-            downloadBtn.disabled =
-                true;
-
-            funAdBtn.disabled =
-                true;
-
-            downloadBtn.innerHTML =
-                '<i class="fa-solid fa-spinner fa-spin"></i> PROCESSING...';
-
-            status(
-                "⏳ Processing your TikTok video...",
-                "info"
-            );
-
-
-            const controller =
-                new AbortController();
-
-            const timeout =
-                setTimeout(
-                    function(){
-
-                        controller.abort();
-
-                    },
-                    REQUEST_TIMEOUT
-                );
-
-
-            try{
-
-                const response =
-                    await fetch(
-                        API_URL +
-                        encodeURIComponent(url),
-                        {
-                            method:"GET",
-                            signal:controller.signal
-                        }
-                    );
-
-
-                clearTimeout(timeout);
-
-
-                if(!response.ok){
-throw new Error(
-                        "TikTok service returned an error."
-                    );
-
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                if(
-                    !data ||
-                    data.code !== 0 ||
-                    !data.data
-                ){
-
-                    throw new Error(
-                        data && data.msg
-                        ? data.msg
-                        : "Video could not be processed."
-                    );
-
-                }
-
-
-                const mediaUrl =
-                    getMediaUrl(data);
-
-
-                if(!mediaUrl){
-
-                    throw new Error(
-                        "No download link was returned for this format."
-                    );
-
-                }
-
-
-                openDownload(mediaUrl);
-
-
-                /* LOCAL COUNTER */
-
-                try{
-
-                    const old =
-                        Number(
-                            localStorage.getItem(
-                                DOWNLOAD_KEY
-                            )
-                        ) || 1842910;
-
-                    const newCount =
-                        old + 1;
-
-                    localStorage.setItem(
-                        DOWNLOAD_KEY,
-                        String(newCount)
-                    );
-
-                    if(downloadCount){
-
-                        downloadCount.textContent =
-                            newCount.toLocaleString();
-
-                    }
-
-                }catch(error){}
-
-
-                /*
-                 Reset ads after successful request.
-                */
-
-                ads[selectedQuality] = 0;
-
-                saveData();
-
-                updateUI();
-
-
-                status(
-                    "✅ Download started successfully! Ads reset for the next download.",
-                    "success"
-                );
-
-
-            }catch(error){
-
-                clearTimeout(timeout);
-
-                console.error(
-                    "SnapTikHd error:",
-                    error
-                );
-
-
-                if(
-                    error &&
-                    error.name === "AbortError"
-                ){
-
-                    status(
-                        "❌ Request timed out. Please try again.",
-                        "error"
-                    );
-
-                }else{
-
-                    status(
-                        "❌ " +
-                        (
-                            error && error.message
-                            ? error.message
-                            : "Something went wrong."
-                        ),
-                        "error"
-                    );
-
-                }
-
-            }finally{
-
-                isDownloading =
-                    false;
-
-                downloadBtn.disabled =
-                    false;
-
-                funAdBtn.disabled =
-                    false;
-
-                updateUI();
-
-            }
-
-        }
-    );
-
-
-    /* ==========================================
-       FAQ
-    ========================================== */
-
-    faqItems.forEach(
-        function(item){
-
-            item.addEventListener(
-                "click",
-                function(){
-
-                    item.classList.toggle(
-                        "active"
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    /* ==========================================
-       LOCAL DOWNLOAD COUNTER
-    ========================================== */
-
-    try{
-
-        let count =
-            Number(
-                localStorage.getItem(
-                    DOWNLOAD_KEY
-                )
-            );
-
-        if(!count || count < 1842910){
-
-            count = 1842910;
-
-            localStorage.setItem(
-                DOWNLOAD_KEY,
-                String(count)
-            );
-
-        }
-
-        if(downloadCount){
-
-            downloadCount.textContent =
-                count.toLocaleString();
-
-        }
-
-    }catch(error){
-
-        if(downloadCount){
-[10/2/2026 6:44 AM] Pesha Y Zaman: downloadCount.textContent =
-                "1,842,910";
-
-        }
-
-    }
-
-
-    /* ==========================================
-       INITIALIZE
-    ========================================== */
-
-    loadData();
-
-    selectedQuality =
-        "hd";
-
-    requiredAds =
-        1;
-
-    updateUI();
-
-
-    status(
-        "Paste your TikTok link, then open the required ad.",
-        "info"
-    );
-
-
+  ui();
 })();
 </script>
-
 </body>
 </html>
