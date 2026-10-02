@@ -1,0 +1,196 @@
+[10/2/2026 4:20 AM] Pesha Y Zaman:
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapTikHd - TikTok Video Downloader</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d0d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0055, #00ffff, #7000ff, #ff0055);
+            background-size: 400%;
+            z-index: -1;
+            border-radius: 18px;
+            animation: rgbGlow 15s linear infinite;
+        }
+        
+        @keyframes rgbGlow {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            background: linear-gradient(45deg, #00ffff, #ff0055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        p {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 2px solid #333;
+            background: #111;
+            color: #fff;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .quality-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .quality-btn {
+            flex: 1;
+            padding: 10px;
+            background: #222;
+            border: 2px solid #444;
+            color: #aaa;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .quality-btn.active {
+            background: #111;
+            border-color: #00ffff;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .action-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(45deg, #00ffff, #7000ff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+        
+        #statusText {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #00ffff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>SnapTikHd</h1>
+        <p>Paste TikTok link & choose download quality</p>
+
+        <input type="text" id="urlInput" placeholder="https://www.tiktok.com/@..."> [10/2/2026 4:20 AM] Pesha Y Zaman:
+        <div class="quality-selector">
+            <button type="button" class="quality-btn active" data-quality="hd" data-ads="1">HD (1 Ad)</button>
+            <button type="button" class="quality-btn" data-quality="fullhd" data-ads="5">1080 Full HD (5 Ads)</button>
+        </div>
+
+        <button class="action-btn" id="downloadBtn">Download Video</button>
+
+        <div id="statusText"></div>
+    </div>
+
+    <script>
+        let selectedQuality = 'hd';
+        let requiredAds = 1;
+
+        const qualityButtons = document.querySelectorAll('.quality-btn');
+        qualityButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                qualityButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedQuality = btn.getAttribute('data-quality');
+                requiredAds = parseInt(btn.getAttribute('data-ads'));
+            });
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const urlInput = document.getElementById('urlInput').value.trim();
+            const statusText = document.getElementById('statusText');
+
+            if (!urlInput) {
+                statusText.style.color = '#ff0055';
+                statusText.innerText = 'Please paste a valid TikTok link first!';
+                return;
+            }
+
+            statusText.style.color = '#00ffff';
+            statusText.innerText = 'Preparing download... You need to watch ' + requiredAds + ' ad(s) for ' + selectedQuality.toUpperCase() + '.';
+        });
+    </script>
+
+</body>
+
+</html>
