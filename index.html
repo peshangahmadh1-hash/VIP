@@ -1,245 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SnapTikHd - Free TikTok Downloader</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Poppins,sans-serif}
-html{scroll-behavior:smooth}
-body{background:#06050b;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px;overflow-x:hidden}
-button,a,input{-webkit-tap-highlight-color:transparent}
-button{font-family:inherit}
-.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-.orb{position:absolute;width:350px;height:350px;border-radius:50%;filter:blur(100px);opacity:.42}
-.o1{background:#0ff;top:-100px;left:-100px}
-.o2{background:#f05;right:-100px;bottom:-100px}
-header{width:100%;max-width:1100px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;background:rgba(6,5,11,.92);border-bottom:1px solid rgba(255,255,255,.06)}
-.logo{font-size:22px;font-weight:900;display:flex;align-items:center;gap:10px;background:linear-gradient(45deg,#0ff,#f05);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-nav{display:flex;gap:14px}
-nav a{color:#aaa;text-decoration:none;font-size:12px;font-weight:600}
-nav a:hover{color:#0ff}
-.card{width:92%;max-width:520px;margin-top:20px;padding:32px 22px;text-align:center;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:24px;box-shadow:0 0 50px rgba(0,0,0,.8),0 0 25px rgba(0,255,255,.13)}
-h1{font-size:30px;font-weight:800;margin-bottom:8px;background:linear-gradient(45deg,#0ff,#f05);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.desc{color:#aaa;font-size:13px;margin-bottom:22px}
-.input{position:relative;margin-bottom:18px}
-.input i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#666;pointer-events:none}
-input{width:100%;padding:16px 16px 16px 45px;background:rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.1);border-radius:14px;color:#fff;font-size:14px;outline:none}
-input:focus{border-color:#0ff}
-.label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;text-align:left;margin-bottom:8px;font-weight:600}
-.q{display:flex;gap:8px;margin-bottom:18px}
-.qb{flex:1;padding:12px 4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:#aaa;border-radius:12px;cursor:pointer;font-size:12px;font-weight:600}
-.qb span{display:block;margin-top:4px;color:#666;font-size:10px}
-.qb.active{background:rgba(0,255,255,.1);border-color:#0ff;color:#fff}
-.qb.active span{color:#0ff}
-.btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:10px}
-#dl.locked{background:linear-gradient(45deg,#343434,#191919);border:1px solid rgba(255,170,0,.35);color:#aaa}
-#dl.unlocked{background:linear-gradient(45deg,#00ff88,#00c8ff);color:#00100b}
-#ad{margin-top:14px;padding:13px;border:1px dashed #fa0;background:rgba(255,170,0,.08);color:#fa0;font-size:13px;font-weight:700;border-radius:12px}
-.bar{height:7px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-top:14px}
-#bar{width:0;height:100%;background:linear-gradient(90deg,#fa0,#0ff);transition:width .4s}
-#manual{display:none;margin-top:10px;padding:9px 14px;border-radius:9px;background:rgba(255,170,0,.12);border:1px solid rgba(255,170,0,.35);color:#fa0;text-decoration:none;font-size:12px;font-weight:700}
-#msg{margin-top:14px;min-height:20px;font-size:12px;line-height:1.5}
-.success{color:#0f8}.warning{color:#fa0}.error{color:#f36}.info{color:#0ff}
-.sec{width:92%;max-width:520px;margin-top:32px;text-align:left;scroll-margin-top:80px}
-.sec h2{font-size:18px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
-.box i{color:#0ff;font-size:20px;margin-bottom:8px}
-.box h3,.box h4{font-size:14px;margin-bottom:4px}
-.box p{font-size:11px;color:#999;line-height:1.4}
-.step{display:flex;gap:14px;align-items:center;margin-bottom:10px}
-.num{width:34px;height:34px;flex-shrink:0;border:1px solid #0ff;color:#0ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
-.faq{cursor:pointer;margin-bottom:10px}
-.faq b{font-size:13px;display:block}
-.faq p{display:none;margin-top:8px;font-size:12px;color:#aaa;line-height:1.5}
-.faq.open p{display:block}
-footer{margin-top:40px;text-align:center;color:#555;font-size:12px}
-footer a{color:#888;text-decoration:none;font-size:11px;margin:0 8px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Full Rainbow RGB Downloader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        /* Full Animated Rainbow Keyframes */
+        @keyframes rainbowFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes rainbowRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 0, 128, 0.6), 0 0 30px rgba(0, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.8), 0 0 45px rgba(255, 255, 0, 0.6); }
+        }
+
+        body { 
+            background: #030307; 
+            color: #ffffff; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 15px 12px; 
+            user-select: none; 
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Dynamic Background Glow */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,0,128,0.15) 0%, rgba(0,255,255,0.15) 30%, rgba(0,255,0,0.1) 60%, transparent 80%);
+            animation: rainbowRotate 10s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header { width: 100%; max-width: 480px; display: flex; justify-content: center; align-items: center; padding: 10px 0 15px 0; }
+        
+        /* Multi-Color Animated Header Logo */
+        .logo { 
+            font-size: 22px; 
+            font-weight: 900; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            background: linear-gradient(90deg, #ff0055, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0055);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 3s linear infinite;
+            text-shadow: 0 0 20px rgba(0,255,255,0.5);
+        }
+
+        /* Icon Grid Bar above Input */
+        .social-icons-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 480px; margin-bottom: 20px; }
+        
+        /* Individual RGB Card Wrappers */
+        .icon-card-wrapper {
+            padding: 2px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 300% 300%;
+            animation: rainbowFlow 4s linear infinite;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .icon-card-wrapper:active { transform: scale(0.95); }
+
+        .icon-card { 
+            background: #090812; 
+            border-radius: 16px; 
+            padding: 14px 4px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 6px; 
+            height: 100%;
+        }
+
+        .icon-card i { 
+            font-size: 28px; 
+            background: linear-gradient(90deg, #ff0055, #00ffff, #ffff00);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 3s linear infinite;
+        }
+
+        .icon-card span { 
+            font-size: 11px; 
+            font-weight: 900; 
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #ffffff, #8888aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Active Card Glow Effect */
+        .icon-card-wrapper.active {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 30px rgba(255, 0, 255, 0.6);
+            animation: rainbowFlow 1.5s linear infinite, pulseGlow 2s infinite alternate;
+        }
+
+        /* Main Animated Rainbow Card Outer */
+        .main-card-wrapper {
+            width: 100%;
+            max-width: 480px;
+            padding: 3px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 400% 400%;
+            animation: rainbowFlow 4s linear infinite, pulseGlow 3s infinite alternate;
+        }
+
+        .main-card { 
+            width: 100%; 
+            background: #090812; 
+            border-radius: 24px; 
+            padding: 24px 18px; 
+            text-align: center; 
+        }
+        
+        h1 { 
+            font-size: 22px; 
+            margin-bottom: 6px; 
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00, #00ff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 3s linear infinite;
+            font-weight: 900;
+        }
+
+        .hero-desc { 
+            color: #a0a0c0; 
+            font-size: 12px; 
+            margin-bottom: 20px; 
+            font-weight: 600;
+        }
+
+        /* Input Container with Dynamic Rainbow Glow */
+        .input-group { 
+            position: relative; 
+            margin-bottom: 20px; 
+            padding: 2px; 
+            border-radius: 16px; 
+            background: linear-gradient(90deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000); 
+            background-size: 300% 300%; 
+            animation: rainbowFlow 2s linear infinite; 
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+        
+        input[type="text"] { 
+            width: 100%; 
+            padding: 16px 14px; 
+            background: #040308; 
+            border: none; 
+            border-radius: 14px; 
+            color: #ffffff; 
+            font-size: 14px; 
+            font-weight: bold;
+            outline: none; 
+            text-align: center; 
+            transition: 0.3s; 
+        }
+        
+        input[type="text"]::placeholder {
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 3s linear infinite;
+            font-weight: bold;
+        }
+
+        /* Quality Selectors */
+        .quality-title { 
+            font-size: 12px; 
+            margin-bottom: 10px; 
+            text-align: left; 
+            font-weight: 900;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .quality-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        
+        .quality-btn-wrapper {
+            padding: 2px;
+            border-radius: 14px;
+            background: #222;
+            transition: 0.3s;
+        }
+
+        .quality-btn-wrapper.active {
+            background: linear-gradient(90deg, #ff0000, #00ffff, #00ff00, #ff0000);
+            background-size: 300% 300%;
+            animation: rainbowFlow 2s linear infinite;
+            box-shadow: 0 0 12px rgba(0,255,255,0.6);
+        }
+
+        .quality-btn { 
+            width: 100%;
+            padding: 11px 4px; 
+            background: #040308; 
+            border: none;
+            border-radius: 12px; 
+            color: #fff; 
+            font-size: 11px; 
+            font-weight: bold; 
+            cursor: pointer; 
+        }
+
+        /* Full Multi-Color Animated Rainbow Download Button */
+        .btn-download-wrapper {
+            padding: 3px;
+            border-radius: 16px;
+            background: linear-gradient(90deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 300% 300%;
+            animation: rainbowFlow 2s linear infinite, pulseGlow 2s infinite alternate;
+            cursor: pointer;
+        }
+
+        .btn-download { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            background: #040308; 
+            color: #fff; 
+            font-size: 15px; 
+            font-weight: 900; 
+            border-radius: 14px; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-download span {
+            background: linear-gradient(90deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 2s linear infinite;
+        }
+
+        .btn-download i {
+            color: #00ffff;
+            animation: rainbowRotate 3s linear infinite;
+        }
+
+        .btn-download-wrapper:active { transform: scale(0.97); }
+
+        #statusText { margin-top: 18px; font-size: 13px; line-height: 1.5; font-weight: bold; }
+
+        /* In-App Ad Modal */
+        .ad-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; align-items: center; justify-content: center; flex-direction: column; }
+        .ad-header { position: absolute; top: 12px; right: 12px; z-index: 10000; }
+        .close-ad-btn { background: rgba(0,0,0,0.8); color: #00ff88; border: 2px solid #00ff88; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; box-shadow: 0 0 10px #00ff88; }
+        .ad-iframe { width: 100%; height: 100%; border: none; }
+    </style>
 </head>
 <body>
 
-<div class="glow"><div class="orb o1"></div><div class="orb o2"></div></div>
+    <header>
+        <div class="logo"><i class="fa-solid fa-bolt"></i> ULTRA RAINBOW RGB DOWNLOADER</div>
+    </header>
 
-<header>
-  <div class="logo"><i class="fa-brands fa-tiktok"></i> SnapTikHd</div>
-  <nav><a href="#how">How to Use</a><a href="#features">Features</a><a href="#faq">FAQ</a></nav>
-</header>
+    <!-- Rainbow Social Icons Bar -->
+    <div class="social-icons-bar">
+        <div class="icon-card-wrapper active" onclick="switchPlatform('TikTok', this, 'Paste Tiktok Link Here!', 'Download No-Watermark TikTok Videos Ultra Fast')">
+            <div class="icon-card">
+                <i class="fa-brands fa-tiktok"></i>
+                <span>TikTok</span>
+            </div>
+        </div>
+        <div class="icon-card-wrapper" onclick="switchPlatform('YouTube', this, 'Paste Youtube Link Here!', 'Download High Quality YouTube Videos & Audio')">
+            <div class="icon-card">
+                <i class="fa-brands fa-youtube"></i>
+                <span>YouTube</span>
+            </div>
+        </div>
+        <div class="icon-card-wrapper" onclick="switchPlatform('Snapchat', this, 'Paste Snapchat Link Here!', 'Save HD Snapchat Stories and Videos Instantly')">
+            <div class="icon-card">
+                <i class="fa-brands fa-snapchat"></i>
+                <span>Snapchat</span>
+            </div>
+        </div>
+        <div class="icon-card-wrapper" onclick="switchPlatform('Facebook', this, 'Paste Facebook Link Here!', 'Download HD Facebook Reels & Public Videos')">
+            <div class="icon-card">
+                <i class="fa-brands fa-facebook"></i>
+                <span>Facebook</span>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-  <h1>SnapTikHd</h1>
-  <p class="desc">Download TikTok Videos Without Watermark in HD &amp; 1080p</p>
+    <!-- Main Dynamic Rainbow Card -->
+    <div class="main-card-wrapper">
+        <div class="main-card">
+            <h1 id="platformTitle">TikTok Downloader</h1>
+            <p class="hero-desc" id="platformDesc">Download No-Watermark TikTok Videos Ultra Fast</p>
+            
+            <div class="input-group">
+                <input type="text" id="urlInput" placeholder="Paste Tiktok Link Here!">
+            </div>
 
-  <div class="input">
-    <i class="fa-solid fa-link"></i>
-    <input type="text" id="url" placeholder="Paste TikTok video link here..." autocomplete="off" spellcheck="false">
-  </div>
+            <!-- Quality Selector -->
+            <div class="quality-title"><i class="fa-solid fa-sliders"></i> SELECT QUALITY:</div>
+            <div class="quality-grid">
+                <div class="quality-btn-wrapper active" onclick="setQuality(this)">
+                    <button class="quality-btn"><i class="fa-solid fa-hd"></i> 1080p HD</button>
+                </div>
+                <div class="quality-btn-wrapper" onclick="setQuality(this)">
+                    <button class="quality-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> 1080p Ultra</button>
+                </div>
+                <div class="quality-btn-wrapper" onclick="setQuality(this)">
+                    <button class="quality-btn"><i class="fa-solid fa-music"></i> Audio MP3</button>
+                </div>
+            </div>
 
-  <div class="label">Select Quality / Format:</div>
-  <div class="q">
-    <button type="button" class="qb active" data-q="hd" data-ads="1"><i class="fa-solid fa-video"></i> HD Video<span>1 Ad</span></button>
-    <button type="button" class="qb" data-q="fullhd" data-ads="5"><i class="fa-solid fa-film"></i> 1080p<span>5 Ads</span></button>
-    <button type="button" class="qb" data-q="mp3" data-ads="1"><i class="fa-solid fa-music"></i> MP3<span>1 Ad</span></button>
-  </div>
+            <!-- Download Button -->
+            <div class="btn-download-wrapper" onclick="startProcess()">
+                <button type="button" class="btn-download">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Download Video</span>
+                </button>
+            </div>
+            
+            <div id="statusText"></div>
+        </div>
+    </div>
 
-  <button type="button" class="btn locked" id="dl"><i class="fa-solid fa-lock"></i> UNLOCK WITH AD</button>
-  <button type="button" class="btn" id="ad"><i class="fa-solid fa-gift"></i> WATCH AD</button>
+    <!-- In-App Ad Modal -->
+    <div class="ad-modal" id="adModal">
+        <div class="ad-header">
+            <button class="close-ad-btn" id="closeAdBtn" onclick="closeAdModal()">Reward in (5s)</button>
+        </div>
+        <iframe id="adFrame" class="ad-iframe" src=""></iframe>
+    </div>
 
-  <div class="bar"><div id="bar"></div></div>
-  <a id="manual" href="#" target="_blank" rel="noopener noreferrer">Open Advertisement</a>
-  <div id="msg" class="info">Paste your TikTok link, then open the required ad.</div>
-</div>
+    <script>
+        const adSmartLink = "https://araplhn.org/4/718787872bf62907dd99606e2222b500";
+        let currentPlatform = 'TikTok';
+        let countdownTimer;
 
-<div class="sec" id="how">
-  <h2>How to Download</h2>
-  <div class="step"><div class="num">1</div><div><h4>Copy Video Link</h4><p style="font-size:11px;color:#aaa">Open TikTok, tap Share and copy the link.</p></div></div>
-  <div class="step"><div class="num">2</div><div><h4>Paste in SnapTikHd</h4><p style="font-size:11px;color:#aaa">Paste the link and select quality.</p></div></div>
-  <div class="step"><div class="num">3</div><div><h4>Unlock &amp; Download</h4><p style="font-size:11px;color:#aaa">Open the required ad(s), then download.</p></div></div>
-</div>
+        function switchPlatform(platform, element, placeholderText, descText) {
+            currentPlatform = platform;
+            
+            // Remove active status from all icons
+            document.querySelectorAll('.icon-card-wrapper').forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
 
-<div class="sec" id="features">
-  <div class="grid">
-    <div class="box"><i class="fa-solid fa-ban"></i><h3>No Watermark</h3><p>Download supported videos without the watermark.</p></div>
-    <div class="box"><i class="fa-solid fa-bolt"></i><h3>Fast</h3><p>Quick processing, simple experience.</p></div>
-    <div class="box"><i class="fa-solid fa-infinity"></i><h3>Easy to Use</h3><p>Paste, unlock and save.</p></div>
-    <div class="box"><i class="fa-solid fa-headphones"></i><h3>Audio</h3><p>Convert supported videos to MP3.</p></div>
-  </div>
-</div>
+            // Update Dynamic Titles & Placeholders
+            document.getElementById('platformTitle').innerText = platform + ' Downloader';
+            document.getElementById('platformDesc').innerText = descText;
+            document.getElementById('urlInput').placeholder = placeholderText;
+        }
 
-<div class="sec" id="faq">
-  <h2>FAQ</h2>
-  <div class="box faq"><b>Do I need to pay?</b><p>No direct fee. An advertisement may be required before downloading.</p></div>
-  <div class="box faq"><b>Does it remove the watermark?</b><p>It depends on the version the source returns.</p></div>
-  <div class="box faq"><b>Can I get MP3?</b><p>Select MP3 when supported by the source.</p></div>
-</div>
+        function setQuality(wrapperElement) {
+            document.querySelectorAll('.quality-btn-wrapper').forEach(b => b.classList.remove('active'));
+            wrapperElement.classList.add('active');
+        }
 
-<footer>
-  <div><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">DMCA</a><a href="#">Contact</a></div>
-  <p style="margin-top:10px">© 2026 SnapTikHd. All Rights Reserved.</p>
-</footer>
+        function startProcess() {
+            const urlInput = document.getElementById('urlInput').value.trim();
+            const statusText = document.getElementById('statusText');
 
-<script>
-(function () {
-  var AD_URL = "https://araplhn.org/4/718787872bf62907dd99606e2222b500";
-  var API = "https://www.tikwm.com/api/?url=";
-  var KEY = "snaptikhd_ads_v6";
+            if (!urlInput) {
+                statusText.style.color = '#ff0055';
+                statusText.innerHTML = '⚠️ Please paste a valid link first!';
+                return;
+            }
 
-  var $ = function (id) { return document.getElementById(id); };
-  var dl = $("dl"), ad = $("ad"), msg = $("msg"), bar = $("bar"), manual = $("manual"), url = $("url");
+            showRewardedAd();
+        }
 
-  var quality = "hd", need = 1, busy = false;
-  var ads = { hd: 0, fullhd: 0, mp3: 0 };
+        function showRewardedAd() {
+            const modal = document.getElementById('adModal');
+            const iframe = document.getElementById('adFrame');
+            const closeBtn = document.getElementById('closeAdBtn');
+            
+            iframe.src = adSmartLink;
+            modal.style.display = 'flex';
 
-  try { var s = JSON.parse(localStorage.getItem(KEY)); if (s) { ads.hd = +s.hd || 0; ads.fullhd = +s.fullhd || 0; ads.mp3 = +s.mp3 || 0; } } catch (e) {}
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(ads)); } catch (e) {} }
+            let timeLeft = 5;
+            closeBtn.disabled = true;
+            closeBtn.innerText = `Reward in (${timeLeft}s)`;
 
-  function say(t, type) { msg.className = type || "info"; msg.textContent = t; }
-  function cur() { return Math.min(ads[quality] || 0, need); }
-  function open_() { return cur() >= need; }
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    closeBtn.innerText = `Reward in (${timeLeft}s)`;
+                } else {
+                    clearInterval(countdownTimer);
+                    closeBtn.disabled = false;
+                    closeBtn.innerText = '✕ Save File';
+                    closeBtn.style.background = '#00ff88';
+                    closeBtn.style.color = '#000';
+                }
+            }, 1000);
+        }
 
-  function ui() {
-    bar.style.width = (cur() / need * 100) + "%";
-    if (open_()) {
-      dl.className = "btn unlocked";
-      dl.innerHTML = '<i class="fa-solid fa-download"></i> DOWNLOAD NOW';
-      ad.innerHTML = '<i class="fa-solid fa-circle-check"></i> ADS COMPLETED';
-    } else {
-      dl.className = "btn locked";
-      dl.innerHTML = '<i class="fa-solid fa-lock"></i> UNLOCK WITH AD';
-      ad.innerHTML = '<i class="fa-solid fa-gift"></i> WATCH AD ' + cur() + "/" + need;
-    }
-  }
+        function closeAdModal() {
+            document.getElementById('adModal').style.display = 'none';
+            document.getElementById('adFrame').src = '';
+            fetchDownload();
+        }
 
-  function addAd() {
-    if (open_()) return;
-    ads[quality] = cur() + 1;
-    save(); ui();
-    say(open_() ? "✓ Download is unlocked!" : "✓ Ad opened. " + (need - cur()) + " more required.", "success");
-  }
+        async function fetchDownload() {
+            const urlInput = document.getElementById('urlInput').value.trim();
+            const statusText = document.getElementById('statusText');
 
-  ad.onclick = function () {
-    if (busy) return;
-    if (open_()) return say("✓ Ads completed. You can download now.", "success");
-    var w = window.open(AD_URL, "_blank");
-    if (w) { manual.style.display = "none"; addAd(); }
-    else {
-      manual.href = AD_URL; manual.style.display = "inline-block";
-      say("⚠️ Popup blocked. Tap 'Open Advertisement' below.", "warning");
-    }
-  };
+            statusText.style.color = '#00ffff';
+            statusText.innerHTML = '⏳ Extracting HD Video link...';
 
-  manual.onclick = function () {
-    setTimeout(function () { addAd(); manual.style.display = "none"; }, 250);
-  };
+            try {
+                const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`);
+                const data = await res.json();
 
-  var qbs = document.querySelectorAll(".qb");
-  for (var i = 0; i < qbs.length; i++) {
-    qbs[i].onclick = function () {
-      for (var j = 0; j < qbs.length; j++) qbs[j].classList.remove("active");
-      this.classList.add("active");
-      quality = this.getAttribute("data-q");
-      need = parseInt(this.getAttribute("data-ads"), 10) || 1;
-      ui();
-      say(open_() ? "✓ This quality is already unlocked." : "🔒 " + (need - cur()) + " more ad(s) required.", open_() ? "success" : "warning");
-    };
-  }
-
-  var faqs = document.querySelectorAll(".faq");
-  for (var k = 0; k < faqs.length; k++) {
-    faqs[k].onclick = function () { this.classList.toggle("open"); };
-  }
-
-  function validUrl(v) {
-    try { var h = new URL(v).hostname.toLowerCase(); return h === "tiktok.com" || h.slice(-11) === ".tiktok.com"; }
-    catch (e) { return false; }
-  }
-
-  function mediaUrl(d) {
-    if (quality === "mp3") return d.music || (d.music_info && d.music_info.play) || "";
-    if (quality === "fullhd") return d.hdplay || d.play || d.wmplay || "";
-    return d.play || d.hdplay || d.wmplay || "";
-  }
-
-  function go(link) {
-    var a = document.createElement("a");
-    a.href = link; a.target = "_blank"; a.rel = "noopener noreferrer";
-    document.body.appendChild(a); a.click(); a.remove();
-  }
-
-  dl.onclick = async function () {
-    if (!open_()) return say("🔒 Locked. Open " + (need - cur()) + " more ad(s) first.", "warning");
-    if (busy) return;
-    var link = url.value.trim();
-    if (!validUrl(link)) { say("⚠️ Please paste a valid TikTok link.", "error"); url.focus(); return; }
-
-    busy = true;
-    dl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> PROCESSING...';
-    say("⏳ Processing your video...", "info");
-
-    var ctrl = new AbortController();
-    var t = setTimeout(function () { ctrl.abort(); }, 30000);
-
-    try {
-      var r = await fetch(API + encodeURIComponent(link), { signal: ctrl.signal });
-      if (!r.ok) throw new Error("Service returned an error.");
-      var j = await r.json();
-      if (!j || j.code !== 0 || !j.data) throw new Error((j && j.msg) || "Video could not be processed.");
-      var m = mediaUrl(j.data);
-      if (!m) throw new Error("No download link for this format.");
-      go(m);
-      ads[quality] = 0; save();
-      say("✅ Download started! Ads reset for the next download.", "success");
-    } catch (e) {
-      say("❌ " + (e.name === "AbortError" ? "Request timed out. Try again." : (e.message || "Something went wrong.")), "error");
-    } finally {
-      clearTimeout(t); busy = false; ui();
-    }
-  };
-
-  ui();
-})();
-</script>
+                if (data && data.code === 0) {
+                    statusText.style.color = '#00ff88';
+                    statusText.innerHTML = `
+                        ✅ File Ready!<br><br>
+                        <a href="${data.data.play}" style="display:inline-block; padding:14px 26px; background:linear-gradient(90deg, #00ff88, #00ffff); color:#000; font-weight:900; border-radius:12px; text-decoration:none; box-shadow:0 0 15px #00ff88;" target="_blank" download>
+                            <i class="fa-solid fa-download"></i> SAVE HD FILE
+                        </a>
+                    `;
+                } else {
+                    statusText.style.color = '#ff0055';
+                    statusText.innerHTML = '❌ Invalid or private link.';
+                }
+            } catch (err) {
+                statusText.style.color = '#ff0055';
+                statusText.innerHTML = '❌ Server connection error.';
+            }
+        }
+    </script>
 </body>
 </html>
