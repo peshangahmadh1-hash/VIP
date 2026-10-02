@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>DowanloaderPro - Universal Media Downloader</title>
+    <title>DowanloaderPro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Monetag Anti-Adblock & In-App Script -->
+    <!-- لە شوێنی YOUR_MONETAG_ZONE_ID کۆدی خۆت دابنێ -->
+    <script src="https://alwingulla.com/88/tag.min.js" data-zone="YOUR_MONETAG_ZONE_ID" async data-cfasync="false"></script>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
 
@@ -18,7 +23,6 @@
             padding: 20px 15px 40px;
         }
 
-        /* Top Bar */
         header {
             width: 100%;
             max-width: 600px;
@@ -48,7 +52,6 @@
             text-transform: uppercase;
         }
 
-        /* Platform Selector Tabs */
         .platform-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -84,7 +87,6 @@
         .platform-card.active i { color: #00f2fe; }
         .platform-card.active span { color: #ffffff; }
 
-        /* Main Container */
         .main-card {
             width: 100%;
             max-width: 600px;
@@ -110,7 +112,6 @@
             margin-bottom: 20px;
         }
 
-        /* Quality Select Bar */
         .quality-options {
             display: flex;
             justify-content: center;
@@ -136,7 +137,6 @@
             color: #00f2fe;
         }
 
-        /* Large Input Field with Paste Button */
         .input-wrapper {
             position: relative;
             display: flex;
@@ -181,14 +181,12 @@
 
         .btn-paste:hover { background: #00f2fe; color: #000; }
 
-        /* Slow Motion RGB Animation Keyframes */
         @keyframes slowRgbGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Button RGB Container */
         .btn-download-wrapper {
             padding: 3px;
             border-radius: 18px;
@@ -284,7 +282,6 @@
 
         .video-author { font-size: 12px; color: #7e859b; }
 
-        /* Download Options Grid */
         .download-options {
             display: flex;
             flex-direction: column;
@@ -309,90 +306,11 @@
         .dl-link-btn:hover { border-color: #00f2fe; background: #22273f; }
         .dl-link-btn i { color: #00f2fe; }
 
-        /* App Live Stats Bar */
-        .stats-bar {
-            width: 100%;
-            max-width: 600px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .stat-card {
-            background: #13151f;
-            border: 1px solid #222638;
-            border-radius: 16px;
-            padding: 12px 5px;
-        }
-
-        .stat-value { font-size: 15px; font-weight: 800; color: #00f2fe; }
-        .stat-label { font-size: 10px; color: #7e859b; font-weight: 600; margin-top: 2px; }
-
-        /* How It Works Section */
-        .how-section {
-            width: 100%;
-            max-width: 600px;
-            background: #13151f;
-            border: 1px solid #222638;
-            border-radius: 24px;
-            padding: 25px 22px;
-        }
-
-        .section-title {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #00f2fe;
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            text-align: center;
-        }
-
-        .step-item {
-            background: #090a0f;
-            padding: 16px 10px;
-            border-radius: 16px;
-            border: 1px solid #1c1f30;
-        }
-
-        .step-number {
-            width: 28px;
-            height: 28px;
-            background: #1f2438;
-            color: #00f2fe;
-            font-size: 12px;
-            font-weight: 800;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-        }
-
-        .step-text { font-size: 11px; color: #a0a5b8; font-weight: 600; line-height: 1.4; }
-
-        /* Status Messages */
         #statusText { margin-top: 15px; font-size: 13px; font-weight: 600; text-align: center; }
-
-        /* Ad Modal */
-        .ad-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; align-items: center; justify-content: center; flex-direction: column; }
-        .ad-header { position: absolute; top: 15px; right: 15px; z-index: 10000; }
-        .close-ad-btn { background: rgba(0,0,0,0.85); color: #00f2fe; border: 2px solid #00f2fe; padding: 10px 20px; border-radius: 25px; font-size: 13px; font-weight: bold; }
-        .ad-iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-    <!-- Header Logo -->
     <header>
         <div class="logo">
             <i class="fa-solid fa-cloud-arrow-down"></i> DowanloaderPro
@@ -400,7 +318,6 @@
         <span class="badge-pro">ULTRA HD</span>
     </header>
 
-    <!-- Platform Selector Bar -->
     <div class="platform-bar">
         <div class="platform-card active" onclick="switchPlatform('TikTok', this, 'Paste TikTok Link Here!')">
             <i class="fa-brands fa-tiktok"></i>
@@ -420,12 +337,10 @@
         </div>
     </div>
 
-    <!-- Main Card -->
     <div class="main-card">
         <h1 class="hero-title" id="platformTitle">TikTok Downloader</h1>
         <p class="hero-subtitle">Fast, Free & Watermark-Free Downloads</p>
 
-        <!-- Quality Select Chips -->
         <div class="quality-options">
             <span class="q-chip active" onclick="selectQuality(this)">Auto Best</span>
             <span class="q-chip" onclick="selectQuality(this)">4K / HD</span>
@@ -440,7 +355,6 @@
             </button>
         </div>
 
-        <!-- Slow Motion RGB Button Container -->
         <div class="btn-download-wrapper" onclick="startProcess()">
             <button class="btn-download">
                 <i class="fa-solid fa-bolt"></i>
@@ -450,7 +364,7 @@
 
         <div id="statusText"></div>
 
-        <!-- Result Frame with Slow Motion RGB Border -->
+        <!-- Result Box with RGB Slow Motion Frame -->
         <div class="preview-box-rgb-wrapper" id="previewBoxWrapper">
             <div class="preview-box">
                 <div class="video-info">
@@ -461,62 +375,12 @@
                     </div>
                 </div>
 
-                <div class="download-options" id="downloadOptions">
-                    <!-- Links injected dynamically -->
-                </div>
+                <div class="download-options" id="downloadOptions"></div>
             </div>
         </div>
-    </div>
-
-    <!-- Live Stats Bar -->
-    <div class="stats-bar">
-        <div class="stat-card">
-            <div class="stat-value">1.2M+</div>
-            <div class="stat-label">Downloads Today</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">10x</div>
-            <div class="stat-label">Fast Speed</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">100%</div>
-            <div class="stat-label">Free & Safe</div>
-        </div>
-    </div>
-
-    <!-- How It Works Section -->
-    <div class="how-section">
-        <div class="section-title">
-            <i class="fa-solid fa-circle-info"></i> How to Download
-        </div>
-        <div class="steps-grid">
-            <div class="step-item">
-                <div class="step-number">1</div>
-                <div class="step-text">Copy link from TikTok, YouTube, etc.</div>
-            </div>
-            <div class="step-item">
-                <div class="step-number">2</div>
-                <div class="step-text">Paste link into input box above</div>
-            </div>
-            <div class="step-item">
-                <div class="step-number">3</div>
-                <div class="step-text">Click Download Now & save file</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ad Modal -->
-    <div class="ad-modal" id="adModal">
-        <div class="ad-header">
-            <button class="close-ad-btn" id="closeAdBtn" onclick="closeAdModal()">Reward in (5s)</button>
-        </div>
-        <iframe id="adFrame" class="ad-iframe" src=""></iframe>
     </div>
 
     <script>
-        const adSmartLink = "https://araplhn.org/4/718787872bf62907dd99606e2222b500";
-        let countdownTimer;
-
         function switchPlatform(platform, element, placeholderText) {
             document.querySelectorAll('.platform-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
@@ -553,38 +417,6 @@
                 return;
             }
 
-            showRewardedAd();
-        }
-
-        function showRewardedAd() {
-            const modal = document.getElementById('adModal');
-            const iframe = document.getElementById('adFrame');
-            const closeBtn = document.getElementById('closeAdBtn');
-            
-            iframe.src = adSmartLink;
-            modal.style.display = 'flex';
-
-            let timeLeft = 5;
-            closeBtn.disabled = true;
-            closeBtn.innerText = `Reward in (${timeLeft}s)`;
-
-            countdownTimer = setInterval(() => {
-                timeLeft--;
-                if (timeLeft > 0) {
-                    closeBtn.innerText = `Reward in (${timeLeft}s)`;
-                } else {
-                    clearInterval(countdownTimer);
-                    closeBtn.disabled = false;
-                    closeBtn.innerText = '✕ Get File';
-                    closeBtn.style.background = '#00f2fe';
-                    closeBtn.style.color = '#000';
-                }
-            }, 1000);
-        }
-
-        function closeAdModal() {
-            document.getElementById('adModal').style.display = 'none';
-            document.getElementById('adFrame').src = '';
             fetchDownload();
         }
 
